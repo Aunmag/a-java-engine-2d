@@ -4,6 +4,7 @@ import engine.Application;
 import engine.Camera;
 import engine.Input;
 import engine.rendering.Texture;
+import game.objects.Actor;
 import game.objects.Object;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
@@ -22,6 +23,10 @@ public class GamePlay {
                 Object.all.add(new Object(new Vector3f(x, y, 0), 0, texture));
             }
         }
+
+        texture = Texture.getOrCreate("actor");
+        Actor player = new Actor(new Vector3f(0, 0, 0), 0, texture);
+        Actor.all.add(player);
     }
 
     public static void update() {
@@ -53,7 +58,9 @@ public class GamePlay {
     }
 
     public static void render() {
+        Application.getShader().bind();
         Object.allRender();
+        Actor.allRender();
     }
 
     public static void cleanUp() {}
