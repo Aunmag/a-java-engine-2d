@@ -12,9 +12,16 @@ public class GamePlay {
 
     public static void initialize() {
         Texture texture = Texture.getOrCreate("grass");
-        Object.all.add(new Object(new Vector3f(0, 0, 0), 0, texture));
-        Object.all.add(new Object(new Vector3f(1, 1, 0), 1, texture));
-        Object.all.add(new Object(new Vector3f(3, 1, 0), 2, texture));
+        int quantity = 10;
+        int step = 2;
+        int size = quantity * step;
+        int start = size / -2;
+        int end = start + size;
+        for (float x = start; x < end; x += step) {
+            for (float y = start; y < end; y += step) {
+                Object.all.add(new Object(new Vector3f(x, y, 0), 0, texture));
+            }
+        }
     }
 
     public static void update() {
