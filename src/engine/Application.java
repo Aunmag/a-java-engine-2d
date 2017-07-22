@@ -51,6 +51,8 @@ public class Application {
 
         camera = new Camera();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_BLEND);
 
         shader = new Shader("shader");
         GamePlay.initialize();
