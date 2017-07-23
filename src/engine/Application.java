@@ -62,8 +62,8 @@ public class Application {
         Input.update();
         GLFW.glfwPollEvents();
 
-        camera.update();
         GamePlay.update();
+        camera.update();
 
         if (GLFW.glfwWindowShouldClose(window.getId())) {
             isRunning = false;
