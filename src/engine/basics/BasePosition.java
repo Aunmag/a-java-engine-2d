@@ -26,6 +26,10 @@ public class BasePosition {
         return position;
     }
 
+    public Vector3f getPositionCopy() {
+        return new Vector3f(position);
+    }
+
     public float getX() {
         return position.x();
     }
