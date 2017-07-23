@@ -1,7 +1,6 @@
 package game;
 
 import engine.Application;
-import engine.Camera;
 import engine.Input;
 import engine.rendering.Texture;
 import engine.utilities.UtilsMath;
@@ -54,6 +53,10 @@ public class GamePlay {
         player.isWalkingLeft = Input.getIsKeyDown(GLFW.GLFW_KEY_A);
         player.isWalkingRight = Input.getIsKeyDown(GLFW.GLFW_KEY_D);
         player.isSprinting = Input.getIsKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT);
+
+        float sensitivity = 0.01f;
+        float rotate = Input.getMouseVelocity().x() * sensitivity;
+        player.addRadians(rotate);
     }
 
     public static void render() {
