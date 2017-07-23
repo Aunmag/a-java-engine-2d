@@ -45,8 +45,7 @@ public abstract class BaseSprite extends BasePositionDirected {
         texture.bind(0);
 
         Matrix4f transformation = UtilsMath.createTransformationMatrix(this);
-
-        Matrix4f view = Application.getCamera().getViewMatrix();
+        Matrix4f view = Application.getCamera().getViewMatrixCopy();
         view.mul(transformation);
 
         Application.getShader().setUniform("sampler", 0);

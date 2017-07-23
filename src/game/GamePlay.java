@@ -1,14 +1,17 @@
 package game;
 
 import engine.Application;
-import engine.Camera;
 import engine.Input;
 import engine.rendering.Texture;
+import engine.utilities.UtilsMath;
+import game.objects.Actor;
 import game.objects.Object;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 public class GamePlay {
+
+    private static Actor player;
 
     public static void initialize() {
         Texture texture = Texture.getOrCreate("grass");
@@ -22,6 +25,13 @@ public class GamePlay {
                 Object.all.add(new Object(new Vector3f(x, y, 0), 0, texture));
             }
         }
+
+        texture = Texture.getOrCreate("actor");
+        Actor player = new Actor(new Vector3f(0, 0, 0), 0, texture);
+        player.addRadians((float) UtilsMath.PI_0_5);
+        GamePlay.setPlayer(player);
+        Application.getCamera().setTarget(player);
+        Actor.all.add(player);
     }
 
     public static void update() {
@@ -29,35 +39,47 @@ public class GamePlay {
             Application.isRunning = false;
         }
 
-        Camera camera = Application.getCamera();
+        updatePlayerInput();
 
-        if (Input.getIsKeyDown(GLFW.GLFW_KEY_A)) {
-            camera.getPosition().sub(new Vector3f(-5, 0, 0));
-        }
-        if (Input.getIsKeyDown(GLFW.GLFW_KEY_D)) {
-            camera.getPosition().sub(new Vector3f(5, 0, 0));
-        }
-        if (Input.getIsKeyDown(GLFW.GLFW_KEY_W)) {
-            camera.getPosition().sub(new Vector3f(0, 5, 0));
-        }
-        if (Input.getIsKeyDown(GLFW.GLFW_KEY_S)) {
-            camera.getPosition().sub(new Vector3f(0, -5, 0));
+        Actor.allUpdate();
+    }
+
+    private static void updatePlayerInput() {
+        if (player == null) {
+            return;
         }
 
-        if (Input.getIsKeyDown(GLFW.GLFW_KEY_Q)) {
-            camera.addRadians(-0.05f);
-        }
-        if (Input.getIsKeyDown(GLFW.GLFW_KEY_E)) {
-            camera.addRadians(0.05f);
-        }
+        player.isWalkingForward = Input.getIsKeyDown(GLFW.GLFW_KEY_W);
+        player.isWalkingBack = Input.getIsKeyDown(GLFW.GLFW_KEY_S);
+        player.isWalkingLeft = Input.getIsKeyDown(GLFW.GLFW_KEY_A);
+        player.isWalkingRight = Input.getIsKeyDown(GLFW.GLFW_KEY_D);
+        player.isSprinting = Input.getIsKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT);
+
+        float sensitivity = 0.01f;
+        float rotate = Input.getMouseVelocity().x() * sensitivity;
+        player.addRadians(rotate);
     }
 
     public static void render() {
+        Application.getShader().bind();
         Object.allRender();
+        Actor.allRender();
     }
 
     public static void cleanUp() {}
 
     public static void terminate() {}
+
+    /* Setters */
+
+    public static void setPlayer(Actor player) {
+        GamePlay.player = player;
+    }
+
+    /* Getters */
+
+    public static Actor getPlayer() {
+        return player;
+    }
 
 }

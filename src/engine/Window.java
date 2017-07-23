@@ -69,8 +69,8 @@ public class Window extends BaseSize {
         return id;
     }
 
-    public Matrix4f getProjection() {
-        return projection;
+    public Matrix4f getProjectionCopy() {
+        return new Matrix4f(projection);
     }
 
 }
