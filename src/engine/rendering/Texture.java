@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 
-import engine.basics.BaseSize;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
