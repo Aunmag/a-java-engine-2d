@@ -11,7 +11,7 @@ public class Actor extends BaseSprite {
 
     public static java.util.List<Actor> all = new ArrayList<>();
 
-    private float velocity = 0.04f;
+    private float velocity = 1.38f;
 
     public boolean isWalking = false;
     public boolean isWalkingForward = false;

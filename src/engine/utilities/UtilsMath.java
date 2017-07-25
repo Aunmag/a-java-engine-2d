@@ -1,6 +1,5 @@
 package engine.utilities;
 
-import engine.Application;
 import engine.basics.BasePosition;
 import engine.basics.BasePositionDirected;
 import org.joml.Matrix4f;
