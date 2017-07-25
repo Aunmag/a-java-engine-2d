@@ -15,8 +15,8 @@ public class GamePlay {
 
     public static void initialize() {
         Texture texture = Texture.getOrCreate("grass");
-        int quantity = 10;
-        int step = 2;
+        int quantity = 4;
+        int step = 128;
         int size = quantity * step;
         int start = size / -2;
         int end = start + size;

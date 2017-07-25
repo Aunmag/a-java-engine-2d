@@ -9,7 +9,7 @@ import org.joml.Vector3f;
 public class Camera extends BasePositionDirected {
 
     private Matrix4f viewMatrix = new Matrix4f();
-    private float zoom = 64;
+    private float zoom = 2;
     private Actor target;
 
     public Camera() {
