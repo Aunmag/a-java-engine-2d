@@ -41,7 +41,7 @@ public class Application {
     }
 
     private static void prepare() {
-        if(!GLFW.glfwInit()) {
+        if (!GLFW.glfwInit()) {
             System.err.println("GLFW Failed to initialize!");
             System.exit(1);
         }

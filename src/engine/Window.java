@@ -27,7 +27,7 @@ public class Window extends BaseSize {
             throw new IllegalStateException("Failed to create id!");
         }
 
-        if(!isFullscreen) {
+        if (!isFullscreen) {
             GLFWVidMode videoMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
             GLFW.glfwSetWindowPos(
                     id,
