@@ -2,7 +2,7 @@ package engine.data;
 
 public class DataEngine {
 
-    public static final String name = "A Java Engine 2D";
+    public static final String name = "Nightingale Engine";
     public static final String version = "0.4.0";
     public static final String license = "Apache 2.0";
     public static final String developer = "Aunmag";
