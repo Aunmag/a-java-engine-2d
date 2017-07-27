@@ -1,9 +1,7 @@
 package engine.basics;
 
 import engine.Application;
-import engine.rendering.Model;
 import engine.rendering.Texture;
-import engine.utilities.UtilsMath;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -20,7 +18,7 @@ public abstract class BaseSprite extends BasePositionDirected {
     protected void render() {
         texture.bind(0);
 
-        Matrix4f transformation = UtilsMath.createTransformationMatrix(this);
+        Matrix4f transformation = createTransformationMatrix();
         Matrix4f view = Application.getCamera().getViewMatrixCopy();
         view.mul(transformation);
 
@@ -28,6 +26,13 @@ public abstract class BaseSprite extends BasePositionDirected {
         Application.getShader().setUniform("projection", view);
 
         texture.getModel().render();
+    }
+
+    private Matrix4f createTransformationMatrix() {
+        Matrix4f matrix = new Matrix4f();
+        matrix.translate(position);
+        matrix.rotateZ(radians);
+        return matrix;
     }
 
     protected abstract void update();

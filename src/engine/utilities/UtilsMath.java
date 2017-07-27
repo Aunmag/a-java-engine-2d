@@ -1,8 +1,6 @@
 package engine.utilities;
 
 import engine.basics.BasePosition;
-import engine.basics.BasePositionDirected;
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import java.util.Random;
@@ -14,14 +12,6 @@ public class UtilsMath {
     public static final double PI_0_5 = Math.PI / 2.0;
     public static final double PI_1_5 = Math.PI + PI_0_5;
     public static final double PI_2_0 = Math.PI * 2.0;
-
-    public static Matrix4f createTransformationMatrix(BasePositionDirected directed) {
-        Matrix4f matrix = new Matrix4f();
-        matrix.identity(); // TODO: Learn more
-        matrix.translate(directed.getPosition(), matrix);
-        matrix.rotate(directed.getRadians(), axisRotation, matrix);
-        return matrix;
-    }
 
     public static float correctRadians(double value) {
         return (float) (value % PI_2_0);
