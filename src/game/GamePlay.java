@@ -7,6 +7,7 @@ import engine.utilities.UtilsGraphics;
 import engine.utilities.UtilsMath;
 import game.objects.Actor;
 import game.objects.Object;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -90,12 +91,16 @@ public class GamePlay {
         GL11.glColor3f(1, 0, 0);
         GL11.glLineWidth(2);
         int n = borderSize / 2;
-        UtilsGraphics.drawLinePrepare();
-        UtilsGraphics.drawLine(new Vector3f(+n, +n, 0), new Vector3f(+n, -n, 0), true);
-        UtilsGraphics.drawLine(new Vector3f(+n, -n, 0), new Vector3f(-n, -n, 0), true);
-        UtilsGraphics.drawLine(new Vector3f(-n, -n, 0), new Vector3f(-n, +n, 0), true);
-        UtilsGraphics.drawLine(new Vector3f(-n, +n, 0), new Vector3f(+n, +n, 0), true);
-        UtilsGraphics.drawLineFinish();
+        UtilsGraphics.drawPrepare();
+        UtilsGraphics.drawQuad(
+                new Vector2f(-n, +n),
+                new Vector2f(+n, +n),
+                new Vector2f(+n, -n),
+                new Vector2f(-n, -n),
+                false,
+                true
+        );
+        UtilsGraphics.drawFinish();
     }
 
     public static void cleanUp() {}
