@@ -100,6 +100,8 @@ public class GamePlay {
                 false,
                 true
         );
+        GL11.glColor3f(0, 1, 0);
+        UtilsGraphics.drawCircle(new Vector2f(0, 0), 32, false, true);
         UtilsGraphics.drawFinish();
     }
 
