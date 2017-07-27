@@ -14,8 +14,8 @@ public class UtilsGraphics {
 
     public static void drawLine(Vector3f a, Vector3f b, boolean isOnWorld) {
         if (isOnWorld) {
-            a.mulPosition(Application.getCamera().getViewMatrixCopy());
-            b.mulPosition(Application.getCamera().getViewMatrixCopy());
+            a = Application.getCamera().calculateViewPosition(a);
+            b = Application.getCamera().calculateViewPosition(b);
         }
 
         GL11.glBegin(GL11.GL_LINE_STRIP);

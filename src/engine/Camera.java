@@ -31,6 +31,12 @@ public class Camera extends BasePositionDirected {
         viewMatrix.scale(zoom);
     }
 
+    public Vector3f calculateViewPosition(Vector3f position) {
+        Vector3f viewPosition = new Vector3f(position);
+        viewPosition.mulPosition(viewMatrix);
+        return viewPosition;
+    }
+
     /* Setters */
 
     public void setTarget(Actor target) {
