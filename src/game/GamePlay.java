@@ -3,22 +3,25 @@ package game;
 import engine.Application;
 import engine.Input;
 import engine.rendering.Texture;
+import engine.utilities.UtilsGraphics;
 import engine.utilities.UtilsMath;
 import game.objects.Actor;
 import game.objects.Object;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL11;
 
 public class GamePlay {
 
     private static Actor player;
+    private static final int borderSize = 512;
 
     public static void initialize() {
         Texture texture = Texture.getOrCreate("grass");
         int quantity = 4;
         int step = 128;
-        int size = quantity * step;
-        int start = size / -2;
+        int size = step * quantity;
+        int start = (size / -2) + (step / 2);
         int end = start + size;
         for (float x = start; x < end; x += step) {
             for (float y = start; y < end; y += step) {
@@ -40,8 +43,24 @@ public class GamePlay {
         }
 
         updatePlayerInput();
-
         Actor.allUpdate();
+        confinePlayer();
+    }
+
+    private static void confinePlayer() {
+        int n = borderSize / 2;
+
+        if (n < player.getX()) {
+            player.getPosition().x = n;
+        } else if (player.getX() < -n) {
+            player.getPosition().x = -n;
+        }
+
+        if (n < player.getY()) {
+            player.getPosition().y = n;
+        } else if (player.getY() < -n) {
+            player.getPosition().y = -n;
+        }
     }
 
     private static void updatePlayerInput() {
@@ -63,7 +82,20 @@ public class GamePlay {
     public static void render() {
         Application.getShader().bind();
         Object.allRender();
+        renderBorders();
         Actor.allRender();
+    }
+
+    private static void renderBorders() {
+        GL11.glColor3f(1, 0, 0);
+        GL11.glLineWidth(2);
+        int n = borderSize / 2;
+        UtilsGraphics.drawLinePrepare();
+        UtilsGraphics.drawLine(new Vector3f(+n, +n, 0), new Vector3f(+n, -n, 0), true);
+        UtilsGraphics.drawLine(new Vector3f(+n, -n, 0), new Vector3f(-n, -n, 0), true);
+        UtilsGraphics.drawLine(new Vector3f(-n, -n, 0), new Vector3f(-n, +n, 0), true);
+        UtilsGraphics.drawLine(new Vector3f(-n, +n, 0), new Vector3f(+n, +n, 0), true);
+        UtilsGraphics.drawLineFinish();
     }
 
     public static void cleanUp() {}
