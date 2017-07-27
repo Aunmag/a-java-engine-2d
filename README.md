@@ -1,5 +1,5 @@
-# A Java Engine 2D
+# Nightingale Engine
 
 ### About
 
-This is my engine which is powered by LWJGL.
+This is my 2D engine which is powered by LWJGL.
