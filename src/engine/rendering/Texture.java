@@ -30,7 +30,7 @@ public class Texture {
     public Texture(String filename) {
         BufferedImage bufferedImage;
         try {
-            bufferedImage = ImageIO.read(new File("./res/" + filename));
+            bufferedImage = ImageIO.read(new File("./res/images/" + filename));
         } catch(IOException e) {
             e.printStackTrace();
             return;
