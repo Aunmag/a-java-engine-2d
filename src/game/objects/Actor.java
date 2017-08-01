@@ -59,11 +59,11 @@ public class Actor extends BaseSprite {
         }
 
         if (isWalkingLeft) {
-            move(radians + (float) UtilsMath.PI_0_5, velocity);
+            move(radians + (float) UtilsMath.PIx0_5, velocity);
         }
 
         if (isWalkingRight) {
-            move(radians - (float) UtilsMath.PI_0_5, velocity);
+            move(radians - (float) UtilsMath.PIx0_5, velocity);
         }
     }
 

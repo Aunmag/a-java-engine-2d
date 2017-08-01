@@ -20,7 +20,7 @@ public class Camera extends BasePositionDirected {
     public void update() {
         if (target != null) {
             position = target.getPositionCopy().negate();
-            radians = target.getRadians() - (float) UtilsMath.PI_0_5;
+            radians = target.getRadians() - (float) UtilsMath.PIx0_5;
         }
 
         Vector3f viewPosition = new Vector3f(position);

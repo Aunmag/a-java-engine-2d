@@ -32,7 +32,7 @@ public class GamePlay {
 
         texture = Texture.getOrCreate("actor");
         Actor player = new Actor(new Vector3f(0, 0, 0), 0, texture);
-        player.addRadians((float) UtilsMath.PI_0_5);
+        player.addRadians((float) UtilsMath.PIx0_5);
         GamePlay.setPlayer(player);
         Application.getCamera().setTarget(player);
         Actor.all.add(player);

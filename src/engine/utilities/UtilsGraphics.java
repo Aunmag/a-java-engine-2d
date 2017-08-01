@@ -73,7 +73,7 @@ public class UtilsGraphics {
         // TODO: Learn difference between GL_TRIANGLE_FAN and GL_POLYGON
         GL11.glBegin(isFilled ? GL11.GL_TRIANGLE_FAN : GL11.GL_LINE_LOOP);
         final float accuracy = 0.4f;
-        for (float radians = 0; radians <= UtilsMath.PI_2_0; radians += accuracy) {
+        for (float radians = 0; radians <= UtilsMath.PIx2; radians += accuracy) {
             float x = (float) (position.x() + radius * Math.cos(radians));
             float y = (float) (position.y() + radius * Math.sin(radians));
 
