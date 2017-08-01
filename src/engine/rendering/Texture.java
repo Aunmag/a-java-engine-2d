@@ -15,10 +15,6 @@ public class Texture {
 
     private static HashMap<String, Texture> all = new HashMap<>();
     private int id;
-    private int width;
-    private int height;
-    private float centerX;
-    private float centerY;
     private Model model;
 
     public static Texture getOrCreate(String name) {
@@ -31,20 +27,19 @@ public class Texture {
         }
     }
 
-    public Texture(String fileName) {
+    public Texture(String filename) {
         BufferedImage bufferedImage;
         try {
-            bufferedImage = ImageIO.read(new File("./res/" + fileName));
+            bufferedImage = ImageIO.read(new File("./res/" + filename));
         } catch(IOException e) {
             e.printStackTrace();
             return;
         }
 
-        width = bufferedImage.getWidth();
-        height = bufferedImage.getHeight();
-        centerX = width / 2f;
-        centerY = height / 2f;
-        createModel();
+        int width = bufferedImage.getWidth();
+        int height = bufferedImage.getHeight();
+
+        model = Model.create(width, height);
 
         int[] pixelsRaw = bufferedImage.getRGB(0, 0, width, height, null, 0, width);
         ByteBuffer pixelsBuffer = BufferUtils.createByteBuffer(width * height * 4);
@@ -86,34 +81,6 @@ public class Texture {
         );
     }
 
-    private void createModel() {
-        float[] vertices = new float[] {
-                -centerX, +centerY, 0,
-                -centerX, -centerY, 0,
-                +centerX, -centerY, 0,
-                +centerX, +centerY, 0,
-        };
-
-        float[] texture = new float[] {
-                0, 0,
-                0, 1,
-                1, 1,
-                1, 0,
-        };
-
-        int[] indices = new int[] {
-                0, 1, 3,
-                3, 1, 2
-        };
-
-        model = new Model(vertices, texture, indices);
-    }
-
-    protected void finalize() throws Throwable {
-        GL11.glDeleteTextures(id);
-        super.finalize();
-    }
-
     public void bind(int sampler) {
         if (0 <= sampler && sampler <= 31) {
             GL13.glActiveTexture(GL13.GL_TEXTURE0 + sampler);
@@ -121,10 +88,13 @@ public class Texture {
         }
     }
 
-    /* Getters */
+    public void render() {
+        model.render();
+    }
 
-    public Model getModel() {
-        return model;
+    protected void finalize() throws Throwable {
+        GL11.glDeleteTextures(id);
+        super.finalize();
     }
 
 }
