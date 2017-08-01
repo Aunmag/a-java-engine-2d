@@ -1,10 +1,10 @@
-package engine;
+package nightingale.engine;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
-import engine.rendering.Shader;
+import nightingale.engine.rendering.Shader;
 
 public abstract class Application {
 

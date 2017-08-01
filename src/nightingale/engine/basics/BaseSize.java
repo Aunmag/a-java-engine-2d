@@ -1,4 +1,4 @@
-package engine.basics;
+package nightingale.engine.basics;
 
 public class BaseSize {
 

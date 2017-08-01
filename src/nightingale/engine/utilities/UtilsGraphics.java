@@ -1,6 +1,6 @@
-package engine.utilities;
+package nightingale.engine.utilities;
 
-import engine.Application;
+import nightingale.engine.Application;
 import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;

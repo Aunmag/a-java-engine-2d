@@ -1,4 +1,4 @@
-package engine.data;
+package nightingale.engine.data;
 
 public class DataEngine {
 
@@ -10,7 +10,7 @@ public class DataEngine {
     public static final String title = String.format("%s v%s", name, version);
     public static final String titleFull = String.format("%s by %s", title, developer);
     public static final String description = (
-            "This is my 2D engine which is powered by LWJGL."
+            "This is my 2D nightingale.engine which is powered by LWJGL."
     );
 
 }

@@ -1,4 +1,4 @@
-package demo;
+package nightingale.demo;
 
 public class Launcher {
 

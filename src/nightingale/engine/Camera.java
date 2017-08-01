@@ -1,8 +1,8 @@
-package engine;
+package nightingale.engine;
 
-import engine.basics.BasePosition;
-import engine.utilities.UtilsMath;
-import demo.sprites.Actor;
+import nightingale.engine.basics.BasePosition;
+import nightingale.engine.utilities.UtilsMath;
+import nightingale.demo.sprites.Actor;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;

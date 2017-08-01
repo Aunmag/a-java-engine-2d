@@ -1,4 +1,4 @@
-package engine.rendering;
+package nightingale.engine.rendering;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;

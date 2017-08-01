@@ -1,4 +1,4 @@
-package engine.utilities;
+package nightingale.engine.utilities;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;

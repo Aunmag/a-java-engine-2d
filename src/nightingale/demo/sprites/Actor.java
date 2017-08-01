@@ -1,8 +1,8 @@
-package demo.sprites;
+package nightingale.demo.sprites;
 
-import engine.basics.BaseSprite;
-import engine.rendering.Texture;
-import engine.utilities.UtilsMath;
+import nightingale.engine.basics.BaseSprite;
+import nightingale.engine.rendering.Texture;
+import nightingale.engine.utilities.UtilsMath;
 
 import java.util.ArrayList;
 

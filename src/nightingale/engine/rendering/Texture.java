@@ -1,4 +1,4 @@
-package engine.rendering;
+package nightingale.engine.rendering;
 
 import java.awt.image.BufferedImage;
 import java.io.InputStream;

@@ -1,6 +1,6 @@
-package engine.basics;
+package nightingale.engine.basics;
 
-import engine.utilities.UtilsMath;
+import nightingale.engine.utilities.UtilsMath;
 import org.joml.Vector3f;
 
 public class BasePosition extends Vector3f {

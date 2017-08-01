@@ -1,12 +1,12 @@
-package demo;
+package nightingale.demo;
 
-import engine.Application;
-import engine.Input;
-import engine.rendering.Texture;
-import engine.utilities.UtilsGraphics;
-import engine.utilities.UtilsMath;
-import demo.sprites.Actor;
-import demo.sprites.Object;
+import nightingale.engine.Application;
+import nightingale.engine.Input;
+import nightingale.engine.rendering.Texture;
+import nightingale.engine.utilities.UtilsGraphics;
+import nightingale.engine.utilities.UtilsMath;
+import nightingale.demo.sprites.Actor;
+import nightingale.demo.sprites.Object;
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
