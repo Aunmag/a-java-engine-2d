@@ -1,23 +1,22 @@
-package game;
+package nightingale.demo;
 
-import engine.Application;
-import engine.Input;
-import engine.rendering.Texture;
-import engine.utilities.UtilsGraphics;
-import engine.utilities.UtilsMath;
-import game.objects.Actor;
-import game.objects.Object;
+import nightingale.engine.Application;
+import nightingale.engine.Input;
+import nightingale.engine.rendering.Texture;
+import nightingale.engine.utilities.UtilsGraphics;
+import nightingale.engine.utilities.UtilsMath;
+import nightingale.demo.sprites.Actor;
+import nightingale.demo.sprites.Object;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
-public class GamePlay {
+public class Game extends Application {
 
     private static Actor player;
     private static final int borderSize = 512;
 
-    public static void initialize() {
+    protected void gameInitialize() {
         Texture texture = Texture.getOrCreate("grass");
         int quantity = 4;
         int step = 128;
@@ -33,12 +32,12 @@ public class GamePlay {
         texture = Texture.getOrCreate("actor");
         Actor player = new Actor(0, 0, 0, 0, texture);
         player.setRadians((float) UtilsMath.PIx0_5);
-        GamePlay.setPlayer(player);
+        Game.setPlayer(player);
         Application.getCamera().setTarget(player);
         Actor.all.add(player);
     }
 
-    public static void update() {
+    protected void gameUpdate() {
         if (Input.getIsKeyReleased(GLFW.GLFW_KEY_ESCAPE)) {
             Application.isRunning = false;
         }
@@ -48,7 +47,18 @@ public class GamePlay {
         confinePlayer();
     }
 
-    private static void confinePlayer() {
+    protected void gameRender() {
+        Application.getShader().bind();
+        Object.allRender();
+        renderBorders();
+        Actor.allRender();
+    }
+
+    protected void gameCleanUp() {}
+
+    protected void gameTerminate() {}
+
+    private void confinePlayer() {
         int n = borderSize / 2;
 
         if (n < player.x()) {
@@ -64,7 +74,7 @@ public class GamePlay {
         }
     }
 
-    private static void updatePlayerInput() {
+    private void updatePlayerInput() {
         if (player == null) {
             return;
         }
@@ -80,14 +90,7 @@ public class GamePlay {
         player.addRadians(rotate);
     }
 
-    public static void render() {
-        Application.getShader().bind();
-        Object.allRender();
-        renderBorders();
-        Actor.allRender();
-    }
-
-    private static void renderBorders() {
+    private void renderBorders() {
         GL11.glColor3f(1, 0, 0);
         GL11.glLineWidth(2);
         int n = borderSize / 2;
@@ -105,14 +108,10 @@ public class GamePlay {
         UtilsGraphics.drawFinish();
     }
 
-    public static void cleanUp() {}
-
-    public static void terminate() {}
-
     /* Setters */
 
     public static void setPlayer(Actor player) {
-        GamePlay.player = player;
+        Game.player = player;
     }
 
     /* Getters */

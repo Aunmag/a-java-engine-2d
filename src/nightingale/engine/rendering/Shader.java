@@ -1,8 +1,8 @@
-package engine.rendering;
+package nightingale.engine.rendering;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
@@ -16,14 +16,13 @@ public class Shader {
     private int shaderVertex;
     private int shaderFragment;
 
-    private static String readFile(String fileName) {
+    private static String readFile(String filename) {
         StringBuilder string = new StringBuilder();
 
         try {
-            String path = "./src/engine/rendering/" + fileName;
-            BufferedReader bufferedReader = new BufferedReader(
-                    new FileReader(new File(path))
-            );
+            InputStream inputStream = Shader.class.getResourceAsStream(filename);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
             String line;
             while((line = bufferedReader.readLine()) != null) {

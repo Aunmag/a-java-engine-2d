@@ -1,7 +1,7 @@
-package engine;
+package nightingale.engine;
 
-import engine.basics.BaseSize;
-import engine.data.DataEngine;
+import nightingale.engine.basics.BaseSize;
+import nightingale.engine.data.DataEngine;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;

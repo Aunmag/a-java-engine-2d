@@ -1,21 +1,22 @@
-package engine;
+package nightingale.engine;
 
-import game.GamePlay;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
-import engine.rendering.Shader;
+import nightingale.engine.rendering.Shader;
 
-public class Application {
+public abstract class Application {
 
     public static boolean isRunning = false;
     private static Window window;
     private static Camera camera;
     private static Shader shader;
 
-    public static void main(String[] args) {
-        prepare();
+    public final void run() {
+        // TODO: Prevent multiple launching
+
+        engineInitialize();
 
         int fpsLimit = 60;
         float timeFrameDuration = 1000 / fpsLimit;
@@ -31,16 +32,16 @@ public class Application {
 
             if (timeDelta >= 1) {
                 timeLast = timeCurrent;
-                update();
-                render();
-                cleanUp();
+                engineUpdate();
+                engineRender();
+                engineCleanUp();
             }
         }
 
-        stop();
+        engineTerminate();
     }
 
-    private static void prepare() {
+    private void engineInitialize() {
         if (!GLFW.glfwInit()) {
             System.err.println("GLFW Failed to initialize!");
             System.exit(1);
@@ -55,14 +56,14 @@ public class Application {
         GL11.glEnable(GL11.GL_BLEND);
 
         shader = new Shader("shader");
-        GamePlay.initialize();
+        gameInitialize();
     }
 
-    private static void update() {
+    private void engineUpdate() {
         Input.update();
         GLFW.glfwPollEvents();
 
-        GamePlay.update();
+        gameUpdate();
         camera.update();
 
         if (GLFW.glfwWindowShouldClose(window.getId())) {
@@ -70,19 +71,31 @@ public class Application {
         }
     }
 
-    private static void render() {
+    private void engineRender() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-        GamePlay.render();
+        gameRender();
         window.swapBuffers();
     }
 
-    private static void cleanUp() {}
+    private void engineCleanUp() {
+        gameCleanUp();
+    }
 
-    private static void stop() {
-        GamePlay.terminate();
+    private void engineTerminate() {
+        gameTerminate();
         GLFW.glfwSetWindowShouldClose(window.getId(), true);
         GLFW.glfwTerminate();
     }
+
+    protected abstract void gameInitialize();
+
+    protected abstract void gameUpdate();
+
+    protected abstract void gameRender();
+
+    protected abstract void gameCleanUp();
+
+    protected abstract void gameTerminate();
 
     /* Getters */
 

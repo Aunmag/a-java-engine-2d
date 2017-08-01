@@ -1,7 +1,7 @@
-package engine.basics;
+package nightingale.engine.basics;
 
-import engine.Application;
-import engine.rendering.Texture;
+import nightingale.engine.Application;
+import nightingale.engine.rendering.Texture;
 import org.joml.Matrix4f;
 
 public abstract class BaseSprite extends BasePosition {
