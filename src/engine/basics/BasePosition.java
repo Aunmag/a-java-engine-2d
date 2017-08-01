@@ -1,45 +1,31 @@
 package engine.basics;
 
+import engine.utilities.UtilsMath;
 import org.joml.Vector3f;
 
-public class BasePosition {
+public class BasePosition extends Vector3f {
 
-    protected Vector3f position;
+    protected float radians = 0;
 
-    public BasePosition(Vector3f position) {
-        this.position = position;
+    public BasePosition(float x, float y, float z, float radians) {
+        super(x, y, z);
+        this.radians = radians;
     }
 
     /* Setters */
 
-    protected void setPosition(Vector3f position) {
-        this.position = position;
+    public void setRadians(float radians) {
+        this.radians = radians;
     }
 
-    protected void addPosition(Vector3f position) {
-        this.position.add(position);
+    public void addRadians(float radians) {
+        setRadians(UtilsMath.correctRadians(radians + this.radians));
     }
 
     /* Getters */
 
-    public Vector3f getPosition() {
-        return position;
-    }
-
-    public Vector3f getPositionCopy() {
-        return new Vector3f(position);
-    }
-
-    public float getX() {
-        return position.x();
-    }
-
-    public float getY() {
-        return position.y();
-    }
-
-    public float getZ() {
-        return position.z();
+    public float getRadians() {
+        return radians;
     }
 
 }

@@ -1,9 +1,7 @@
 package game.objects;
 
-import engine.Application;
 import engine.basics.BaseSprite;
 import engine.rendering.Texture;
-import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +16,8 @@ public class Object extends BaseSprite {
         }
     }
 
-    public Object(Vector3f position, float radians, Texture texture) {
-        super(position, radians, texture);
+    public Object(float x, float y, float z, float radians, Texture texture) {
+        super(x, y, z, radians, texture);
     }
 
     protected void update() {}

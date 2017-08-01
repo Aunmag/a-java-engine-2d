@@ -15,6 +15,47 @@ public class Model {
     private int texturesId;
     private int indicesId;
 
+    // TODO: Implement getOrCreate
+    public static Model create(float width, float height) {
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+
+        float[] vertices = new float[] {
+                -centerX, +centerY, 0,
+                -centerX, -centerY, 0,
+                +centerX, -centerY, 0,
+                +centerX, +centerY, 0,
+        };
+
+        float[] texture = new float[] {
+                0, 0,
+                0, 1,
+                1, 1,
+                1, 0,
+        };
+
+        int[] indices = new int[] {
+                0, 1, 3,
+                3, 1, 2
+        };
+
+        return new Model(vertices, texture, indices);
+    }
+
+    private static FloatBuffer createBuffer(float[] data) {
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+        return buffer;
+    }
+
+    private static IntBuffer createBuffer(int[] data) {
+        IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+        return buffer;
+    }
+
     public Model(float[] vertices, float[] textureCoordinates, int[] indices) {
         drawQuantity = indices.length;
 
@@ -36,12 +77,12 @@ public class Model {
 
         indicesId = GL15.glGenBuffers();
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesId);
+        GL15.glBufferData(
+                GL15.GL_ELEMENT_ARRAY_BUFFER,
+                createBuffer(indices),
+                GL15.GL_STATIC_DRAW
+        );
 
-        IntBuffer buffer = BufferUtils.createIntBuffer(indices.length);
-        buffer.put(indices);
-        buffer.flip();
-
-        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
@@ -71,13 +112,6 @@ public class Model {
 
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
-    }
-
-    private FloatBuffer createBuffer(float[] data) {
-        FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
-        buffer.put(data);
-        buffer.flip();
-        return buffer;
     }
 
 }

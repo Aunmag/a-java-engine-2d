@@ -1,6 +1,6 @@
 package engine.utilities;
 
-import engine.basics.BasePosition;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.util.Random;
@@ -9,64 +9,67 @@ public class UtilsMath {
 
     public static final Random random = new Random();
     public static final Vector3f axisRotation = new Vector3f(0, 0, 1);
-    public static final double PI_0_5 = Math.PI / 2.0;
-    public static final double PI_1_5 = Math.PI + PI_0_5;
-    public static final double PI_2_0 = Math.PI * 2.0;
+    public static final double PIx0_5 = Math.PI / 2.0;
+    public static final double PIx1_5 = Math.PI + PIx0_5;
+    public static final double PIx2 = Math.PI * 2.0;
 
     public static float correctRadians(double value) {
-        return (float) (value % PI_2_0);
+        return (float) (value % PIx2);
     }
 
-    public static int randomizeBetween(int min, int max) {
-        if (min > max) {
-            String message = "Received min value is grater than max. Values has been swapped.";
-            UtilsLog.log("randomizeBetween", message);
-            int min_copy = min;
-            min = max;
-            max = min_copy;
-        } else if (min == max) {
-            String message = String.format(
-                    "Min and max values are equal %1$s. Returned %s %1$s once.", min
-            );
-            UtilsLog.log("randomizeBetween", message);
-            return min;
+    public static int randomizeBetween(int a, int b) {
+        if (a == b) {
+            logGotEqualValuesInsideRandomizeBetween(a);
+            return a;
+        }
+
+        int min;
+        int max;
+
+        if (a < b) {
+            min = a;
+            max = b;
+        } else {
+            min = b;
+            max = a;
         }
 
         int difference = max - min;
         return random.nextInt(difference + 1) + min;
     }
 
-    public static float randomizeBetween(float min, float max) {
-        if (min > max) {
-            String message = "Received min value is grater than max. Values has been swapped.";
-            UtilsLog.log("randomizeBetween", message);
-            float min_copy = min;
-            min = max;
-            max = min_copy;
-        } else if (min == max) {
-            String message = String.format(
-                    "Min and max values are equal %1$s. Returned %s %1$s once.", min
-            );
-            UtilsLog.log("randomizeBetween", message);
-            return min;
+    public static float randomizeBetween(float a, float b) {
+        if (a == b) {
+            logGotEqualValuesInsideRandomizeBetween(a);
+            return a;
+        }
+
+        float min;
+        float max;
+
+        if (a < b) {
+            min = a;
+            max = b;
+        } else {
+            min = b;
+            max = a;
         }
 
         float difference = max - min;
         return random.nextFloat() * difference + min;
     }
 
-    public static float randomizeFlexibly(float middle, float offset) {
-        return randomizeFlexibly(middle, offset, 0.5f);
+    private static void logGotEqualValuesInsideRandomizeBetween(float value) {
+        String message = String.format(
+                "Min and max values are equal. Returned %s once.",
+                value
+        );
+        UtilsLog.log("randomizeBetween", message);
     }
 
-    public static float randomizeFlexibly(float middle, float offset, float flex) {
-        if (flex <= 0 || flex > 1) {
-            String message = String.format("Got flex value as %s. replaced with 0.5.", flex);
-            UtilsLog.log("randomizeFlexibly", message);
-            flex = 0.5f;
-        }
-
+    public static float randomizeFlexibly(float middle, float offset) {
         // Randomize offset to flexed result
+        float flex = 0.5f;
         float offsetMin = offset * randomizeBetween(0, flex);
         float offsetMax = offset * randomizeBetween(flex, 1);
         float offsetRandom = randomizeBetween(offsetMin, offsetMax);
@@ -79,8 +82,12 @@ public class UtilsMath {
         return randomizeBetween(resultMin, resultMax);
     }
 
-    public static float calculateDistanceBetween(BasePosition a, BasePosition b) {
-        return calculateDistanceBetween(a.getX(), a.getY(), b.getX(), b.getY());
+    public static float calculateDistanceBetween(Vector3f a, Vector3f b) {
+        return calculateDistanceBetween(a.x(), a.y(), b.x(), b.y());
+    }
+
+    public static float calculateDistanceBetween(Vector2f a, Vector2f b) {
+        return calculateDistanceBetween(a.x(), a.y(), b.x(), b.y());
     }
 
     public static float calculateDistanceBetween(float x1, float y1, float x2, float y2) {
@@ -89,8 +96,12 @@ public class UtilsMath {
         return (float) Math.sqrt(powX + powY);
     }
 
-    public static float calculateRadiansBetween(BasePosition a, BasePosition b) {
-        return calculateRadiansBetween(a.getX(), a.getY(), b.getX(), b.getY());
+    public static float calculateRadiansBetween(Vector3f a, Vector3f b) {
+        return calculateRadiansBetween(a.x(), a.y(), b.x(), b.y());
+    }
+
+    public static float calculateRadiansBetween(Vector2f a, Vector2f b) {
+        return calculateRadiansBetween(a.x(), a.y(), b.x(), b.y());
     }
 
     public static float calculateRadiansBetween(float x1, float y1, float x2, float y2) {
