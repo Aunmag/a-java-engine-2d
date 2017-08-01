@@ -1,7 +1,7 @@
 package engine.rendering;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.InputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -30,7 +30,9 @@ public class Texture {
     public Texture(String filename) {
         BufferedImage bufferedImage;
         try {
-            bufferedImage = ImageIO.read(new File("./res/images/" + filename));
+            String path = "/images/" + filename;
+            InputStream inputStream = Shader.class.getResourceAsStream(path);
+            bufferedImage = ImageIO.read(inputStream);
         } catch(IOException e) {
             e.printStackTrace();
             return;
