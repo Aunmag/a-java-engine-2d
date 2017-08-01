@@ -1,14 +1,13 @@
-package game;
+package demo;
 
 import engine.Application;
 import engine.Input;
 import engine.rendering.Texture;
 import engine.utilities.UtilsGraphics;
 import engine.utilities.UtilsMath;
-import game.objects.Actor;
-import game.objects.Object;
+import demo.sprites.Actor;
+import demo.sprites.Object;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 

@@ -1,4 +1,4 @@
-package game.objects;
+package demo.sprites;
 
 import engine.basics.BaseSprite;
 import engine.rendering.Texture;

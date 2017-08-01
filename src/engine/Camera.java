@@ -2,7 +2,7 @@ package engine;
 
 import engine.basics.BasePosition;
 import engine.utilities.UtilsMath;
-import game.objects.Actor;
+import demo.sprites.Actor;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;

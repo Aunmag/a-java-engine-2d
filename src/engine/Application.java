@@ -1,6 +1,6 @@
 package engine;
 
-import game.GamePlay;
+import demo.GamePlay;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
