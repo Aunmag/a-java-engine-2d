@@ -1,6 +1,6 @@
 package engine.utilities;
 
-import engine.basics.BasePosition;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.util.Random;
@@ -82,8 +82,12 @@ public class UtilsMath {
         return randomizeBetween(resultMin, resultMax);
     }
 
-    public static float calculateDistanceBetween(BasePosition a, BasePosition b) {
-        return calculateDistanceBetween(a.getX(), a.getY(), b.getX(), b.getY());
+    public static float calculateDistanceBetween(Vector3f a, Vector3f b) {
+        return calculateDistanceBetween(a.x(), a.y(), b.x(), b.y());
+    }
+
+    public static float calculateDistanceBetween(Vector2f a, Vector2f b) {
+        return calculateDistanceBetween(a.x(), a.y(), b.x(), b.y());
     }
 
     public static float calculateDistanceBetween(float x1, float y1, float x2, float y2) {
@@ -92,8 +96,12 @@ public class UtilsMath {
         return (float) Math.sqrt(powX + powY);
     }
 
-    public static float calculateRadiansBetween(BasePosition a, BasePosition b) {
-        return calculateRadiansBetween(a.getX(), a.getY(), b.getX(), b.getY());
+    public static float calculateRadiansBetween(Vector3f a, Vector3f b) {
+        return calculateRadiansBetween(a.x(), a.y(), b.x(), b.y());
+    }
+
+    public static float calculateRadiansBetween(Vector2f a, Vector2f b) {
+        return calculateRadiansBetween(a.x(), a.y(), b.x(), b.y());
     }
 
     public static float calculateRadiansBetween(float x1, float y1, float x2, float y2) {

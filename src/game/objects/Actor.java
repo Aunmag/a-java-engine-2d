@@ -3,7 +3,6 @@ package game.objects;
 import engine.basics.BaseSprite;
 import engine.rendering.Texture;
 import engine.utilities.UtilsMath;
-import org.joml.Vector3f;
 
 import java.util.ArrayList;
 
@@ -33,8 +32,8 @@ public class Actor extends BaseSprite {
         }
     }
 
-    public Actor(Vector3f position, float radians, Texture texture) {
-        super(position, radians, texture);
+    public Actor(float x, float y, float z, float radians, Texture texture) {
+        super(x, y, z, radians, texture);
     }
 
     protected void update() {
@@ -72,8 +71,8 @@ public class Actor extends BaseSprite {
             movementVelocity *= 2;
         }
 
-        position.x += movementVelocity * Math.cos(movementRadians);
-        position.y += movementVelocity * Math.sin(movementRadians);
+        x += movementVelocity * Math.cos(movementRadians);
+        y += movementVelocity * Math.sin(movementRadians);
     }
 
     protected void delete() {}

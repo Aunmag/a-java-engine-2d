@@ -26,13 +26,13 @@ public class GamePlay {
         int end = start + size;
         for (float x = start; x < end; x += step) {
             for (float y = start; y < end; y += step) {
-                Object.all.add(new Object(new Vector3f(x, y, 0), 0, texture));
+                Object.all.add(new Object(x, y, 0, 0, texture));
             }
         }
 
         texture = Texture.getOrCreate("actor");
-        Actor player = new Actor(new Vector3f(0, 0, 0), 0, texture);
-        player.addRadians((float) UtilsMath.PIx0_5);
+        Actor player = new Actor(0, 0, 0, 0, texture);
+        player.setRadians((float) UtilsMath.PIx0_5);
         GamePlay.setPlayer(player);
         Application.getCamera().setTarget(player);
         Actor.all.add(player);
@@ -51,16 +51,16 @@ public class GamePlay {
     private static void confinePlayer() {
         int n = borderSize / 2;
 
-        if (n < player.getX()) {
-            player.getPosition().x = n;
-        } else if (player.getX() < -n) {
-            player.getPosition().x = -n;
+        if (n < player.x()) {
+            player.x = n;
+        } else if (player.x() < -n) {
+            player.x = -n;
         }
 
-        if (n < player.getY()) {
-            player.getPosition().y = n;
-        } else if (player.getY() < -n) {
-            player.getPosition().y = -n;
+        if (n < player.y()) {
+            player.y = n;
+        } else if (player.y() < -n) {
+            player.y = -n;
         }
     }
 

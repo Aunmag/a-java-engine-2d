@@ -1,29 +1,30 @@
 package engine;
 
-import engine.basics.BasePositionDirected;
+import engine.basics.BasePosition;
 import engine.utilities.UtilsMath;
 import game.objects.Actor;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-public class Camera extends BasePositionDirected {
+public class Camera extends BasePosition {
 
     private Matrix4f viewMatrix = new Matrix4f();
     private float zoom = 2;
     private Actor target;
 
     public Camera() {
-        super(new Vector3f(0, 0, 0), 0);
+        super(0, 0, 0, 0);
     }
 
     public void update() {
         if (target != null) {
-            position = target.getPositionCopy().negate();
+            x = -target.x();
+            y = -target.y();
             radians = target.getRadians() - (float) UtilsMath.PIx0_5;
         }
 
-        Vector3f viewPosition = new Vector3f(position);
+        Vector3f viewPosition = new Vector3f(x, y, z);
         viewPosition.mul(zoom);
 
         viewMatrix = Application.getWindow().getProjectionCopy();

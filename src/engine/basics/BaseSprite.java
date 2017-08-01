@@ -3,15 +3,14 @@ package engine.basics;
 import engine.Application;
 import engine.rendering.Texture;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 
-public abstract class BaseSprite extends BasePositionDirected {
+public abstract class BaseSprite extends BasePosition {
 
     protected boolean isValid = true;
     protected Texture texture;
 
-    public BaseSprite(Vector3f position, float radians, Texture texture) {
-        super(position, radians);
+    public BaseSprite(float x, float y, float z, float radians, Texture texture) {
+        super(x, y, z, radians);
         this.texture = texture;
     }
 
@@ -30,7 +29,7 @@ public abstract class BaseSprite extends BasePositionDirected {
 
     private Matrix4f createTransformationMatrix() {
         Matrix4f matrix = new Matrix4f();
-        matrix.translate(position);
+        matrix.translate(this);
         matrix.rotateZ(radians);
         return matrix;
     }
