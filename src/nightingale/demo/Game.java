@@ -25,12 +25,12 @@ public class Game extends Application {
         int end = start + size;
         for (float x = start; x < end; x += step) {
             for (float y = start; y < end; y += step) {
-                Object.all.add(new Object(x, y, 0, 0, texture));
+                Object.all.add(new Object(x, y, 0, texture));
             }
         }
 
         texture = Texture.getOrCreate("actor");
-        Actor player = new Actor(0, 0, 0, 0, texture);
+        Actor player = new Actor(0, 0, 0, texture);
         player.setRadians((float) UtilsMath.PIx0_5);
         Game.setPlayer(player);
         Application.getCamera().setTarget(player);

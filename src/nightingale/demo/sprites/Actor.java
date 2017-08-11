@@ -32,8 +32,8 @@ public class Actor extends BaseSprite {
         }
     }
 
-    public Actor(float x, float y, float z, float radians, Texture texture) {
-        super(x, y, z, radians, texture);
+    public Actor(float x, float y, float radians, Texture texture) {
+        super(x, y, radians, texture);
     }
 
     protected void update() {

@@ -9,8 +9,8 @@ public abstract class BaseSprite extends BasePosition {
     protected boolean isValid = true;
     private Texture texture;
 
-    public BaseSprite(float x, float y, float z, float radians, Texture texture) {
-        super(x, y, z, radians);
+    public BaseSprite(float x, float y, float radians, Texture texture) {
+        super(x, y, radians);
         this.texture = texture;
     }
 
@@ -18,7 +18,7 @@ public abstract class BaseSprite extends BasePosition {
         texture.bind(0);
 
         Matrix4f transformation = new Matrix4f();
-        transformation.translate(this);
+        transformation.translate(x, y, 0);
         transformation.rotateZ(radians);
 
         Matrix4f projection = Application.getCamera().getViewMatrixCopy();

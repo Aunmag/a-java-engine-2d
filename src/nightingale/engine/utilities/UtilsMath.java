@@ -1,14 +1,12 @@
 package nightingale.engine.utilities;
 
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 import java.util.Random;
 
 public class UtilsMath {
 
     public static final Random random = new Random();
-    public static final Vector3f axisRotation = new Vector3f(0, 0, 1);
     public static final double PIx0_5 = Math.PI / 2.0;
     public static final double PIx1_5 = Math.PI + PIx0_5;
     public static final double PIx2 = Math.PI * 2.0;
@@ -82,10 +80,6 @@ public class UtilsMath {
         return randomizeBetween(resultMin, resultMax);
     }
 
-    public static float calculateDistanceBetween(Vector3f a, Vector3f b) {
-        return calculateDistanceBetween(a.x(), a.y(), b.x(), b.y());
-    }
-
     public static float calculateDistanceBetween(Vector2f a, Vector2f b) {
         return calculateDistanceBetween(a.x(), a.y(), b.x(), b.y());
     }
@@ -94,10 +88,6 @@ public class UtilsMath {
         double powX = Math.pow(x1 - x2, 2);
         double powY = Math.pow(y1 - y2, 2);
         return (float) Math.sqrt(powX + powY);
-    }
-
-    public static float calculateRadiansBetween(Vector3f a, Vector3f b) {
-        return calculateRadiansBetween(a.x(), a.y(), b.x(), b.y());
     }
 
     public static float calculateRadiansBetween(Vector2f a, Vector2f b) {

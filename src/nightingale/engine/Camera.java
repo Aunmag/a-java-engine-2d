@@ -14,7 +14,7 @@ public class Camera extends BasePosition {
     private Actor target;
 
     public Camera() {
-        super(0, 0, 0, 0);
+        super(0, 0, 0);
     }
 
     public void update() {
@@ -24,17 +24,18 @@ public class Camera extends BasePosition {
             radians = target.getRadians() - (float) UtilsMath.PIx0_5;
         }
 
-        Vector3f viewPosition = new Vector3f(x, y, z);
+        Vector2f viewPosition = new Vector2f(this);
         viewPosition.mul(zoom);
 
         viewMatrix = Application.getWindow().getProjectionCopy();
-        viewMatrix.rotate(-radians, UtilsMath.axisRotation);
-        viewMatrix.translate(viewPosition);
+        viewMatrix.rotateZ(-radians);
+        viewMatrix.translate(viewPosition.x, viewPosition.y, 0);
         viewMatrix.scale(zoom);
     }
 
     public Vector2f calculateViewPosition(Vector2f position) {
-        Vector3f viewPosition = new Vector3f(position.x(), position.y(), 0);
+        // TODO: Optimize
+        Vector3f viewPosition = new Vector3f(position.x, position.y, 0);
         viewPosition.mulPosition(viewMatrix);
         return new Vector2f(viewPosition.x(), viewPosition.y());
     }
