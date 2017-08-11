@@ -12,6 +12,7 @@ public abstract class Application {
     private static Window window;
     private static Camera camera;
     private static Shader shader;
+    private static Input input;
 
     public final void run() {
         // TODO: Prevent multiple launching
@@ -56,11 +57,14 @@ public abstract class Application {
         GL11.glEnable(GL11.GL_BLEND);
 
         shader = new Shader("shader");
+
+        input = new Input(window.getId());
+
         gameInitialize();
     }
 
     private void engineUpdate() {
-        Input.update();
+        input.update();
         GLFW.glfwPollEvents();
 
         gameUpdate();
@@ -109,6 +113,10 @@ public abstract class Application {
 
     public static Shader getShader() {
         return shader;
+    }
+
+    public static Input getInput() {
+        return input;
     }
 
 }

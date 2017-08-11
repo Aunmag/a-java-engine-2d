@@ -1,7 +1,6 @@
 package nightingale.demo;
 
 import nightingale.engine.Application;
-import nightingale.engine.Input;
 import nightingale.engine.rendering.Texture;
 import nightingale.engine.utilities.UtilsGraphics;
 import nightingale.engine.utilities.UtilsMath;
@@ -31,14 +30,14 @@ public class Game extends Application {
 
         texture = Texture.getOrCreate("actor");
         Actor player = new Actor(0, 0, 0, 0, texture);
-        player.setRadians((float) UtilsMath.PIx0_5);
+        player.radians = (float) UtilsMath.PIx0_5;
         Game.setPlayer(player);
         Application.getCamera().setTarget(player);
         Actor.all.add(player);
     }
 
     protected void gameUpdate() {
-        if (Input.getIsKeyReleased(GLFW.GLFW_KEY_ESCAPE)) {
+        if (Application.getInput().getIsKeyReleased(GLFW.GLFW_KEY_ESCAPE)) {
             Application.isRunning = false;
         }
 
@@ -79,14 +78,14 @@ public class Game extends Application {
             return;
         }
 
-        player.isWalkingForward = Input.getIsKeyDown(GLFW.GLFW_KEY_W);
-        player.isWalkingBack = Input.getIsKeyDown(GLFW.GLFW_KEY_S);
-        player.isWalkingLeft = Input.getIsKeyDown(GLFW.GLFW_KEY_A);
-        player.isWalkingRight = Input.getIsKeyDown(GLFW.GLFW_KEY_D);
-        player.isSprinting = Input.getIsKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT);
+        player.isWalkingForward = Application.getInput().getIsKeyDown(GLFW.GLFW_KEY_W);
+        player.isWalkingBack = Application.getInput().getIsKeyDown(GLFW.GLFW_KEY_S);
+        player.isWalkingLeft = Application.getInput().getIsKeyDown(GLFW.GLFW_KEY_A);
+        player.isWalkingRight = Application.getInput().getIsKeyDown(GLFW.GLFW_KEY_D);
+        player.isSprinting = Application.getInput().getIsKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT);
 
         float sensitivity = 0.01f;
-        float rotate = Input.getMouseVelocity().x() * sensitivity;
+        float rotate = Application.getInput().getMouseVelocity().x() * sensitivity;
         player.addRadiansCarefully(rotate);
     }
 

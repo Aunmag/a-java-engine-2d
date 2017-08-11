@@ -9,16 +9,18 @@ import org.lwjgl.glfw.GLFW;
 
 public class Input {
 
-    private static long window;
-    private static Vector2f mousePosition;
-    private static Vector2f mouseVelocity = new Vector2f(0, 0);
-    private static boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
+    private final long windowId;
+    private Vector2f mousePosition;
+    private Vector2f mouseVelocity = new Vector2f(0, 0);
+    private boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
 
-    static {
+    Input(long windowId) {
+        this.windowId = windowId;
         Arrays.fill(keys, false);
+        mousePosition = fetchMousePositionNew();
     }
 
-    static void update() {
+    void update() {
         for (int i = 0; i < keys.length; i++) {
             keys[i] = getIsKeyDown(i);
         }
@@ -26,53 +28,48 @@ public class Input {
         updateMouse();
     }
 
-    private static void updateMouse() {
-        // TODO: Learn more:
+    private void updateMouse() {
+        Vector2f mousePositionNew = fetchMousePositionNew();
+        mouseVelocity.x = mousePosition.x - mousePositionNew.x;
+        mouseVelocity.y = mousePosition.y - mousePositionNew.y;
+        mousePosition = mousePositionNew;
+    }
+
+    private Vector2f fetchMousePositionNew() {
         DoubleBuffer xBuffer = BufferUtils.createDoubleBuffer(1);
         DoubleBuffer yBuffer = BufferUtils.createDoubleBuffer(1);
-        GLFW.glfwGetCursorPos(window, xBuffer, yBuffer);
+        GLFW.glfwGetCursorPos(windowId, xBuffer, yBuffer);
+
+        // TODO: Learn more:
         xBuffer.rewind();
         yBuffer.rewind();
         float newX = (float) xBuffer.get();
         float newY = (float) yBuffer.get();
 
-        if (mousePosition == null) {
-            mousePosition = new Vector2f(newX, newY);
-        } else {
-            mouseVelocity.x = mousePosition.x - newX;
-            mouseVelocity.y = mousePosition.y - newY;
-            mousePosition.x = newX;
-            mousePosition.y = newY;
-        }
-    }
-
-    /* Setter */
-
-    static void setWindow(long window) {
-        Input.window = window;
+        return new Vector2f(newX, newY);
     }
 
     /* Getters */
 
-    public static boolean getIsKeyDown(int key) {
-        return GLFW.glfwGetKey(window, key) == GLFW.GLFW_TRUE;
+    public boolean getIsKeyDown(int key) {
+        return GLFW.glfwGetKey(windowId, key) == GLFW.GLFW_TRUE;
     }
 
-    public static boolean getIsKeyPressed(int key) {
+    public boolean getIsKeyPressed(int key) {
         return getIsKeyDown(key) && !keys[key];
     }
 
-    public static boolean getIsKeyReleased(int key) {
+    public boolean getIsKeyReleased(int key) {
         return !getIsKeyDown(key) && keys[key];
     }
 
-    public static boolean getIsMouseButtonDown(int button) {
-        return GLFW.glfwGetMouseButton(window, button) == GLFW.GLFW_TRUE;
+    public boolean getIsMouseButtonDown(int button) {
+        return GLFW.glfwGetMouseButton(windowId, button) == GLFW.GLFW_TRUE;
     }
 
     /* Getters */
 
-    public static Vector2f getMouseVelocity() {
+    public Vector2f getMouseVelocity() {
         return new Vector2f(mouseVelocity);
     }
 
