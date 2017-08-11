@@ -87,7 +87,7 @@ public class Game extends Application {
 
         float sensitivity = 0.01f;
         float rotate = Input.getMouseVelocity().x() * sensitivity;
-        player.addRadians(rotate);
+        player.addRadiansCarefully(rotate);
     }
 
     private void renderBorders() {
