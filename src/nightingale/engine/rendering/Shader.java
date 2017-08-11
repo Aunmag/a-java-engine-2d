@@ -12,9 +12,9 @@ import org.lwjgl.opengl.GL20;
 
 public class Shader {
 
-    private int program;
-    private int shaderVertex;
-    private int shaderFragment;
+    private int programId;
+    private int shaderVertexId;
+    private int shaderFragmentId;
 
     private static String readFile(String filename) {
         StringBuilder string = new StringBuilder();
@@ -39,67 +39,67 @@ public class Shader {
     }
 
     public Shader(String filename) {
-        program = GL20.glCreateProgram();
+        programId = GL20.glCreateProgram();
 
-        shaderVertex = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
-        GL20.glShaderSource(shaderVertex, readFile(filename + ".vert"));
-        GL20.glCompileShader(shaderVertex);
-        if (GL20.glGetShaderi(shaderVertex, GL20.GL_COMPILE_STATUS) != 1) {
-            System.err.println(GL20.glGetShaderInfoLog(shaderVertex));
+        shaderVertexId = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
+        GL20.glShaderSource(shaderVertexId, readFile(filename + ".vert"));
+        GL20.glCompileShader(shaderVertexId);
+        if (GL20.glGetShaderi(shaderVertexId, GL20.GL_COMPILE_STATUS) != 1) {
+            System.err.println(GL20.glGetShaderInfoLog(shaderVertexId));
             System.exit(1);
         }
 
-        shaderFragment = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
-        GL20.glShaderSource(shaderFragment, readFile(filename + ".frag"));
-        GL20.glCompileShader(shaderFragment);
-        if (GL20.glGetShaderi(shaderFragment, GL20.GL_COMPILE_STATUS) != 1) {
-            System.err.println(GL20.glGetShaderInfoLog(shaderFragment));
+        shaderFragmentId = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
+        GL20.glShaderSource(shaderFragmentId, readFile(filename + ".frag"));
+        GL20.glCompileShader(shaderFragmentId);
+        if (GL20.glGetShaderi(shaderFragmentId, GL20.GL_COMPILE_STATUS) != 1) {
+            System.err.println(GL20.glGetShaderInfoLog(shaderFragmentId));
             System.exit(1);
         }
 
-        GL20.glAttachShader(program, shaderVertex);
-        GL20.glAttachShader(program, shaderFragment);
+        GL20.glAttachShader(programId, shaderVertexId);
+        GL20.glAttachShader(programId, shaderFragmentId);
 
-        GL20.glBindAttribLocation(program, 0, "vertices");
-        GL20.glBindAttribLocation(program, 1, "textures");
+        GL20.glBindAttribLocation(programId, 0, "vertices");
+        GL20.glBindAttribLocation(programId, 1, "textures");
 
-        GL20.glLinkProgram(program);
-        if (GL20.glGetProgrami(program, GL20.GL_LINK_STATUS) != 1) {
-            System.err.println(GL20.glGetProgramInfoLog(program));
+        GL20.glLinkProgram(programId);
+        if (GL20.glGetProgrami(programId, GL20.GL_LINK_STATUS) != 1) {
+            System.err.println(GL20.glGetProgramInfoLog(programId));
             System.exit(1);
         }
 
-        GL20.glValidateProgram(program);
-        if (GL20.glGetProgrami(program, GL20.GL_VALIDATE_STATUS) != 1) {
-            System.err.println(GL20.glGetProgramInfoLog(program));
+        GL20.glValidateProgram(programId);
+        if (GL20.glGetProgrami(programId, GL20.GL_VALIDATE_STATUS) != 1) {
+            System.err.println(GL20.glGetProgramInfoLog(programId));
             System.exit(1);
         }
     }
 
     public void bind() {
-        GL20.glUseProgram(program);
+        GL20.glUseProgram(programId);
     }
 
     protected void finalize() throws Throwable {
-        GL20.glDetachShader(program, shaderVertex);
-        GL20.glDetachShader(program, shaderFragment);
-        GL20.glDeleteShader(shaderVertex);
-        GL20.glDeleteShader(shaderFragment);
-        GL20.glDeleteProgram(program);
+        GL20.glDetachShader(programId, shaderVertexId);
+        GL20.glDetachShader(programId, shaderFragmentId);
+        GL20.glDeleteShader(shaderVertexId);
+        GL20.glDeleteShader(shaderFragmentId);
+        GL20.glDeleteProgram(programId);
         super.finalize();
     }
 
     /* Setters */
 
     public void setUniform(String name, int value) {
-        int location = GL20.glGetUniformLocation(program, name);
+        int location = GL20.glGetUniformLocation(programId, name);
         if (location != -1) {
             GL20.glUniform1i(location, value);
         }
     }
 
     public void setUniform(String name, Matrix4f value) {
-        int location = GL20.glGetUniformLocation(program, name);
+        int location = GL20.glGetUniformLocation(programId, name);
         FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
         value.get(buffer);
         if (location != -1) {
