@@ -1,14 +1,14 @@
 package nightingale.engine.basics;
 
 import nightingale.engine.utilities.UtilsMath;
-import org.joml.Vector3f;
+import org.joml.Vector2f;
 
-public class BasePosition extends Vector3f {
+public class BasePosition extends Vector2f {
 
     protected float radians = 0;
 
-    public BasePosition(float x, float y, float z, float radians) {
-        super(x, y, z);
+    public BasePosition(float x, float y, float radians) {
+        super(x, y);
         this.radians = radians;
     }
 
