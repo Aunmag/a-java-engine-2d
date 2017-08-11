@@ -38,8 +38,6 @@ public class Window extends BaseSize {
 
         GLFW.glfwShowWindow(id);
         GLFW.glfwMakeContextCurrent(id);
-
-        Input.setWindow(id);
     }
 
     private void updateProjection() {

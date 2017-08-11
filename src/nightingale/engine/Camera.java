@@ -21,7 +21,7 @@ public class Camera extends BasePosition {
         if (target != null) {
             x = -target.x();
             y = -target.y();
-            radians = target.getRadians() - (float) UtilsMath.PIx0_5;
+            radians = target.radians - (float) UtilsMath.PIx0_5;
         }
 
         Vector2f viewPosition = new Vector2f(this);
