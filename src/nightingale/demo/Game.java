@@ -16,7 +16,7 @@ public class Game extends Application {
     private static final int borderSize = 512;
 
     protected void gameInitialize() {
-        Texture texture = Texture.getOrCreate("grass");
+        Texture texture = Texture.getOrCreate("images/grass");
         int quantity = 4;
         int step = 128;
         int size = step * quantity;
@@ -28,7 +28,7 @@ public class Game extends Application {
             }
         }
 
-        texture = Texture.getOrCreate("actor");
+        texture = Texture.getOrCreate("images/actor");
         Actor player = new Actor(0, 0, 0, texture);
         player.radians = (float) UtilsMath.PIx0_5;
         Game.setPlayer(player);

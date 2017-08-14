@@ -15,7 +15,7 @@ public abstract class BaseSprite extends BasePosition {
     }
 
     protected void render() {
-        texture.bind(0);
+        texture.bind();
 
         Matrix4f transformation = new Matrix4f();
         transformation.translate(x, y, 0);
