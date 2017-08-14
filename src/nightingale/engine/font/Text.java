@@ -2,7 +2,7 @@ package nightingale.engine.font;
 
 import nightingale.engine.Application;
 import nightingale.engine.shaders.ShaderFont;
-import nightingale.engine.rendering.Vao;
+import nightingale.engine.structures.Vao;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;

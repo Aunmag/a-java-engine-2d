@@ -1,4 +1,4 @@
-package nightingale.engine.rendering;
+package nightingale.engine.structures;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;

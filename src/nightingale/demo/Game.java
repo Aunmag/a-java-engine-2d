@@ -6,7 +6,7 @@ import nightingale.engine.font.Font;
 import nightingale.engine.font.FontLoader;
 import nightingale.engine.font.Text;
 
-import nightingale.engine.rendering.Texture;
+import nightingale.engine.structures.Texture;
 import nightingale.engine.utilities.UtilsGraphics;
 import nightingale.engine.utilities.UtilsMath;
 import nightingale.demo.sprites.Actor;

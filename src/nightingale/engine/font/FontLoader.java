@@ -1,7 +1,7 @@
 package nightingale.engine.font;
 
 import nightingale.engine.Application;
-import nightingale.engine.rendering.Texture;
+import nightingale.engine.structures.Texture;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

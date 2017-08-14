@@ -1,7 +1,7 @@
 package nightingale.engine.font;
 
-import nightingale.engine.rendering.Texture;
-import nightingale.engine.rendering.Vao;
+import nightingale.engine.structures.Texture;
+import nightingale.engine.structures.Vao;
 import nightingale.engine.utilities.UtilsLanguage;
 
 import java.util.ArrayList;
