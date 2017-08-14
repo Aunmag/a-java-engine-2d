@@ -1,6 +1,11 @@
 package nightingale.demo;
 
 import nightingale.engine.Application;
+import nightingale.engine.data.DataEngine;
+import nightingale.engine.font.Font;
+import nightingale.engine.font.FontLoader;
+import nightingale.engine.font.Text;
+
 import nightingale.engine.rendering.Texture;
 import nightingale.engine.utilities.UtilsGraphics;
 import nightingale.engine.utilities.UtilsMath;
@@ -34,6 +39,11 @@ public class Game extends Application {
         Game.setPlayer(player);
         Application.getCamera().setTarget(player);
         Actor.all.add(player);
+
+        FontLoader fontLoader = new FontLoader("ubuntu");
+        Font font = fontLoader.build();
+        String message = DataEngine.titleFull;
+        new Text(10, 10, message, 1, font, 1, false);
     }
 
     protected void gameUpdate() {
@@ -51,11 +61,14 @@ public class Game extends Application {
         Object.allRender();
         renderBorders();
         Actor.allRender();
+        Text.renderAll();
     }
 
     protected void gameCleanUp() {}
 
-    protected void gameTerminate() {}
+    protected void gameTerminate() {
+        Text.terminate();
+    }
 
     private void confinePlayer() {
         int n = borderSize / 2;

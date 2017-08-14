@@ -11,7 +11,7 @@ public class Object extends BaseSprite {
     public static List<Object> all = new ArrayList<>();
 
     public static void allRender() {
-        for (Object object : Object.all) {
+        for (Object object: Object.all) {
             object.render();
         }
     }
