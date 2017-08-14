@@ -1,14 +1,14 @@
-package nightingale.engine.rendering;
+package nightingale.engine.shaders;
 
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL20;
 
-public class ShaderFont extends Shader {
+public class ShaderFont extends ShaderSprite {
 
     private final int uniformLocationColour;
 
     public ShaderFont() {
-        super("font");
+        super("shaderFont");
 
         uniformLocationColour = getUniformLocation("colour");
     }

@@ -2,7 +2,6 @@ package nightingale.engine.font;
 
 import nightingale.engine.Application;
 import nightingale.engine.rendering.Texture;
-import nightingale.engine.rendering.Shader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -49,7 +48,7 @@ public class FontLoader {
         String path = "/fonts/" + name + ".fnt";
 
         try {
-            URL url = Shader.class.getResource(path);
+            URL url = FontLoader.class.getResource(path);
             bufferedReader = new BufferedReader(new FileReader(url.getFile()));
         } catch (Exception e) {
             e.printStackTrace();

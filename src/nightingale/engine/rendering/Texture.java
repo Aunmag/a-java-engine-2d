@@ -31,7 +31,7 @@ public class Texture {
         BufferedImage bufferedImage;
 
         try {
-            InputStream inputStream = Shader.class.getResourceAsStream(path);
+            InputStream inputStream = Texture.class.getResourceAsStream(path);
             bufferedImage = ImageIO.read(inputStream);
         } catch (Exception e) {
             String message = String.format("Can't load image at \"%s\"!", path);

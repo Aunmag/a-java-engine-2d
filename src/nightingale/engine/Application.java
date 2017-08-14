@@ -4,14 +4,14 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
-import nightingale.engine.rendering.Shader;
+import nightingale.engine.shaders.ShaderSprite;
 
 public abstract class Application {
 
     public static boolean isRunning = false;
     private static Window window;
     private static Camera camera;
-    private static Shader shader;
+    private static ShaderSprite shader;
     private static Input input;
 
     public final void run() {
@@ -56,7 +56,7 @@ public abstract class Application {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glEnable(GL11.GL_BLEND);
 
-        shader = new Shader("shader");
+        shader = new ShaderSprite("shaderSprite");
 
         input = new Input(window.getId());
 
@@ -111,7 +111,7 @@ public abstract class Application {
         return camera;
     }
 
-    public static Shader getShader() {
+    public static ShaderSprite getShader() {
         return shader;
     }
 
