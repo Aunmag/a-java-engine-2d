@@ -1,8 +1,7 @@
-package nightingale.engine.rendering;
+package nightingale.engine.structures;
 
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
@@ -21,19 +20,22 @@ public class Texture {
         if (all.containsKey(name)) {
             return all.get(name);
         } else {
-            Texture texture = new Texture(name + ".png");
+            Texture texture = new Texture(name);
             all.put(name, texture);
             return texture;
         }
     }
 
-    public Texture(String filename) {
+    private Texture(String name) {
+        String path = "/" + name + ".png";
         BufferedImage bufferedImage;
+
         try {
-            String path = "/images/" + filename;
-            InputStream inputStream = Shader.class.getResourceAsStream(path);
+            InputStream inputStream = Texture.class.getResourceAsStream(path);
             bufferedImage = ImageIO.read(inputStream);
-        } catch(IOException e) {
+        } catch (Exception e) {
+            String message = String.format("Can't load image at \"%s\"!", path);
+            System.err.println(message);
             e.printStackTrace();
             return;
         }
@@ -83,11 +85,9 @@ public class Texture {
         );
     }
 
-    public void bind(int sampler) {
-        if (0 <= sampler && sampler <= 31) {
-            GL13.glActiveTexture(GL13.GL_TEXTURE0 + sampler);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
-        }
+    public void bind() {
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
     }
 
     public void render() {

@@ -1,4 +1,4 @@
-package nightingale.engine.rendering;
+package nightingale.engine.shaders;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,7 +10,7 @@ import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
-public class Shader {
+public class ShaderSprite {
 
     private final int programId;
     private final int shaderVertexId;
@@ -22,7 +22,7 @@ public class Shader {
         StringBuilder string = new StringBuilder();
 
         try {
-            InputStream inputStream = Shader.class.getResourceAsStream(filename);
+            InputStream inputStream = ShaderSprite.class.getResourceAsStream(filename);
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
@@ -40,7 +40,7 @@ public class Shader {
         return string.toString();
     }
 
-    public Shader(String filename) {
+    public ShaderSprite(String filename) {
         programId = GL20.glCreateProgram();
 
         shaderVertexId = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);

@@ -1,4 +1,4 @@
-package nightingale.engine.rendering;
+package nightingale.engine.structures;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;

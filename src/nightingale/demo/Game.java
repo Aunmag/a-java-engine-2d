@@ -1,7 +1,12 @@
 package nightingale.demo;
 
 import nightingale.engine.Application;
-import nightingale.engine.rendering.Texture;
+import nightingale.engine.data.DataEngine;
+import nightingale.engine.font.Font;
+import nightingale.engine.font.FontLoader;
+import nightingale.engine.font.Text;
+
+import nightingale.engine.structures.Texture;
 import nightingale.engine.utilities.UtilsGraphics;
 import nightingale.engine.utilities.UtilsMath;
 import nightingale.demo.sprites.Actor;
@@ -16,7 +21,7 @@ public class Game extends Application {
     private static final int borderSize = 512;
 
     protected void gameInitialize() {
-        Texture texture = Texture.getOrCreate("grass");
+        Texture texture = Texture.getOrCreate("images/grass");
         int quantity = 4;
         int step = 128;
         int size = step * quantity;
@@ -28,12 +33,17 @@ public class Game extends Application {
             }
         }
 
-        texture = Texture.getOrCreate("actor");
+        texture = Texture.getOrCreate("images/actor");
         Actor player = new Actor(0, 0, 0, texture);
         player.radians = (float) UtilsMath.PIx0_5;
         Game.setPlayer(player);
         Application.getCamera().setTarget(player);
         Actor.all.add(player);
+
+        FontLoader fontLoader = new FontLoader("ubuntu");
+        Font font = fontLoader.build();
+        String message = DataEngine.titleFull;
+        new Text(10, 10, message, 1, font, 1, false);
     }
 
     protected void gameUpdate() {
@@ -51,11 +61,14 @@ public class Game extends Application {
         Object.allRender();
         renderBorders();
         Actor.allRender();
+        Text.renderAll();
     }
 
     protected void gameCleanUp() {}
 
-    protected void gameTerminate() {}
+    protected void gameTerminate() {
+        Text.terminate();
+    }
 
     private void confinePlayer() {
         int n = borderSize / 2;

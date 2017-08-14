@@ -1,7 +1,7 @@
 package nightingale.engine.basics;
 
 import nightingale.engine.Application;
-import nightingale.engine.rendering.Texture;
+import nightingale.engine.structures.Texture;
 import org.joml.Matrix4f;
 
 public abstract class BaseSprite extends BasePosition {
@@ -15,7 +15,7 @@ public abstract class BaseSprite extends BasePosition {
     }
 
     protected void render() {
-        texture.bind(0);
+        texture.bind();
 
         Matrix4f transformation = new Matrix4f();
         transformation.translate(x, y, 0);
