@@ -24,8 +24,8 @@ public abstract class BaseSprite extends BasePosition {
         Matrix4f projection = Application.getCamera().getViewMatrixCopy();
         projection.mul(transformation);
 
-        Application.getShader().setUniform("sampler", 0);
-        Application.getShader().setUniform("projection", projection);
+        Application.getShader().setUniformSampler(0);
+        Application.getShader().setUniformProjection(projection);
 
         texture.render();
     }

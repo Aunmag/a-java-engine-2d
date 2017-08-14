@@ -12,9 +12,11 @@ import org.lwjgl.opengl.GL20;
 
 public class Shader {
 
-    private int programId;
-    private int shaderVertexId;
-    private int shaderFragmentId;
+    private final int programId;
+    private final int shaderVertexId;
+    private final int shaderFragmentId;
+    private final int uniformLocationSampler;
+    private final int uniformLocationProjection;
 
     private static String readFile(String filename) {
         StringBuilder string = new StringBuilder();
@@ -74,37 +76,47 @@ public class Shader {
             System.err.println(GL20.glGetProgramInfoLog(programId));
             System.exit(1);
         }
+
+        uniformLocationSampler = getUniformLocation("sampler");
+        uniformLocationProjection = getUniformLocation("projection");
+    }
+
+    protected int getUniformLocation(String uniformName) {
+        return GL20.glGetUniformLocation(programId, uniformName);
     }
 
     public void bind() {
         GL20.glUseProgram(programId);
     }
 
-    protected void finalize() throws Throwable {
+    public void unbind() {
+        GL20.glUseProgram(0);
+    }
+
+    public void cleanUp() {
+        unbind();
         GL20.glDetachShader(programId, shaderVertexId);
         GL20.glDetachShader(programId, shaderFragmentId);
         GL20.glDeleteShader(shaderVertexId);
         GL20.glDeleteShader(shaderFragmentId);
         GL20.glDeleteProgram(programId);
+    }
+
+    protected void finalize() throws Throwable {
+        cleanUp();
         super.finalize();
     }
 
     /* Setters */
 
-    public void setUniform(String name, int value) {
-        int location = GL20.glGetUniformLocation(programId, name);
-        if (location != -1) {
-            GL20.glUniform1i(location, value);
-        }
+    public void setUniformSampler(int sampler) {
+        GL20.glUniform1i(uniformLocationSampler, sampler);
     }
 
-    public void setUniform(String name, Matrix4f value) {
-        int location = GL20.glGetUniformLocation(programId, name);
+    public void setUniformProjection(Matrix4f projection) {
         FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
-        value.get(buffer);
-        if (location != -1) {
-            GL20.glUniformMatrix4fv(location, false, buffer);
-        }
+        projection.get(buffer);
+        GL20.glUniformMatrix4fv(uniformLocationProjection, false, buffer);
     }
 
 }
