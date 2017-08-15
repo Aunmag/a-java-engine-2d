@@ -3,6 +3,7 @@ package nightingale.engine;
 import nightingale.engine.basics.BaseSize;
 import nightingale.engine.data.DataEngine;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 
@@ -17,8 +18,8 @@ public class Window extends BaseSize {
         super(854, 480);
 
         id = GLFW.glfwCreateWindow(
-            width,
-            height,
+            (int) width,
+            (int) height,
             DataEngine.titleFull,
             isFullscreen ? GLFW.glfwGetPrimaryMonitor() : 0,
             0
@@ -32,8 +33,8 @@ public class Window extends BaseSize {
             GLFWVidMode videoMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
             GLFW.glfwSetWindowPos(
                     id,
-                    (videoMode.width() - width) / 2,
-                    (videoMode.height() - height) / 2
+                    (videoMode.width() - (int) width) / 2,
+                    (videoMode.height() - (int) height) / 2
             );
         }
 
@@ -47,22 +48,20 @@ public class Window extends BaseSize {
     }
 
     private void updateAspectRatio() {
-        aspectRatio = (float) width / (float) height;
+        aspectRatio = width / height;
     }
 
     public void swapBuffers() {
         GLFW.glfwSwapBuffers(id);
     }
 
-    /* Setters */
-
-    protected void setSize(int size) {
-        super.setSize(size);
-        updateProjection();
-        updateAspectRatio();
+    public Vector2f calculateDisplayPosition(Vector2f position) {
+        return new Vector2f((position.x + 1) / width - 1, (-position.y - 1) / height + 1);
     }
 
-    protected void setSize(int width, int height) {
+    /* Setters */
+
+    protected void setSize(float width, float height) {
         super.setSize(width, height);
         updateProjection();
         updateAspectRatio();

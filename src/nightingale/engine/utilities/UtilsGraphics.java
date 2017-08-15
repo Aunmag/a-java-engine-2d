@@ -1,6 +1,7 @@
 package nightingale.engine.utilities;
 
 import nightingale.engine.Application;
+import nightingale.engine.basics.BaseQuad;
 import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -26,6 +27,17 @@ public class UtilsGraphics {
         GL11.glVertex2f(a.x(), a.y());
         GL11.glVertex2f(b.x(), b.y());
         GL11.glEnd();
+    }
+
+    public static void drawQuad(BaseQuad quad, boolean isFilled, boolean isOnWorld) {
+        drawQuad(
+                quad.getPointDisplayA(),
+                quad.getPointDisplayB(),
+                quad.getPointDisplayC(),
+                quad.getPointDisplayD(),
+                isFilled,
+                isOnWorld
+        );
     }
 
     public static void drawQuad(

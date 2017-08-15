@@ -17,10 +17,10 @@ import org.lwjgl.opengl.GL11;
 
 public class Game extends Application {
 
-    private static Actor player;
+    private Actor player;
     private static final int borderSize = 512;
 
-    protected void gameInitialize() {
+    Game() {
         Texture texture = Texture.getOrCreate("images/grass");
         int quantity = 4;
         int step = 128;
@@ -34,9 +34,8 @@ public class Game extends Application {
         }
 
         texture = Texture.getOrCreate("images/actor");
-        Actor player = new Actor(0, 0, 0, texture);
+        player = new Actor(0, 0, 0, texture);
         player.radians = (float) UtilsMath.PIx0_5;
-        Game.setPlayer(player);
         Application.getCamera().setTarget(player);
         Actor.all.add(player);
 
@@ -57,11 +56,9 @@ public class Game extends Application {
     }
 
     protected void gameRender() {
-        Application.getShader().bind();
         Object.allRender();
         renderBorders();
         Actor.allRender();
-        Text.renderAll();
     }
 
     protected void gameCleanUp() {}
@@ -118,18 +115,6 @@ public class Game extends Application {
         GL11.glColor3f(0, 1, 0);
         UtilsGraphics.drawCircle(new Vector2f(0, 0), 32, false, true);
         UtilsGraphics.drawFinish();
-    }
-
-    /* Setters */
-
-    public static void setPlayer(Actor player) {
-        Game.player = player;
-    }
-
-    /* Getters */
-
-    public static Actor getPlayer() {
-        return player;
     }
 
 }

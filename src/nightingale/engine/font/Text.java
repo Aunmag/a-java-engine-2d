@@ -20,7 +20,7 @@ public class Text extends Vector2f {
     /* Static */
 
     private static Map<Font, List<Text>> all = new HashMap<>();
-    private static ShaderFont shader = new ShaderFont();
+    private final static ShaderFont shader = new ShaderFont();
 
     public static void renderAll() {
         shader.bind();
@@ -28,7 +28,7 @@ public class Text extends Vector2f {
         for (Font font: all.keySet()) {
             font.texture.bind();
             for (Text text: all.get(font)) {
-                text.render(shader);
+                text.render();
             }
         }
 
@@ -88,7 +88,11 @@ public class Text extends Vector2f {
         fontTexts.add(this);
     }
 
-    public void render(ShaderFont shader) {
+    public void render() {
+        // TODO: Optimize:
+        shader.bind();
+        font.texture.bind();
+
         GL30.glBindVertexArray(vao.id);
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);

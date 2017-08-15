@@ -8,17 +8,33 @@ import nightingale.engine.shaders.ShaderSprite;
 
 public abstract class Application {
 
+    // TODO: Prevent multiple launching
     public static boolean isRunning = false;
     private static Window window;
     private static Camera camera;
     private static ShaderSprite shader;
     private static Input input;
 
+    public Application() {
+        if (!GLFW.glfwInit()) {
+            System.err.println("GLFW Failed to initialize!");
+            System.exit(1);
+        }
+
+        window = new Window();
+        GL.createCapabilities();
+
+        camera = new Camera();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_BLEND);
+
+        shader = new ShaderSprite("shaderSprite");
+
+        input = new Input(window.getId());
+    }
+
     public final void run() {
-        // TODO: Prevent multiple launching
-
-        engineInitialize();
-
         int fpsLimit = 60;
         float timeFrameDuration = 1000 / fpsLimit;
         float timeDelta;
@@ -42,27 +58,6 @@ public abstract class Application {
         engineTerminate();
     }
 
-    private void engineInitialize() {
-        if (!GLFW.glfwInit()) {
-            System.err.println("GLFW Failed to initialize!");
-            System.exit(1);
-        }
-
-        window = new Window();
-        GL.createCapabilities();
-
-        camera = new Camera();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glEnable(GL11.GL_BLEND);
-
-        shader = new ShaderSprite("shaderSprite");
-
-        input = new Input(window.getId());
-
-        gameInitialize();
-    }
-
     private void engineUpdate() {
         input.update();
         GLFW.glfwPollEvents();
@@ -77,6 +72,7 @@ public abstract class Application {
 
     private void engineRender() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+        Application.getShader().bind();
         gameRender();
         window.swapBuffers();
     }
@@ -90,8 +86,6 @@ public abstract class Application {
         GLFW.glfwSetWindowShouldClose(window.getId(), true);
         GLFW.glfwTerminate();
     }
-
-    protected abstract void gameInitialize();
 
     protected abstract void gameUpdate();
 
