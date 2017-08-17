@@ -9,6 +9,7 @@ import nightingale.engine.font.Text;
 
 import nightingale.engine.gui.GuiButton;
 import nightingale.engine.gui.GuiLabel;
+import nightingale.engine.gui.GuiPage;
 import nightingale.engine.structures.Texture;
 import nightingale.engine.utilities.UtilsGraphics;
 import nightingale.engine.utilities.UtilsMath;
@@ -22,13 +23,21 @@ public class Game extends Application {
 
     private static final int borderSize = 512;
 
+    private boolean isPause = true;
     private Actor player;
     private Text text;
-    private GuiLabel label;
-    private GuiButton button;
+    private GuiPage menu;
 
     Game() {
+        initializeTerrain();
+        player = createPlayer();
+        text = createText();
+        menu = createMenu();
+    }
+
+    private void initializeTerrain() {
         Texture texture = Texture.getOrCreate("images/grass");
+
         int quantity = 4;
         int step = 128;
         int size = step * quantity;
@@ -39,45 +48,75 @@ public class Game extends Application {
                 Object.all.add(new Object(x, y, 0, texture));
             }
         }
+    }
 
-        texture = Texture.getOrCreate("images/actor");
-        player = new Actor(0, 0, 0, texture);
+    private Actor createPlayer() {
+        Texture texture = Texture.getOrCreate("images/actor");
+        Actor player = new Actor(0, 0, 0, texture);
         player.radians = (float) UtilsMath.PIx0_5;
         Application.getCamera().setTarget(player);
         Actor.all.add(player);
 
+        return player;
+    }
+
+    private Text createText() {
         FontLoader fontLoader = new FontLoader("ubuntu");
         Font font = fontLoader.build();
         String message = DataEngine.titleFull;
         float textWidth = Application.getWindow().getWidth();
-        text = new Text(10, 10, textWidth, message, 1, font, false);
+        return new Text(10, 10, textWidth, message, 1, font, false);
+    }
 
-        BaseGrid grid = new BaseGrid(12);
-        label = new GuiLabel(grid, 3, 10, 6, 1, "Welcome! This is a test label.");
+    private GuiPage createMenu() {
+        GuiLabel[] labels = {
+                new GuiLabel(
+                        BaseGrid.grid12, 4, 2, 4, 1,
+                        "Welcome!"
+                ),
+                new GuiLabel(
+                        BaseGrid.grid12, 0, 3, 12, 1,
+                        "This is " + DataEngine.title + " demo"
+                ),
+        };
 
-        Runnable buttonAction = () -> Application.isRunning = false;
-        button = new GuiButton(grid, 11, 0, 1, 1, "Quit", buttonAction);
+        GuiButton[] buttons = {
+                new GuiButton(
+                        BaseGrid.grid12, 4, 8, 4, 1,
+                        "Try it", () -> isPause = false
+                ),
+                new GuiButton(
+                        BaseGrid.grid12, 4, 9, 4, 1,
+                        "Quit", () -> Application.isRunning = false
+                ),
+        };
+
+        return new GuiPage(labels, buttons, Texture.getOrCreate("images/wallpaper"));
     }
 
     protected void gameUpdate() {
-        if (Application.getInput().getIsKeyReleased(GLFW.GLFW_KEY_ESCAPE)) {
-            Application.isRunning = false;
+        if (Application.getInput().getIsKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
+            isPause = !isPause;
         }
 
-        updatePlayerInput();
-        Actor.allUpdate();
-        confinePlayer();
-        button.update();
+        if (isPause) {
+            menu.update();
+        } else {
+            updatePlayerInput();
+            Actor.allUpdate();
+            confinePlayer();
+        }
     }
 
     protected void gameRender() {
-        Object.allRender();
-        renderBorders();
-        Actor.allRender();
-
-        text.render();
-        label.render();
-        button.render();
+        if (isPause) {
+            menu.render();
+        } else {
+            Object.allRender();
+            renderBorders();
+            Actor.allRender();
+            text.render();
+        }
     }
 
     protected void gameCleanUp() {}

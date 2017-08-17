@@ -6,6 +6,7 @@ public class BaseSize {
     protected float height;
     private float centerX;
     private float centerY;
+    private float aspectRatio;
 
     public BaseSize(float width, float height) {
         setSize(width, height);
@@ -19,6 +20,8 @@ public class BaseSize {
 
         centerX = width / 2f;
         centerY = height / 2f;
+
+        aspectRatio = width / height;
     }
 
     /* Getters */
@@ -37,6 +40,10 @@ public class BaseSize {
 
     public float getCenterY() {
         return centerY;
+    }
+
+    public float getAspectRatio() {
+        return aspectRatio;
     }
 
 }

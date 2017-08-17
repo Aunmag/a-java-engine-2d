@@ -3,6 +3,7 @@ package nightingale.engine.structures;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import nightingale.engine.basics.BaseSize;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -16,15 +17,12 @@ public class Model {
     private int indicesId;
 
     // TODO: Implement getOrCreate
-    public static Model create(float width, float height) {
-        float centerX = width / 2f;
-        float centerY = height / 2f;
-
+    public static Model createFromSize(BaseSize size) {
         float[] vertices = new float[] {
-                -centerX, +centerY, 0,
-                -centerX, -centerY, 0,
-                +centerX, -centerY, 0,
-                +centerX, +centerY, 0,
+                -size.getCenterX(), +size.getCenterY(), 0,
+                -size.getCenterX(), -size.getCenterY(), 0,
+                +size.getCenterX(), -size.getCenterY(), 0,
+                +size.getCenterX(), +size.getCenterY(), 0,
         };
 
         float[] texture = new float[] {

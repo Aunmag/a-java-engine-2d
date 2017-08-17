@@ -7,6 +7,8 @@ import org.lwjgl.opengl.GL11;
 
 public class BaseGrid {
 
+    public static BaseGrid grid12 = new BaseGrid(12);
+
     private final int slices;
     private float stepX;
     private float stepY;
