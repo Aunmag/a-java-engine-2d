@@ -1,11 +1,13 @@
 package nightingale.demo;
 
 import nightingale.engine.Application;
+import nightingale.engine.basics.BaseGrid;
 import nightingale.engine.data.DataEngine;
 import nightingale.engine.font.Font;
 import nightingale.engine.font.FontLoader;
 import nightingale.engine.font.Text;
 
+import nightingale.engine.gui.GuiLabel;
 import nightingale.engine.structures.Texture;
 import nightingale.engine.utilities.UtilsGraphics;
 import nightingale.engine.utilities.UtilsMath;
@@ -17,8 +19,11 @@ import org.lwjgl.opengl.GL11;
 
 public class Game extends Application {
 
-    private Actor player;
     private static final int borderSize = 512;
+
+    private Actor player;
+    private Text text;
+    private GuiLabel label;
 
     Game() {
         Texture texture = Texture.getOrCreate("images/grass");
@@ -42,7 +47,11 @@ public class Game extends Application {
         FontLoader fontLoader = new FontLoader("ubuntu");
         Font font = fontLoader.build();
         String message = DataEngine.titleFull;
-        new Text(10, 10, message, 1, font, 1, false);
+        float textWidth = Application.getWindow().getWidth();
+        text = new Text(10, 10, textWidth, message, 1, font, false);
+
+        BaseGrid grid = new BaseGrid(12);
+        label = new GuiLabel(grid, 3, 10, 6, 1, "Welcome! This is a test label.");
     }
 
     protected void gameUpdate() {
@@ -59,6 +68,9 @@ public class Game extends Application {
         Object.allRender();
         renderBorders();
         Actor.allRender();
+
+        text.render();
+        label.render();
     }
 
     protected void gameCleanUp() {}

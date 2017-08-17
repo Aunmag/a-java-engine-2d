@@ -1,10 +1,11 @@
 package nightingale.engine.font;
 
 import nightingale.engine.Application;
+import nightingale.engine.basics.BaseQuad;
 import nightingale.engine.shaders.ShaderFont;
 import nightingale.engine.structures.Vao;
+import nightingale.engine.utilities.UtilsGraphics;
 import org.joml.Matrix4f;
-import org.joml.Vector2f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -15,12 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Text extends Vector2f {
+public class Text extends BaseQuad {
 
     /* Static */
 
     private static Map<Font, List<Text>> all = new HashMap<>();
-    private final static ShaderFont shader = new ShaderFont();
+    private static final ShaderFont shader = new ShaderFont();
 
     public static void renderAll() {
         shader.bind();
@@ -44,9 +45,9 @@ public class Text extends Vector2f {
     final String message;
     final float fontSize;
     final float spaceWidth;
-    final float lineWidthMax;
+    final float widthRatio;
     final Font font;
-    final boolean isCentered;
+    final boolean isCenteredX;
     final Vao vao;
     private Vector4f colour = new Vector4f(1f, 1f, 1f, 1f);
     private Matrix4f projection;
@@ -54,28 +55,39 @@ public class Text extends Vector2f {
     public Text(
             float x,
             float y,
+            float width,
             String message,
             float fontSize,
             Font font,
-            float lineWidthMax,
-            boolean isCentered
+            boolean isCenteredX
     ) {
-        super(x, y);
+        super(
+                x,
+                y,
+                width,
+                Application.getWindow().getHeight() * Font.LINE_HEIGHT * fontSize
+        );
         this.message = message;
         this.fontSize = fontSize;
         this.font = font;
-        this.lineWidthMax = lineWidthMax;
-        this.isCentered = isCentered;
+        this.widthRatio = width / Application.getWindow().getWidth();
+        this.isCenteredX = isCenteredX;
+
         spaceWidth = font.spaceWidth * fontSize;
         vao = font.createTextVao(this);
-
-        projection = new Matrix4f().translate(
-                x / Application.getWindow().getWidth(),
-                y / -Application.getWindow().getHeight(),
-                0
-        );
+        projection = calculateProjection();
 
         addToAll();
+    }
+
+    private Matrix4f calculateProjection() {
+        Matrix4f projection = new Matrix4f();
+        projection.translate(
+                getX() / Application.getWindow().getWidth() * 2,
+                getY() / -Application.getWindow().getHeight() * 2,
+                0
+        );
+        return projection;
     }
 
     private void addToAll() {
@@ -113,6 +125,13 @@ public class Text extends Vector2f {
         if (fontTexts.isEmpty()) {
             all.remove(font);
         }
+    }
+
+    /* Setters */
+
+    public void setPosition(float x, float y) {
+        super.setPosition(x, y);
+        projection = calculateProjection();
     }
 
 }

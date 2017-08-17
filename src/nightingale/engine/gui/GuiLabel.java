@@ -1,35 +1,42 @@
 package nightingale.engine.gui;
 
+import nightingale.engine.basics.BaseGrid;
 import nightingale.engine.basics.BaseQuad;
 import nightingale.engine.font.Font;
 import nightingale.engine.font.FontLoader;
 import nightingale.engine.font.Text;
-import nightingale.engine.utilities.UtilsGraphics;
-import org.joml.Vector2f;
-import org.lwjgl.opengl.GL11;
 
 public class GuiLabel extends BaseQuad {
 
-//    private final static Font font = new FontLoader("ubuntu").build();
+    public static final Font font = new FontLoader("ubuntu").build();
+    private static final int padding = 2;
 
-    private final Text text;
+    private BaseGrid grid;
+    private Text text;
 
-    public GuiLabel(Vector2f position, float width, float height, String message) {
-        super(position, width, height);
+    public GuiLabel(BaseGrid grid, int x, int y, int width, int height, String message) {
+        super(x, y, width, height);
+        this.grid = grid;
 
-        Font font = new FontLoader("ubuntu").build();
-        System.out.println(position.y);
+        BaseQuad onScreenQuad = calculateOnScreenQuad();
+        text = new Text(0, 0, onScreenQuad.getWidth() * 2, message, 1.6f, font, true);
+        text.setPositionCenteredBy(
+                onScreenQuad.getX() + onScreenQuad.getCenterX(),
+                onScreenQuad.getY() + onScreenQuad.getCenterY()
+        );
+    }
 
-        float textWidth = (getPointDisplayB().x - getPointDisplayA().x) / 2f;
-        float textShift = (getPointD().y - getPointA().y) / 3f;
-        text = new Text(position.x, position.y + textShift, message, 1, font, textWidth, true);
+    protected BaseQuad calculateOnScreenQuad() {
+        float x = getX() * grid.getStepX() + padding;
+        float y = getY() * grid.getStepY() + padding;
+        float width = grid.getStepX() * getWidth() - padding * 2;
+        float height = grid.getStepY() * getHeight()  - padding * 2;
+
+        return new BaseQuad(x, y, width, height);
     }
 
     public void render() {
         text.render();
-        UtilsGraphics.drawPrepare();
-        UtilsGraphics.drawQuad(this, false, false);
-        UtilsGraphics.drawFinish();
     }
 
 }

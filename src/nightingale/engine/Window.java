@@ -4,6 +4,7 @@ import nightingale.engine.basics.BaseSize;
 import nightingale.engine.data.DataEngine;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 
@@ -15,7 +16,7 @@ public class Window extends BaseSize {
     private float aspectRatio;
 
     public Window() {
-        super(854, 480);
+        super(1024, 576);
 
         id = GLFW.glfwCreateWindow(
             (int) width,
@@ -55,8 +56,23 @@ public class Window extends BaseSize {
         GLFW.glfwSwapBuffers(id);
     }
 
-    public Vector2f calculateDisplayPosition(Vector2f position) {
-        return new Vector2f((position.x + 1) / width - 1, (-position.y - 1) / height + 1);
+    public Vector2f calculateViewPosition(Vector2f position) {
+        return calculateViewPosition(position.x, position.y);
+    }
+
+    public Vector2f calculateViewPosition(float x, float y) {
+        Vector3f viewPosition = calculateViewPosition(x, y, 0);
+        return new Vector2f(viewPosition.x, viewPosition.y);
+    }
+
+    private Vector3f calculateViewPosition(float x, float y, float z) {
+        Vector3f viewPosition = new Vector3f(
+                x - getCenterX() + 1,
+                getCenterY() - y - 1,
+                z
+        );
+        viewPosition.mulPosition(projection);
+        return viewPosition;
     }
 
     /* Setters */

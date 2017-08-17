@@ -17,6 +17,9 @@ public class UtilsGraphics {
         if (isOnWorld) {
             a = Application.getCamera().calculateViewPosition(a);
             b = Application.getCamera().calculateViewPosition(b);
+        } else {
+            a = Application.getWindow().calculateViewPosition(a);
+            b = Application.getWindow().calculateViewPosition(b);
         }
 
         drawLine(a, b);
@@ -31,10 +34,10 @@ public class UtilsGraphics {
 
     public static void drawQuad(BaseQuad quad, boolean isFilled, boolean isOnWorld) {
         drawQuad(
-                quad.getPointDisplayA(),
-                quad.getPointDisplayB(),
-                quad.getPointDisplayC(),
-                quad.getPointDisplayD(),
+                quad.getPointA(),
+                quad.getPointB(),
+                quad.getPointC(),
+                quad.getPointD(),
                 isFilled,
                 isOnWorld
         );
@@ -53,6 +56,11 @@ public class UtilsGraphics {
             b = Application.getCamera().calculateViewPosition(b);
             c = Application.getCamera().calculateViewPosition(c);
             d = Application.getCamera().calculateViewPosition(d);
+        } else {
+            a = Application.getWindow().calculateViewPosition(a);
+            b = Application.getWindow().calculateViewPosition(b);
+            c = Application.getWindow().calculateViewPosition(c);
+            d = Application.getWindow().calculateViewPosition(d);
         }
 
         if (isFilled) {
