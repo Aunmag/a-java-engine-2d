@@ -9,6 +9,7 @@ import nightingale.engine.font.Text;
 
 import nightingale.engine.gui.GuiButton;
 import nightingale.engine.gui.GuiLabel;
+import nightingale.engine.gui.GuiPage;
 import nightingale.engine.structures.Texture;
 import nightingale.engine.utilities.UtilsGraphics;
 import nightingale.engine.utilities.UtilsMath;
@@ -22,28 +23,16 @@ public class Game extends Application {
 
     private static final int borderSize = 512;
 
+    private boolean isPause = true;
     private Actor player;
     private Text text;
-    private GuiLabel label;
-    private GuiButton button;
+    private GuiPage menu;
 
     Game() {
         initializeTerrain();
         player = createPlayer();
         text = createText();
-
-        label = new GuiLabel(
-                BaseGrid.grid12,
-                3, 10, 6, 1,
-                "Welcome! This is a test label."
-        );
-
-        button = new GuiButton(
-                BaseGrid.grid12,
-                11, 0, 1, 1,
-                "Quit",
-                () -> Application.isRunning = false
-        );
+        menu = createMenu();
     }
 
     private void initializeTerrain() {
@@ -79,15 +68,44 @@ public class Game extends Application {
         return new Text(10, 10, textWidth, message, 1, font, false);
     }
 
+    private GuiPage createMenu() {
+        GuiLabel[] labels = {
+                new GuiLabel(
+                        BaseGrid.grid12, 4, 2, 4, 1,
+                        "Welcome!"
+                ),
+                new GuiLabel(
+                        BaseGrid.grid12, 0, 3, 12, 1,
+                        "This is " + DataEngine.title + " demo"
+                ),
+        };
+
+        GuiButton[] buttons = {
+                new GuiButton(
+                        BaseGrid.grid12, 4, 8, 4, 1,
+                        "Try it", () -> isPause = false
+                ),
+                new GuiButton(
+                        BaseGrid.grid12, 4, 9, 4, 1,
+                        "Quit", () -> Application.isRunning = false
+                ),
+        };
+
+        return new GuiPage(labels, buttons);
+    }
+
     protected void gameUpdate() {
-        if (Application.getInput().getIsKeyReleased(GLFW.GLFW_KEY_ESCAPE)) {
-            Application.isRunning = false;
+        if (Application.getInput().getIsKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
+            isPause = !isPause;
         }
 
-        updatePlayerInput();
-        Actor.allUpdate();
-        confinePlayer();
-        button.update();
+        if (isPause) {
+            menu.update();
+        } else {
+            updatePlayerInput();
+            Actor.allUpdate();
+            confinePlayer();
+        }
     }
 
     protected void gameRender() {
@@ -95,9 +113,11 @@ public class Game extends Application {
         renderBorders();
         Actor.allRender();
 
-        text.render();
-        label.render();
-        button.render();
+        if (isPause) {
+            menu.render();
+        } else {
+            text.render();
+        }
     }
 
     protected void gameCleanUp() {}
