@@ -28,7 +28,27 @@ public class Game extends Application {
     private GuiButton button;
 
     Game() {
+        initializeTerrain();
+        player = createPlayer();
+        text = createText();
+
+        label = new GuiLabel(
+                BaseGrid.grid12,
+                3, 10, 6, 1,
+                "Welcome! This is a test label."
+        );
+
+        button = new GuiButton(
+                BaseGrid.grid12,
+                11, 0, 1, 1,
+                "Quit",
+                () -> Application.isRunning = false
+        );
+    }
+
+    private void initializeTerrain() {
         Texture texture = Texture.getOrCreate("images/grass");
+
         int quantity = 4;
         int step = 128;
         int size = step * quantity;
@@ -39,24 +59,24 @@ public class Game extends Application {
                 Object.all.add(new Object(x, y, 0, texture));
             }
         }
+    }
 
-        texture = Texture.getOrCreate("images/actor");
-        player = new Actor(0, 0, 0, texture);
+    private Actor createPlayer() {
+        Texture texture = Texture.getOrCreate("images/actor");
+        Actor player = new Actor(0, 0, 0, texture);
         player.radians = (float) UtilsMath.PIx0_5;
         Application.getCamera().setTarget(player);
         Actor.all.add(player);
 
+        return player;
+    }
+
+    private Text createText() {
         FontLoader fontLoader = new FontLoader("ubuntu");
         Font font = fontLoader.build();
         String message = DataEngine.titleFull;
         float textWidth = Application.getWindow().getWidth();
-        text = new Text(10, 10, textWidth, message, 1, font, false);
-
-        BaseGrid grid = new BaseGrid(12);
-        label = new GuiLabel(grid, 3, 10, 6, 1, "Welcome! This is a test label.");
-
-        Runnable buttonAction = () -> Application.isRunning = false;
-        button = new GuiButton(grid, 11, 0, 1, 1, "Quit", buttonAction);
+        return new Text(10, 10, textWidth, message, 1, font, false);
     }
 
     protected void gameUpdate() {
