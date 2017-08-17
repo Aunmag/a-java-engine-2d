@@ -1,5 +1,6 @@
 package nightingale.engine.basics;
 
+import nightingale.engine.utilities.UtilsMath;
 import org.joml.Vector2f;
 
 public class BaseQuad extends BaseSize {
@@ -12,6 +13,14 @@ public class BaseQuad extends BaseSize {
     public BaseQuad(float x, float y, float width, float height) {
         super(width, height);
         setPosition(x, y);
+    }
+
+    public boolean calculateIsPointInside(float testX, float testY) {
+        return UtilsMath.calculateIsNumberInsideRange(
+                testX, getX(), getX() + width
+        ) && UtilsMath.calculateIsNumberInsideRange(
+                testY, getY(), getY() + height
+        );
     }
 
     /* Setters */

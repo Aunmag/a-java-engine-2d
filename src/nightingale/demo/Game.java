@@ -7,6 +7,7 @@ import nightingale.engine.font.Font;
 import nightingale.engine.font.FontLoader;
 import nightingale.engine.font.Text;
 
+import nightingale.engine.gui.GuiButton;
 import nightingale.engine.gui.GuiLabel;
 import nightingale.engine.structures.Texture;
 import nightingale.engine.utilities.UtilsGraphics;
@@ -24,6 +25,7 @@ public class Game extends Application {
     private Actor player;
     private Text text;
     private GuiLabel label;
+    private GuiButton button;
 
     Game() {
         Texture texture = Texture.getOrCreate("images/grass");
@@ -52,6 +54,9 @@ public class Game extends Application {
 
         BaseGrid grid = new BaseGrid(12);
         label = new GuiLabel(grid, 3, 10, 6, 1, "Welcome! This is a test label.");
+
+        Runnable buttonAction = () -> Application.isRunning = false;
+        button = new GuiButton(grid, 11, 0, 1, 1, "Quit", buttonAction);
     }
 
     protected void gameUpdate() {
@@ -62,6 +67,7 @@ public class Game extends Application {
         updatePlayerInput();
         Actor.allUpdate();
         confinePlayer();
+        button.update();
     }
 
     protected void gameRender() {
@@ -71,6 +77,7 @@ public class Game extends Application {
 
         text.render();
         label.render();
+        button.render();
     }
 
     protected void gameCleanUp() {}
