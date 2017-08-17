@@ -1,6 +1,7 @@
 package nightingale.engine.utilities;
 
 import nightingale.engine.Application;
+import nightingale.engine.basics.BaseQuad;
 import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -16,6 +17,9 @@ public class UtilsGraphics {
         if (isOnWorld) {
             a = Application.getCamera().calculateViewPosition(a);
             b = Application.getCamera().calculateViewPosition(b);
+        } else {
+            a = Application.getWindow().calculateViewPosition(a);
+            b = Application.getWindow().calculateViewPosition(b);
         }
 
         drawLine(a, b);
@@ -26,6 +30,17 @@ public class UtilsGraphics {
         GL11.glVertex2f(a.x(), a.y());
         GL11.glVertex2f(b.x(), b.y());
         GL11.glEnd();
+    }
+
+    public static void drawQuad(BaseQuad quad, boolean isFilled, boolean isOnWorld) {
+        drawQuad(
+                quad.getPointA(),
+                quad.getPointB(),
+                quad.getPointC(),
+                quad.getPointD(),
+                isFilled,
+                isOnWorld
+        );
     }
 
     public static void drawQuad(
@@ -41,6 +56,11 @@ public class UtilsGraphics {
             b = Application.getCamera().calculateViewPosition(b);
             c = Application.getCamera().calculateViewPosition(c);
             d = Application.getCamera().calculateViewPosition(d);
+        } else {
+            a = Application.getWindow().calculateViewPosition(a);
+            b = Application.getWindow().calculateViewPosition(b);
+            c = Application.getWindow().calculateViewPosition(c);
+            d = Application.getWindow().calculateViewPosition(d);
         }
 
         if (isFilled) {

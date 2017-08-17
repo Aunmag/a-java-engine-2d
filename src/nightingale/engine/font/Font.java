@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Font {
 
-    static final float LINE_HEIGHT = 0.03f;
+    public static final float LINE_HEIGHT = 0.03f;
     static final int SPACE_ASCII = 32;
 
     final Texture texture;
@@ -33,8 +33,8 @@ public class Font {
         float cursorY = 0f;
 
         for (Line line: lines) {
-            if (text.isCentered) {
-                cursorX = (text.lineWidthMax - line.getWidth()) / 2f;
+            if (text.isCenteredX) {
+                cursorX = (text.widthRatio - line.getWidth()) / 2f;
             }
 
             List<Word> words = line.getWordsCopy();
@@ -67,8 +67,8 @@ public class Font {
 
     private List<Line> createTextLines(Text text) {
         List<Line> lines = new ArrayList<>();
-        Word currentWord = new Word(text.fontSize);
-        Line currentLine = new Line(text.lineWidthMax, text.spaceWidth);
+        Word word = new Word(text.fontSize);
+        Line line = new Line(text.spaceWidth);
 
         for (int i = 0; i < text.message.length(); i++) {
             int ascii = text.message.charAt(i);
@@ -78,20 +78,20 @@ public class Font {
 
             if (ascii != SPACE_ASCII) {
                 Character character = characters.get(ascii);
-                currentWord.addCharacter(character);
+                word.addCharacter(character);
             }
 
             if (isEndWord) {
-                if (!currentLine.calculateIsWordFit(currentWord)) {
-                    lines.add(currentLine);
-                    currentLine = new Line(text.lineWidthMax, text.spaceWidth);
+                if (line.calculateWidthWithWord(word) > text.widthRatio) {
+                    lines.add(line);
+                    line = new Line(text.spaceWidth);
                 }
-                currentLine.addWord(currentWord);
-                currentWord = new Word(text.fontSize);
+                line.addWord(word);
+                word = new Word(text.fontSize);
             }
         }
 
-        lines.add(currentLine);
+        lines.add(line);
         return lines;
     }
 

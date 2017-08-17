@@ -1,11 +1,13 @@
 package nightingale.demo;
 
 import nightingale.engine.Application;
+import nightingale.engine.basics.BaseGrid;
 import nightingale.engine.data.DataEngine;
 import nightingale.engine.font.Font;
 import nightingale.engine.font.FontLoader;
 import nightingale.engine.font.Text;
 
+import nightingale.engine.gui.GuiLabel;
 import nightingale.engine.structures.Texture;
 import nightingale.engine.utilities.UtilsGraphics;
 import nightingale.engine.utilities.UtilsMath;
@@ -17,10 +19,13 @@ import org.lwjgl.opengl.GL11;
 
 public class Game extends Application {
 
-    private static Actor player;
     private static final int borderSize = 512;
 
-    protected void gameInitialize() {
+    private Actor player;
+    private Text text;
+    private GuiLabel label;
+
+    Game() {
         Texture texture = Texture.getOrCreate("images/grass");
         int quantity = 4;
         int step = 128;
@@ -34,16 +39,19 @@ public class Game extends Application {
         }
 
         texture = Texture.getOrCreate("images/actor");
-        Actor player = new Actor(0, 0, 0, texture);
+        player = new Actor(0, 0, 0, texture);
         player.radians = (float) UtilsMath.PIx0_5;
-        Game.setPlayer(player);
         Application.getCamera().setTarget(player);
         Actor.all.add(player);
 
         FontLoader fontLoader = new FontLoader("ubuntu");
         Font font = fontLoader.build();
         String message = DataEngine.titleFull;
-        new Text(10, 10, message, 1, font, 1, false);
+        float textWidth = Application.getWindow().getWidth();
+        text = new Text(10, 10, textWidth, message, 1, font, false);
+
+        BaseGrid grid = new BaseGrid(12);
+        label = new GuiLabel(grid, 3, 10, 6, 1, "Welcome! This is a test label.");
     }
 
     protected void gameUpdate() {
@@ -57,11 +65,12 @@ public class Game extends Application {
     }
 
     protected void gameRender() {
-        Application.getShader().bind();
         Object.allRender();
         renderBorders();
         Actor.allRender();
-        Text.renderAll();
+
+        text.render();
+        label.render();
     }
 
     protected void gameCleanUp() {}
@@ -118,18 +127,6 @@ public class Game extends Application {
         GL11.glColor3f(0, 1, 0);
         UtilsGraphics.drawCircle(new Vector2f(0, 0), 32, false, true);
         UtilsGraphics.drawFinish();
-    }
-
-    /* Setters */
-
-    public static void setPlayer(Actor player) {
-        Game.player = player;
-    }
-
-    /* Getters */
-
-    public static Actor getPlayer() {
-        return player;
     }
 
 }

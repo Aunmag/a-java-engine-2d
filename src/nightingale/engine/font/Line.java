@@ -7,26 +7,20 @@ class Line {
 
     private List<Word> words = new ArrayList<>();
     private float width = 0;
-    private final float widthMax;
     private final float widthSpace;
 
-    Line(float widthMax, float widthSpace) {
-        this.widthMax = widthMax;
+    Line(float widthSpace) {
         this.widthSpace = widthSpace;
     }
 
     void addWord(Word word) {
-        if (!calculateIsWordFit(word)) {
-            throw new IllegalStateException("Word is too wide to fit line!");
-        }
-
         width += calculateWordWidthInsideLine(word);
         words.add(word);
     }
 
-    boolean calculateIsWordFit(Word word) {
+    float calculateWidthWithWord(Word word) {
         float wordWidthInsideLine = calculateWordWidthInsideLine(word);
-        return width + wordWidthInsideLine <= widthMax;
+        return width + wordWidthInsideLine;
     }
 
     private float calculateWordWidthInsideLine(Word word) {

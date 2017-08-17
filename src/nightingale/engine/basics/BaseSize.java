@@ -2,31 +2,18 @@ package nightingale.engine.basics;
 
 public class BaseSize {
 
-    protected int width;
-    protected int height;
+    protected float width;
+    protected float height;
     private float centerX;
     private float centerY;
 
-    public BaseSize(int size) {
-        setSize(size);
-    }
-
-    public BaseSize(int width, int height) {
+    public BaseSize(float width, float height) {
         setSize(width, height);
     }
 
     /* Setters */
 
-    protected void setSize(int size) {
-        this.width = size;
-        this.height = size;
-
-        float center = size / 2f;
-        centerX = center;
-        centerY = center;
-    }
-
-    protected void setSize(int width, int height) {
+    protected void setSize(float width, float height) {
         this.width = width;
         this.height = height;
 
@@ -36,11 +23,11 @@ public class BaseSize {
 
     /* Getters */
 
-    public int getWidth() {
+    public float getWidth() {
         return width;
     }
 
-    public int getHeight() {
+    public float getHeight() {
         return height;
     }
 

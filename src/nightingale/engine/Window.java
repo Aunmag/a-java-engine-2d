@@ -3,6 +3,8 @@ package nightingale.engine;
 import nightingale.engine.basics.BaseSize;
 import nightingale.engine.data.DataEngine;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 
@@ -14,11 +16,11 @@ public class Window extends BaseSize {
     private float aspectRatio;
 
     public Window() {
-        super(854, 480);
+        super(1024, 576);
 
         id = GLFW.glfwCreateWindow(
-            width,
-            height,
+            (int) width,
+            (int) height,
             DataEngine.titleFull,
             isFullscreen ? GLFW.glfwGetPrimaryMonitor() : 0,
             0
@@ -32,8 +34,8 @@ public class Window extends BaseSize {
             GLFWVidMode videoMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
             GLFW.glfwSetWindowPos(
                     id,
-                    (videoMode.width() - width) / 2,
-                    (videoMode.height() - height) / 2
+                    (videoMode.width() - (int) width) / 2,
+                    (videoMode.height() - (int) height) / 2
             );
         }
 
@@ -47,22 +49,35 @@ public class Window extends BaseSize {
     }
 
     private void updateAspectRatio() {
-        aspectRatio = (float) width / (float) height;
+        aspectRatio = width / height;
     }
 
     public void swapBuffers() {
         GLFW.glfwSwapBuffers(id);
     }
 
-    /* Setters */
-
-    protected void setSize(int size) {
-        super.setSize(size);
-        updateProjection();
-        updateAspectRatio();
+    public Vector2f calculateViewPosition(Vector2f position) {
+        return calculateViewPosition(position.x, position.y);
     }
 
-    protected void setSize(int width, int height) {
+    public Vector2f calculateViewPosition(float x, float y) {
+        Vector3f viewPosition = calculateViewPosition(x, y, 0);
+        return new Vector2f(viewPosition.x, viewPosition.y);
+    }
+
+    private Vector3f calculateViewPosition(float x, float y, float z) {
+        Vector3f viewPosition = new Vector3f(
+                x - getCenterX() + 1,
+                getCenterY() - y - 1,
+                z
+        );
+        viewPosition.mulPosition(projection);
+        return viewPosition;
+    }
+
+    /* Setters */
+
+    protected void setSize(float width, float height) {
         super.setSize(width, height);
         updateProjection();
         updateAspectRatio();
