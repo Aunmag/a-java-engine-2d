@@ -104,4 +104,12 @@ public class UtilsMath {
         return Math.round(value * round) / round;
     }
 
+    public static boolean calculateIsNumberInsideRange(
+            float number,
+            float min,
+            float max
+    ) {
+        return min < number && number < max;
+    }
+
 }

@@ -13,16 +13,22 @@ public class Input {
     private Vector2f mousePosition;
     private Vector2f mouseVelocity = new Vector2f(0, 0);
     private boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
+    private boolean[] mouseButtons = new boolean[GLFW.GLFW_MOUSE_BUTTON_LAST];
 
     Input(long windowId) {
         this.windowId = windowId;
         Arrays.fill(keys, false);
+        Arrays.fill(mouseButtons, false);
         mousePosition = fetchMousePositionNew();
     }
 
     void update() {
         for (int i = 0; i < keys.length; i++) {
             keys[i] = getIsKeyDown(i);
+        }
+
+        for (int i = 0; i < mouseButtons.length; i++) {
+            mouseButtons[i] = getIsMouseButtonDown(i);
         }
 
         updateMouse();
@@ -67,10 +73,24 @@ public class Input {
         return GLFW.glfwGetMouseButton(windowId, button) == GLFW.GLFW_TRUE;
     }
 
-    /* Getters */
+    public boolean getIsMouseButtonPressed(int button) {
+        return getIsMouseButtonDown(button) && !mouseButtons[button];
+    }
+
+    public boolean getIsMouseButtonReleased(int button) {
+        return !getIsMouseButtonDown(button) && mouseButtons[button];
+    }
 
     public Vector2f getMouseVelocity() {
         return new Vector2f(mouseVelocity);
+    }
+
+    public float getMouseX() {
+        return mousePosition.x;
+    }
+
+    public float getMouseY() {
+        return mousePosition.y;
     }
 
 }
