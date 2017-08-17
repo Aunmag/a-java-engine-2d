@@ -1,6 +1,7 @@
 package nightingale.engine.gui;
 
 import nightingale.engine.Application;
+import nightingale.engine.structures.Texture;
 import nightingale.engine.utilities.UtilsGraphics;
 import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
@@ -9,10 +10,16 @@ public class GuiPage {
 
     private GuiLabel[] labels;
     private GuiButton[] buttons;
+    private Texture wallpaper;
 
-    public GuiPage(GuiLabel[] labels, GuiButton[] buttons) {
+    public GuiPage(GuiLabel[] labels, GuiButton[] buttons, Texture wallpaper) {
         this.labels = labels;
         this.buttons = buttons;
+        this.wallpaper = wallpaper;
+
+        if (wallpaper != null && !wallpaper.getIsScaled()) {
+            wallpaper.scaleAsWallpaper();
+        }
     }
 
     public void update() {
@@ -22,6 +29,10 @@ public class GuiPage {
     }
 
     public void render() {
+        if (wallpaper != null) {
+            renderWallpaper();
+        }
+
         fillScreen();
 
         for (GuiLabel label: labels) {
@@ -34,7 +45,7 @@ public class GuiPage {
     }
 
     private void fillScreen() {
-        GL11.glColor4f(0.3f, 0.3f, 0.3f, 0.3f);
+        GL11.glColor4f(0.2f, 0.2f, 0.2f, 0.4f);
 
         int width = (int) Application.getWindow().getWidth();
         int height = (int) Application.getWindow().getHeight();
@@ -48,6 +59,17 @@ public class GuiPage {
                 true,
                 false
         );
+    }
+
+    private void renderWallpaper() {
+        wallpaper.bind();
+
+        Application.getShader().setUniformSampler(0);
+        Application.getShader().setUniformProjection(
+                Application.getWindow().getProjectionCopy()
+        );
+
+        wallpaper.render();
     }
 
 }

@@ -91,7 +91,7 @@ public class Game extends Application {
                 ),
         };
 
-        return new GuiPage(labels, buttons);
+        return new GuiPage(labels, buttons, Texture.getOrCreate("images/wallpaper"));
     }
 
     protected void gameUpdate() {
@@ -109,13 +109,12 @@ public class Game extends Application {
     }
 
     protected void gameRender() {
-        Object.allRender();
-        renderBorders();
-        Actor.allRender();
-
         if (isPause) {
             menu.render();
         } else {
+            Object.allRender();
+            renderBorders();
+            Actor.allRender();
             text.render();
         }
     }

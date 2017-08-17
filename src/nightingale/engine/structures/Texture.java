@@ -1,55 +1,62 @@
 package nightingale.engine.structures;
 
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 
+import nightingale.engine.Application;
+import nightingale.engine.basics.BaseSize;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
-public class Texture {
+public class Texture extends BaseSize {
 
     private static HashMap<String, Texture> all = new HashMap<>();
     private int id;
     private Model model;
+    private boolean isScaled;
 
     public static Texture getOrCreate(String name) {
         if (all.containsKey(name)) {
             return all.get(name);
         } else {
-            Texture texture = new Texture(name);
+            Texture texture = new Texture(load(name));
             all.put(name, texture);
             return texture;
         }
     }
 
-    private Texture(String name) {
+    private static BufferedImage load(String name) {
         String path = "/" + name + ".png";
         BufferedImage bufferedImage;
 
         try {
-            InputStream inputStream = Texture.class.getResourceAsStream(path);
-            bufferedImage = ImageIO.read(inputStream);
+            bufferedImage = ImageIO.read(Texture.class.getResourceAsStream(path));
         } catch (Exception e) {
+            bufferedImage = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
             String message = String.format("Can't load image at \"%s\"!", path);
             System.err.println(message);
             e.printStackTrace();
-            return;
         }
+
+        return bufferedImage;
+    }
+
+    private Texture(BufferedImage bufferedImage) {
+        super(bufferedImage.getWidth(), bufferedImage.getHeight());
+
+        isScaled = false;
 
         int width = bufferedImage.getWidth();
         int height = bufferedImage.getHeight();
 
-        model = Model.create(width, height);
-
         int[] pixelsRaw = bufferedImage.getRGB(0, 0, width, height, null, 0, width);
         ByteBuffer pixelsBuffer = BufferUtils.createByteBuffer(width * height * 4);
 
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 int pixel = pixelsRaw[i * width + j];
                 pixelsBuffer.put((byte) ((pixel >> 16) & 0xFF)); // Red
                 pixelsBuffer.put((byte) ((pixel >> 8) & 0xFF)); // Green
@@ -85,6 +92,21 @@ public class Texture {
         );
     }
 
+    public void scaleAsWallpaper() {
+        float setWidth;
+        float setHeight;
+
+        if (getAspectRatio() < Application.getWindow().getAspectRatio()) {
+            setWidth = Application.getWindow().getWidth();
+            setHeight = setWidth / getAspectRatio();
+        } else {
+            setHeight = Application.getWindow().getHeight();
+            setWidth = setHeight * getAspectRatio();
+        }
+
+        setSize(setWidth, setHeight);
+    }
+
     public void bind() {
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
@@ -97,6 +119,20 @@ public class Texture {
     protected void finalize() throws Throwable {
         GL11.glDeleteTextures(id);
         super.finalize();
+    }
+
+    /* Setters */
+
+    protected void setSize(float width, float height) {
+        super.setSize(width, height);
+        isScaled = true;
+        model = Model.createFromSize(this);
+    }
+
+    /* Getters */
+
+    public boolean getIsScaled() {
+        return isScaled;
     }
 
 }

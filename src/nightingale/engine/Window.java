@@ -13,7 +13,6 @@ public class Window extends BaseSize {
     private long id;
     private boolean isFullscreen = false;
     private Matrix4f projection;
-    private float aspectRatio;
 
     public Window() {
         super(1024, 576);
@@ -27,7 +26,7 @@ public class Window extends BaseSize {
         );
 
         if (id == 0) {
-            throw new IllegalStateException("Failed to create id!");
+            throw new IllegalStateException("Failed to create window!");
         }
 
         if (!isFullscreen) {
@@ -46,10 +45,6 @@ public class Window extends BaseSize {
     private void updateProjection() {
         projection = new Matrix4f();
         projection.setOrtho2D(-getCenterX(), getCenterX(), -getCenterY(), getCenterY());
-    }
-
-    private void updateAspectRatio() {
-        aspectRatio = width / height;
     }
 
     public void swapBuffers() {
@@ -80,7 +75,6 @@ public class Window extends BaseSize {
     protected void setSize(float width, float height) {
         super.setSize(width, height);
         updateProjection();
-        updateAspectRatio();
     }
 
     /* Getters */
@@ -91,10 +85,6 @@ public class Window extends BaseSize {
 
     public Matrix4f getProjectionCopy() {
         return new Matrix4f(projection);
-    }
-
-    public float getAspectRatio() {
-        return aspectRatio;
     }
 
 }
