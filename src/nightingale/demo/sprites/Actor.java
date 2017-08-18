@@ -4,39 +4,21 @@ import nightingale.engine.basics.BaseSprite;
 import nightingale.engine.structures.Texture;
 import nightingale.engine.utilities.UtilsMath;
 
-import java.util.ArrayList;
-
 public class Actor extends BaseSprite {
 
-    public static java.util.List<Actor> all = new ArrayList<>();
-
     private float velocity = 1.38f;
-
     public boolean isWalking = false;
     public boolean isWalkingForward = false;
     public boolean isWalkingBack = false;
     public boolean isWalkingLeft = false;
     public boolean isWalkingRight = false;
     public boolean isSprinting = false;
-    public boolean isAttacking = false;
-
-    public static void allUpdate() {
-        for (Actor actor: Actor.all) {
-            actor.update();
-        }
-    }
-
-    public static void allRender() {
-        for (Actor actor: Actor.all) {
-            actor.render();
-        }
-    }
 
     public Actor(float x, float y, float radians, Texture texture) {
         super(x, y, radians, texture);
     }
 
-    protected void update() {
+    public void update() {
         updateIsWalking();
 
         if (isWalking) {
@@ -74,7 +56,5 @@ public class Actor extends BaseSprite {
         x += movementVelocity * Math.cos(movementRadians);
         y += movementVelocity * Math.sin(movementRadians);
     }
-
-    protected void delete() {}
 
 }
