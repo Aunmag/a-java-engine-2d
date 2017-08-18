@@ -1,8 +1,8 @@
 package nightingale.engine;
 
 import nightingale.engine.basics.BasePosition;
+import nightingale.engine.basics.BaseSprite;
 import nightingale.engine.utilities.UtilsMath;
-import nightingale.demo.sprites.Actor;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -11,7 +11,7 @@ public class Camera extends BasePosition {
 
     private Matrix4f viewMatrix = new Matrix4f();
     private float zoom = 2;
-    private Actor target;
+    private BaseSprite target;
 
     public Camera() {
         super(0, 0, 0);
@@ -42,7 +42,7 @@ public class Camera extends BasePosition {
 
     /* Setters */
 
-    public void setTarget(Actor target) {
+    public void setTarget(BaseSprite target) {
         this.target = target;
     }
 
