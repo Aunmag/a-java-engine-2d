@@ -1,5 +1,6 @@
 package nightingale.engine;
 
+import nightingale.engine.data.DataTime;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -35,23 +36,21 @@ public abstract class Application {
     }
 
     public final void run() {
-        int fpsLimit = 60;
-        float timeFrameDuration = 1000 / fpsLimit;
-        float timeDelta;
-        long timeCurrent;
+        isRunning = true;
         long timeLast = System.currentTimeMillis();
 
-        isRunning = true;
         while (isRunning) {
-            timeCurrent = System.currentTimeMillis();
+            long timeCurrent = System.currentTimeMillis();
             long timePassed = timeCurrent - timeLast;
-            timeDelta = timePassed / timeFrameDuration;
+            float timeDelta = timePassed / DataTime.getTimeFrameDuration();
 
             if (timeDelta >= 1) {
-                timeLast = timeCurrent;
+                DataTime.setTimeCurrent(timeCurrent);
+                DataTime.setTimeDelta(timeDelta);
                 engineUpdate();
                 engineRender();
                 engineCleanUp();
+                timeLast = timeCurrent;
             }
         }
 
