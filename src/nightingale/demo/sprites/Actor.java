@@ -1,10 +1,13 @@
 package nightingale.demo.sprites;
 
+import nightingale.engine.basics.BaseSpriteLayer;
 import nightingale.engine.basics.BaseSprite;
 import nightingale.engine.structures.Texture;
 import nightingale.engine.utilities.UtilsMath;
 
 public class Actor extends BaseSprite {
+
+    public static BaseSpriteLayer layer = new BaseSpriteLayer(true);
 
     private float velocity = 1.38f;
     public boolean isWalking = false;

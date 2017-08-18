@@ -47,7 +47,7 @@ public class Game extends Application {
         for (float x = start; x < end; x += step) {
             for (float y = start; y < end; y += step) {
                 Object terrain = new Object(x, y, 0, texture);
-                terrain.addToLayer(1);
+                Object.layer.add(terrain);
             }
         }
     }
@@ -56,7 +56,7 @@ public class Game extends Application {
         Texture texture = Texture.getOrCreate("images/actor");
         Actor player = new Actor(0, 0, 0, texture);
         player.radians = (float) UtilsMath.PIx0_5;
-        player.addToLayer(2);
+        Actor.layer.add(player);
         Application.getCamera().setTarget(player);
         return player;
     }
@@ -104,7 +104,7 @@ public class Game extends Application {
             menu.update();
         } else {
             updatePlayerInput();
-            BaseSprite.updateAll();
+            Actor.layer.update();
             confinePlayer();
         }
     }
@@ -113,9 +113,9 @@ public class Game extends Application {
         if (isPause) {
             menu.render();
         } else {
-            BaseSprite.renderLayer(1);
+            Object.layer.render();
             renderBorders();
-            BaseSprite.renderLayer(2);
+            Actor.layer.render();
             text.render();
         }
     }
