@@ -1,9 +1,9 @@
 package nightingale.demo.sprites;
 
-import nightingale.engine.basics.BaseSpriteLayer;
-import nightingale.engine.basics.BaseSprite;
-import nightingale.engine.structures.Texture;
-import nightingale.engine.utilities.UtilsMath;
+import nightingale.basics.BaseSpriteLayer;
+import nightingale.basics.BaseSprite;
+import nightingale.structures.Texture;
+import nightingale.utilities.UtilsMath;
 
 public class Actor extends BaseSprite {
 

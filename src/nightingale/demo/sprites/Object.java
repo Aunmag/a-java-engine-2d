@@ -1,8 +1,8 @@
 package nightingale.demo.sprites;
 
-import nightingale.engine.basics.BaseSpriteLayer;
-import nightingale.engine.basics.BaseSprite;
-import nightingale.engine.structures.Texture;
+import nightingale.basics.BaseSpriteLayer;
+import nightingale.basics.BaseSprite;
+import nightingale.structures.Texture;
 
 public class Object extends BaseSprite {
 

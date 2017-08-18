@@ -1,19 +1,18 @@
 package nightingale.demo;
 
-import nightingale.engine.Application;
-import nightingale.engine.basics.BaseGrid;
-import nightingale.engine.basics.BaseSprite;
-import nightingale.engine.data.DataEngine;
-import nightingale.engine.font.Font;
-import nightingale.engine.font.FontLoader;
-import nightingale.engine.font.Text;
+import nightingale.Application;
+import nightingale.basics.BaseGrid;
+import nightingale.data.DataEngine;
+import nightingale.font.Font;
+import nightingale.font.FontLoader;
+import nightingale.font.Text;
 
-import nightingale.engine.gui.GuiButton;
-import nightingale.engine.gui.GuiLabel;
-import nightingale.engine.gui.GuiPage;
-import nightingale.engine.structures.Texture;
-import nightingale.engine.utilities.UtilsGraphics;
-import nightingale.engine.utilities.UtilsMath;
+import nightingale.gui.GuiButton;
+import nightingale.gui.GuiLabel;
+import nightingale.gui.GuiPage;
+import nightingale.structures.Texture;
+import nightingale.utilities.UtilsGraphics;
+import nightingale.utilities.UtilsMath;
 import nightingale.demo.sprites.Actor;
 import nightingale.demo.sprites.Object;
 import org.joml.Vector2f;
@@ -96,7 +95,7 @@ public class Game extends Application {
     }
 
     protected void gameUpdate() {
-        if (Application.getInput().getIsKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
+        if (Application.getInput().isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
             isPause = !isPause;
         }
 
@@ -147,11 +146,11 @@ public class Game extends Application {
             return;
         }
 
-        player.isWalkingForward = Application.getInput().getIsKeyDown(GLFW.GLFW_KEY_W);
-        player.isWalkingBack = Application.getInput().getIsKeyDown(GLFW.GLFW_KEY_S);
-        player.isWalkingLeft = Application.getInput().getIsKeyDown(GLFW.GLFW_KEY_A);
-        player.isWalkingRight = Application.getInput().getIsKeyDown(GLFW.GLFW_KEY_D);
-        player.isSprinting = Application.getInput().getIsKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT);
+        player.isWalkingForward = Application.getInput().isKeyDown(GLFW.GLFW_KEY_W);
+        player.isWalkingBack = Application.getInput().isKeyDown(GLFW.GLFW_KEY_S);
+        player.isWalkingLeft = Application.getInput().isKeyDown(GLFW.GLFW_KEY_A);
+        player.isWalkingRight = Application.getInput().isKeyDown(GLFW.GLFW_KEY_D);
+        player.isSprinting = Application.getInput().isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT);
 
         float sensitivity = 0.01f;
         float rotate = Application.getInput().getMouseVelocity().x() * sensitivity;
