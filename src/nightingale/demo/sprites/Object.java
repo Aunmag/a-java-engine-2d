@@ -6,7 +6,7 @@ import nightingale.engine.structures.Texture;
 
 public class Object extends BaseSprite {
 
-    public static BaseSpriteLayer layer = new BaseSpriteLayer(false);
+    public static BaseSpriteLayer layer = new BaseSpriteLayer();
 
     public Object(float x, float y, float radians, Texture texture) {
         super(x, y, radians, texture);

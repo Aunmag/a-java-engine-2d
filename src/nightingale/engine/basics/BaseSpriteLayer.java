@@ -7,23 +7,17 @@ public class BaseSpriteLayer {
 
     private List<BaseSprite> sprites = new ArrayList<>();
     private List<BaseSprite> spritesToDelete = new ArrayList<>();
-    private final boolean isUpdatable;
-
-    public BaseSpriteLayer(boolean isUpdatable) {
-        this.isUpdatable = isUpdatable;
-    }
 
     public void add(BaseSprite sprite) {
         sprites.add(sprite);
     }
 
     public void update() {
-        if (!isUpdatable) {
-            return;
-        }
-
         for (BaseSprite sprite: sprites) {
             sprite.update();
+            if (!sprite.isValid()) {
+                spritesToDelete.add(sprite);
+            }
         }
     }
 
@@ -35,6 +29,15 @@ public class BaseSpriteLayer {
 
     public void cleanUp() {
         sprites.removeAll(spritesToDelete);
+        spritesToDelete.clear();
+    }
+
+    public void clear() {
+        for (BaseSprite sprite: sprites) {
+            sprite.delete();
+        }
+
+        sprites.clear();
         spritesToDelete.clear();
     }
 
