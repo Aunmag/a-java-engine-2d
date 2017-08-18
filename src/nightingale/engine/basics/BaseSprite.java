@@ -6,7 +6,7 @@ import org.joml.Matrix4f;
 
 public abstract class BaseSprite extends BasePosition {
 
-    protected boolean isValid = true;
+    private boolean isValid = true;
     private Texture texture;
 
     public BaseSprite(float x, float y, float radians, Texture texture) {
@@ -33,7 +33,13 @@ public abstract class BaseSprite extends BasePosition {
     public abstract void update();
 
     public void delete() {
-        // TODO: Implement
+        isValid = false;
+    }
+
+    /* Getters */
+
+    public boolean isValid() {
+        return isValid;
     }
 
 }

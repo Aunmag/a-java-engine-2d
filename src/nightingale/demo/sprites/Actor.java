@@ -7,7 +7,7 @@ import nightingale.engine.utilities.UtilsMath;
 
 public class Actor extends BaseSprite {
 
-    public static BaseSpriteLayer layer = new BaseSpriteLayer(true);
+    public static BaseSpriteLayer layer = new BaseSpriteLayer();
 
     private float velocity = 1.38f;
     public boolean isWalking = false;
