@@ -1,13 +1,15 @@
 package nightingale.demo.sprites;
 
-import nightingale.basics.BaseSpriteLayer;
 import nightingale.basics.BaseSprite;
 import nightingale.structures.Texture;
 import nightingale.utilities.UtilsMath;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Actor extends BaseSprite {
 
-    public static BaseSpriteLayer layer = new BaseSpriteLayer();
+    public static List<Actor> all = new ArrayList<>();
 
     private float velocity = 1.38f;
     public boolean isWalking = false;

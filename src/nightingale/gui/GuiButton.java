@@ -59,13 +59,7 @@ public class GuiButton extends GuiLabel {
 
     public void render() {
         Color color = isTouched ? colorTouched : colorDefault;
-        GL11.glColor4f(
-                // TODO: Optimize:
-                color.getRed() / 255f,
-                color.getGreen() / 255f,
-                color.getBlue() / 255f,
-                color.getAlpha() / 255f
-        );
+        UtilsGraphics.setDrawColor(color);
         UtilsGraphics.drawPrepare();
         UtilsGraphics.drawQuad(onScreenQuad, true, false);
 
