@@ -6,6 +6,8 @@ import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
+import java.awt.Color;
+
 public class UtilsGraphics {
 
     public static void drawPrepare() {
@@ -112,6 +114,16 @@ public class UtilsGraphics {
 
     public static void drawFinish() {
         Application.getShader().bind();
+    }
+
+    public static void setDrawColor(Color color) {
+        // TODO: Optimize:
+        GL11.glColor4f(
+                color.getRed() / 255f,
+                color.getGreen() / 255f,
+                color.getBlue() / 255f,
+                color.getAlpha() / 255f
+        );
     }
 
 }

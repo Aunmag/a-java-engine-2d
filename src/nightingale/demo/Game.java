@@ -2,6 +2,7 @@ package nightingale.demo;
 
 import nightingale.Application;
 import nightingale.basics.BaseGrid;
+import nightingale.basics.BaseSprite;
 import nightingale.data.DataEngine;
 import nightingale.font.Font;
 import nightingale.font.FontLoader;
@@ -46,7 +47,7 @@ public class Game extends Application {
         for (float x = start; x < end; x += step) {
             for (float y = start; y < end; y += step) {
                 Object terrain = new Object(x, y, 0, texture);
-                Object.layer.add(terrain);
+                Object.all.add(terrain);
             }
         }
     }
@@ -55,7 +56,7 @@ public class Game extends Application {
         Texture texture = Texture.getOrCreate("images/actor");
         Actor player = new Actor(0, 0, 0, texture);
         player.radians = (float) UtilsMath.PIx0_5;
-        Actor.layer.add(player);
+        Actor.all.add(player);
         Application.getCamera().setTarget(player);
         return player;
     }
@@ -103,7 +104,7 @@ public class Game extends Application {
             menu.update();
         } else {
             updatePlayerInput();
-            Actor.layer.update();
+            BaseSprite.updateAll(Actor.all);
             confinePlayer();
         }
     }
@@ -112,9 +113,9 @@ public class Game extends Application {
         if (isPause) {
             menu.render();
         } else {
-            Object.layer.render();
+            BaseSprite.renderAll(Object.all);
             renderBorders();
-            Actor.layer.render();
+            BaseSprite.renderAll(Actor.all);
             text.render();
         }
     }
