@@ -5,7 +5,6 @@ import nightingale.basics.BaseGrid;
 import nightingale.basics.BaseQuad;
 import nightingale.utilities.UtilsGraphics;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.Color;
 

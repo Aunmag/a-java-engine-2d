@@ -19,16 +19,15 @@ public class Camera extends BasePosition {
 
     public void update() {
         if (target != null) {
-            x = -target.x();
-            y = -target.y();
-            radians = target.radians - (float) UtilsMath.PIx0_5;
+            setPosition(-target.getX(), -target.getY());
+            setRadians(target.getRadians() - (float) UtilsMath.PIx0_5);
         }
 
-        Vector2f viewPosition = new Vector2f(this);
+        Vector2f viewPosition = new Vector2f(getX(), getY());
         viewPosition.mul(zoom);
 
         viewMatrix = Application.getWindow().getProjectionCopy();
-        viewMatrix.rotateZ(-radians);
+        viewMatrix.rotateZ(-getRadians());
         viewMatrix.translate(viewPosition.x, viewPosition.y, 0);
         viewMatrix.scale(zoom);
     }

@@ -37,19 +37,19 @@ public class Actor extends BaseSprite {
 
     private void walk() {
         if (isWalkingForward) {
-            move(radians, velocity);
+            move(getRadians(), velocity);
         }
 
         if (isWalkingBack) {
-            move(radians - (float) Math.PI, velocity);
+            move(getRadians() - (float) Math.PI, velocity);
         }
 
         if (isWalkingLeft) {
-            move(radians + (float) UtilsMath.PIx0_5, velocity);
+            move(getRadians() + (float) UtilsMath.PIx0_5, velocity);
         }
 
         if (isWalkingRight) {
-            move(radians - (float) UtilsMath.PIx0_5, velocity);
+            move(getRadians() - (float) UtilsMath.PIx0_5, velocity);
         }
     }
 
@@ -58,8 +58,10 @@ public class Actor extends BaseSprite {
             movementVelocity *= 2;
         }
 
-        x += movementVelocity * Math.cos(movementRadians);
-        y += movementVelocity * Math.sin(movementRadians);
+        addPosition(
+                movementVelocity * (float) Math.cos(movementRadians),
+                movementVelocity * (float) Math.sin(movementRadians)
+        );
     }
 
 }
