@@ -55,7 +55,7 @@ public class Game extends Application {
     private Actor createPlayer() {
         Texture texture = Texture.getOrCreate("images/actor");
         Actor player = new Actor(0, 0, 0, texture);
-        player.radians = (float) UtilsMath.PIx0_5;
+        player.setRadians((float) UtilsMath.PIx0_5);
         Actor.all.add(player);
         Application.getCamera().setTarget(player);
         return player;
@@ -129,16 +129,16 @@ public class Game extends Application {
     private void confinePlayer() {
         int n = borderSize / 2;
 
-        if (n < player.x()) {
-            player.x = n;
-        } else if (player.x() < -n) {
-            player.x = -n;
+        if (n < player.getX()) {
+            player.setX(n);
+        } else if (player.getX() < -n) {
+            player.setX(-n);
         }
 
-        if (n < player.y()) {
-            player.y = n;
-        } else if (player.y() < -n) {
-            player.y = -n;
+        if (n < player.getY()) {
+            player.setY(n);
+        } else if (player.getY() < -n) {
+            player.setY(-n);
         }
     }
 
@@ -172,7 +172,7 @@ public class Game extends Application {
                 true
         );
         GL11.glColor3f(0, 1, 0);
-        UtilsGraphics.drawCircle(new Vector2f(0, 0), 32, false, true);
+        UtilsGraphics.drawCircle(0, 0, 32, false, true);
         UtilsGraphics.drawFinish();
     }
 

@@ -2,7 +2,6 @@ package nightingale.collision;
 
 import nightingale.utilities.UtilsGraphics;
 import nightingale.utilities.UtilsMath;
-import org.joml.Vector2f;
 
 import java.awt.Color;
 
@@ -11,8 +10,8 @@ public class CollisionCircle extends Collision {
     final float radius;
     float distanceBetweenFromLastCheck;
 
-    public CollisionCircle(Vector2f position, float radius) {
-        super(position);
+    public CollisionCircle(float x, float y, float radius) {
+        super(x, y);
         this.radius = radius;
     }
 
@@ -24,7 +23,7 @@ public class CollisionCircle extends Collision {
         // TODO: Don't render if is invisible!
         UtilsGraphics.setDrawColor(color);
         UtilsGraphics.drawPrepare();
-        UtilsGraphics.drawCircle(this, radius, true, true);
+        UtilsGraphics.drawCircle(getX(), getY(), radius, true, true);
         UtilsGraphics.drawFinish();
     }
 
@@ -39,13 +38,11 @@ public class CollisionCircle extends Collision {
 
             distancePush += distancePushBuffer;
 
-            double pushX = distancePush * Math.cos(radiansBetween);
-            double pushY = distancePush * Math.sin(radiansBetween);
+            float pushX = distancePush * (float) Math.cos(radiansBetween);
+            float pushY = distancePush * (float) Math.sin(radiansBetween);
 
-            x += pushX;
-            y += pushY;
-            opponent.x -= pushX;
-            opponent.y -= pushY;
+            addPosition(pushX, pushY);
+            opponent.subPosition(pushX, pushY);
         }
     }
 

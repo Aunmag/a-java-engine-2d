@@ -1,19 +1,30 @@
 package nightingale.basics;
 
 import nightingale.utilities.UtilsMath;
-import org.joml.Vector2f;
 
-public class BasePosition extends Vector2f {
+public class BasePosition extends BasePoint {
 
-    public float radians = 0;
+    private float radians = 0;
 
     public BasePosition(float x, float y, float radians) {
         super(x, y);
         this.radians = radians;
     }
 
-    public void addRadiansCarefully(float radians) {
-        this.radians = UtilsMath.correctRadians(radians + this.radians);
+    public final void addRadiansCarefully(float radians) {
+        setRadians(UtilsMath.correctRadians(radians + this.radians));
+    }
+
+    /* Setters */
+
+    public void setRadians(float radians) {
+        this.radians = radians;
+    }
+
+    /* Getters */
+
+    public float getRadians() {
+        return radians;
     }
 
 }

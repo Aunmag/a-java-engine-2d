@@ -1,6 +1,7 @@
 package nightingale.utilities;
 
 import nightingale.Application;
+import nightingale.basics.BasePoint;
 import nightingale.basics.BaseQuad;
 import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
@@ -13,6 +14,10 @@ public class UtilsGraphics {
     public static void drawPrepare() {
         GL20.glUseProgram(0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+    }
+
+    public static void drawLine(BasePoint a, BasePoint b, boolean isOnWorld) {
+        drawLine(a.getPositionCopy(), b.getPositionCopy(), isOnWorld);
     }
 
     public static void drawLine(Vector2f a, Vector2f b, boolean isOnWorld) {
@@ -83,7 +88,8 @@ public class UtilsGraphics {
     }
 
     public static void drawCircle(
-            Vector2f position,
+            float x,
+            float y,
             float radius,
             boolean isFilled,
             boolean isOnWorld
@@ -93,18 +99,18 @@ public class UtilsGraphics {
 
         final float accuracy = 0.4f; // TODO: Use in settings
         for (float radians = 0; radians <= UtilsMath.PIx2; radians += accuracy) {
-            float x = (float) (position.x() + radius * Math.cos(radians));
-            float y = (float) (position.y() + radius * Math.sin(radians));
+            float fragmentX = (float) (x + radius * Math.cos(radians));
+            float fragmentY = (float) (y + radius * Math.sin(radians));
 
             if (isOnWorld) {
                 Vector2f viewPosition = Application.getCamera().calculateViewPosition(
-                        new Vector2f(x, y)
+                        new Vector2f(fragmentX, fragmentY)
                 );
-                x = viewPosition.x();
-                y = viewPosition.y();
+                fragmentX = viewPosition.x();
+                fragmentY = viewPosition.y();
             }
 
-            GL11.glVertex2f(x, y);
+            GL11.glVertex2f(fragmentX, fragmentY);
         }
         GL11.glEnd();
     }

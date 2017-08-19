@@ -1,16 +1,16 @@
 package nightingale.collision;
 
+import nightingale.basics.BasePoint;
 import nightingale.utilities.UtilsMath;
-import org.joml.Vector2f;
 
 import java.awt.Color;
 
-public abstract class Collision extends Vector2f {
+public abstract class Collision extends BasePoint {
 
     static final Color renderColor = new Color(255, 255, 255, 100);
 
-    Collision(Vector2f position) {
-        super(position);
+    Collision(float x, float y) {
+        super(x, y);
     }
 
     public abstract void render();
@@ -27,10 +27,10 @@ public abstract class Collision extends Vector2f {
             CollisionCircle circle,
             CollisionLine line
     ) {
-        float lineX1 = line.x - circle.x;
-        float lineY1 = line.y - circle.y;
-        float lineX2 = line.getPositionTail().x - circle.x;
-        float lineY2 = line.getPositionTail().y - circle.y;
+        float lineX1 = line.getX() - circle.getX();
+        float lineY1 = line.getY() - circle.getY();
+        float lineX2 = line.getPositionTail().getX() - circle.getX();
+        float lineY2 = line.getPositionTail().getY() - circle.getY();
 
         float differenceX = lineX2 - lineX1;
         float differenceY = lineY2 - lineY1;

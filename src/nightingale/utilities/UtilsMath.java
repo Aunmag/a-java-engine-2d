@@ -1,5 +1,6 @@
 package nightingale.utilities;
 
+import nightingale.basics.BasePoint;
 import org.joml.Vector2f;
 
 import java.util.Random;
@@ -80,8 +81,8 @@ public class UtilsMath {
         return randomizeBetween(resultMin, resultMax);
     }
 
-    public static float calculateDistanceBetween(Vector2f a, Vector2f b) {
-        return calculateDistanceBetween(a.x(), a.y(), b.x(), b.y());
+    public static float calculateDistanceBetween(BasePoint a, BasePoint b) {
+        return calculateDistanceBetween(a.getX(), a.getY(), b.getX(), b.getY());
     }
 
     public static float calculateDistanceBetween(float x1, float y1, float x2, float y2) {
@@ -90,8 +91,8 @@ public class UtilsMath {
         return (float) Math.sqrt(powX + powY);
     }
 
-    public static float calculateRadiansBetween(Vector2f a, Vector2f b) {
-        return calculateRadiansBetween(a.x(), a.y(), b.x(), b.y());
+    public static float calculateRadiansBetween(BasePoint a, BasePoint b) {
+        return calculateRadiansBetween(a.getX(), a.getY(), b.getX(), b.getY());
     }
 
     public static float calculateRadiansBetween(float x1, float y1, float x2, float y2) {
