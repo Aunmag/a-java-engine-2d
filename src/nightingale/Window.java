@@ -53,10 +53,6 @@ public class Window extends BaseSize {
         GLFW.glfwSwapBuffers(id);
     }
 
-    public Vector2f calculateViewPosition(Vector2f position) {
-        return calculateViewPosition(position.x, position.y);
-    }
-
     public Vector2f calculateViewPosition(float x, float y) {
         Vector3f viewPosition = calculateViewPosition(x, y, 0);
         return new Vector2f(viewPosition.x, viewPosition.y);

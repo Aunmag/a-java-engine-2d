@@ -9,8 +9,13 @@ import org.joml.Vector3f;
 
 public class Camera extends BasePosition {
 
+    public static final int ZOOM_MIN = 1;
+    public static final int ZOOM_MAX = 10;
+    public static final int DISTANCE_VIEW_MIN = 1;
+
     private Matrix4f viewMatrix = new Matrix4f();
-    private float zoom = 2;
+    private float distanceView = 500;
+    private float zoom = 1;
     private BaseSprite target;
 
     public Camera() {
@@ -23,20 +28,28 @@ public class Camera extends BasePosition {
             setRadians(target.getRadians() - (float) UtilsMath.PIx0_5);
         }
 
+        float viewZoom = zoom * (Application.getWindow().getMaxSide() / distanceView);
+
         Vector2f viewPosition = new Vector2f(getX(), getY());
-        viewPosition.mul(zoom);
+        viewPosition.mul(viewZoom);
 
         viewMatrix = Application.getWindow().getProjectionCopy();
         viewMatrix.rotateZ(-getRadians());
         viewMatrix.translate(viewPosition.x, viewPosition.y, 0);
-        viewMatrix.scale(zoom);
+        viewMatrix.scale(viewZoom);
     }
 
-    public Vector2f calculateViewPosition(Vector2f position) {
-        // TODO: Optimize
-        Vector3f viewPosition = new Vector3f(position.x, position.y, 0);
+    public Vector2f calculateViewPosition(float x, float y) {
+        Vector3f viewPosition = new Vector3f(x, y, 0);
         viewPosition.mulPosition(viewMatrix);
-        return new Vector2f(viewPosition.x(), viewPosition.y());
+        return new Vector2f(viewPosition.x, viewPosition.y);
+    }
+
+    public Matrix4f calculateViewProjection(float x, float y, float radians) {
+        Matrix4f projection = new Matrix4f(viewMatrix);
+        projection.translate(x, y, 0);
+        projection.rotateZ(radians);
+        return projection;
     }
 
     /* Setters */
@@ -45,10 +58,32 @@ public class Camera extends BasePosition {
         this.target = target;
     }
 
+    public void setDistanceView(float distanceView) {
+        if (distanceView < DISTANCE_VIEW_MIN) {
+            distanceView = DISTANCE_VIEW_MIN;
+        }
+
+        this.distanceView = distanceView;
+    }
+
+    public void setZoom(float zoom) {
+        if (zoom < ZOOM_MIN) {
+            zoom = ZOOM_MIN;
+        } else if (zoom > ZOOM_MAX) {
+            zoom = ZOOM_MAX;
+        }
+
+        this.zoom = zoom;
+    }
+
     /* Getters */
 
-    public Matrix4f getViewMatrixCopy() {
-        return new Matrix4f(viewMatrix);
+    public float getDistanceView() {
+        return distanceView;
+    }
+
+    public float getZoom() {
+        return zoom;
     }
 
 }

@@ -104,6 +104,7 @@ public class Game extends Application {
             menu.update();
         } else {
             updatePlayerInput();
+            updateCameraZoom();
             BaseSprite.updateAll(Actor.all);
             confinePlayer();
         }
@@ -139,6 +140,17 @@ public class Game extends Application {
             player.setY(n);
         } else if (player.getY() < -n) {
             player.setY(-n);
+        }
+    }
+
+    private void updateCameraZoom() {
+        float zoom = Application.getCamera().getZoom();
+        float zoomChange = zoom * 0.02f;
+
+        if (Application.getInput().isKeyDown(GLFW.GLFW_KEY_KP_ADD)) {
+            Application.getCamera().setZoom(zoom + zoomChange);
+        } else if (Application.getInput().isKeyDown(GLFW.GLFW_KEY_KP_SUBTRACT)) {
+            Application.getCamera().setZoom(zoom - zoomChange);
         }
     }
 

@@ -34,6 +34,10 @@ public class BaseSize {
         return height;
     }
 
+    public float getMaxSide() {
+        return Float.max(width, height);
+    }
+
     public float getCenterX() {
         return centerX;
     }
