@@ -13,6 +13,7 @@ public class Window extends BaseSize {
     private long id;
     private boolean isFullscreen = false;
     private Matrix4f projection;
+    private boolean isCursorGrabbed = false;
 
     public Window() {
         super(1024, 576);
@@ -66,6 +67,21 @@ public class Window extends BaseSize {
         );
         viewPosition.mulPosition(projection);
         return viewPosition;
+    }
+
+    public void setCursorGrabbed(boolean isCursorGrabbed) {
+        if (isCursorGrabbed == this.isCursorGrabbed) {
+            return;
+        } else {
+            this.isCursorGrabbed = isCursorGrabbed;
+        }
+
+        if (isCursorGrabbed) {
+            GLFW.glfwSetInputMode(id, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
+            GLFW.glfwSetInputMode(id, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
+        } else {
+            GLFW.glfwSetInputMode(id, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+        }
     }
 
     /* Setters */
