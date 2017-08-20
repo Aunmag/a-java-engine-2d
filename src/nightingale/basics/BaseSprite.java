@@ -41,12 +41,9 @@ public abstract class BaseSprite extends BasePosition implements BaseOperative {
     public void render() {
         texture.bind();
 
-        Matrix4f transformation = new Matrix4f();
-        transformation.translate(getX(), getY(), 0);
-        transformation.rotateZ(getRadians());
-
-        Matrix4f projection = Application.getCamera().getViewMatrixCopy();
-        projection.mul(transformation);
+        Matrix4f projection = Application.getCamera().calculateViewProjection(
+                getX(), getY(), getRadians()
+        );
 
         Application.getShader().setUniformSampler(0);
         Application.getShader().setUniformProjection(projection);

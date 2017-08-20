@@ -22,11 +22,11 @@ public class UtilsGraphics {
 
     public static void drawLine(Vector2f a, Vector2f b, boolean isOnWorld) {
         if (isOnWorld) {
-            a = Application.getCamera().calculateViewPosition(a);
-            b = Application.getCamera().calculateViewPosition(b);
+            a = Application.getCamera().calculateViewPosition(a.x, a.y);
+            b = Application.getCamera().calculateViewPosition(b.x, b.y);
         } else {
-            a = Application.getWindow().calculateViewPosition(a);
-            b = Application.getWindow().calculateViewPosition(b);
+            a = Application.getWindow().calculateViewPosition(a.x, a.y);
+            b = Application.getWindow().calculateViewPosition(b.x, b.y);
         }
 
         drawLine(a, b);
@@ -59,15 +59,15 @@ public class UtilsGraphics {
             boolean isOnWorld
     ) {
         if (isOnWorld) {
-            a = Application.getCamera().calculateViewPosition(a);
-            b = Application.getCamera().calculateViewPosition(b);
-            c = Application.getCamera().calculateViewPosition(c);
-            d = Application.getCamera().calculateViewPosition(d);
+            a = Application.getCamera().calculateViewPosition(a.x, a.y);
+            b = Application.getCamera().calculateViewPosition(b.x, b.y);
+            c = Application.getCamera().calculateViewPosition(c.x, c.y);
+            d = Application.getCamera().calculateViewPosition(d.x, d.y);
         } else {
-            a = Application.getWindow().calculateViewPosition(a);
-            b = Application.getWindow().calculateViewPosition(b);
-            c = Application.getWindow().calculateViewPosition(c);
-            d = Application.getWindow().calculateViewPosition(d);
+            a = Application.getWindow().calculateViewPosition(a.x, a.y);
+            b = Application.getWindow().calculateViewPosition(b.x, b.y);
+            c = Application.getWindow().calculateViewPosition(c.x, c.y);
+            d = Application.getWindow().calculateViewPosition(d.x, d.y);
         }
 
         if (isFilled) {
@@ -104,7 +104,8 @@ public class UtilsGraphics {
 
             if (isOnWorld) {
                 Vector2f viewPosition = Application.getCamera().calculateViewPosition(
-                        new Vector2f(fragmentX, fragmentY)
+                        fragmentX,
+                        fragmentY
                 );
                 fragmentX = viewPosition.x();
                 fragmentY = viewPosition.y();
