@@ -15,7 +15,7 @@ public abstract class Collision extends BasePoint {
 
     public abstract void render();
 
-    static boolean calculateIsCollision(CollisionCircle a, CollisionCircle b) {
+    public static boolean calculateIsCollision(CollisionCircle a, CollisionCircle b) {
         float distanceBetween = UtilsMath.calculateDistanceBetween(a, b);
         a.distanceBetweenFromLastCheck = distanceBetween;
         b.distanceBetweenFromLastCheck = distanceBetween;
