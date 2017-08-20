@@ -84,7 +84,7 @@ public class Game extends Application {
         GuiButton[] buttons = {
                 new GuiButton(
                         BaseGrid.grid12, 4, 8, 4, 1,
-                        "Try it", () -> isPause = false
+                        "Try it", () -> setPause(false)
                 ),
                 new GuiButton(
                         BaseGrid.grid12, 4, 9, 4, 1,
@@ -97,7 +97,7 @@ public class Game extends Application {
 
     protected void gameUpdate() {
         if (Application.getInput().isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
-            isPause = !isPause;
+            setPause(!isPause);
         }
 
         if (isPause) {
@@ -186,6 +186,13 @@ public class Game extends Application {
         GL11.glColor3f(0, 1, 0);
         UtilsGraphics.drawCircle(0, 0, 32, false, true);
         UtilsGraphics.drawFinish();
+    }
+
+    /* Setters */
+
+    public void setPause(boolean isPause) {
+        this.isPause = isPause;
+        Application.getWindow().setCursorGrabbed(!isPause);
     }
 
 }
