@@ -1,5 +1,6 @@
 package nightingale;
 
+import nightingale.data.DataEngine;
 import nightingale.data.DataTime;
 import nightingale.structures.Model;
 import nightingale.structures.Texture;
@@ -86,6 +87,7 @@ public abstract class Application {
         ShaderSprite.cleanUp();
         GLFW.glfwSetWindowShouldClose(window.getId(), true);
         GLFW.glfwTerminate();
+        System.out.println(DataEngine.name + " has terminated gracefully.");
     }
 
     protected abstract void gameUpdate();
