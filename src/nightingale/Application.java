@@ -1,6 +1,9 @@
 package nightingale;
 
 import nightingale.data.DataTime;
+import nightingale.structures.Model;
+import nightingale.structures.Texture;
+import nightingale.structures.Vao;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -49,7 +52,6 @@ public abstract class Application {
                 DataTime.setTimeDelta(timeDelta);
                 engineUpdate();
                 engineRender();
-                engineCleanUp();
                 timeLast = timeCurrent;
             }
         }
@@ -76,12 +78,12 @@ public abstract class Application {
         window.swapBuffers();
     }
 
-    private void engineCleanUp() {
-        gameCleanUp();
-    }
-
     private void engineTerminate() {
         gameTerminate();
+        Vao.cleanUp();
+        Texture.cleanUp();
+        Model.cleanUp();
+        ShaderSprite.cleanUp();
         GLFW.glfwSetWindowShouldClose(window.getId(), true);
         GLFW.glfwTerminate();
     }
@@ -89,8 +91,6 @@ public abstract class Application {
     protected abstract void gameUpdate();
 
     protected abstract void gameRender();
-
-    protected abstract void gameCleanUp();
 
     protected abstract void gameTerminate();
 

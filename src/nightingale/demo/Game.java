@@ -121,11 +121,7 @@ public class Game extends Application {
         }
     }
 
-    protected void gameCleanUp() {}
-
-    protected void gameTerminate() {
-        Text.terminate();
-    }
+    protected void gameTerminate() {}
 
     private void confinePlayer() {
         int n = borderSize / 2;
