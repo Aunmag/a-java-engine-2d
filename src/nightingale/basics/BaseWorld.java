@@ -12,8 +12,6 @@ public abstract class BaseWorld implements BaseOperative {
 
     public abstract void render();
 
-    public abstract void cleanUp();
-
     public abstract void remove();
 
     /* Getters */

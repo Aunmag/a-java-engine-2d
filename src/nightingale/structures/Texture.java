@@ -22,13 +22,13 @@ public class Texture extends BaseSize {
         if (all.containsKey(name)) {
             return all.get(name);
         } else {
-            Texture texture = new Texture(load(name));
+            Texture texture = new Texture(loadImage(name));
             all.put(name, texture);
             return texture;
         }
     }
 
-    private static BufferedImage load(String name) {
+    private static BufferedImage loadImage(String name) {
         String path = "/" + name + ".png";
         BufferedImage bufferedImage;
 
@@ -116,9 +116,10 @@ public class Texture extends BaseSize {
         model.render();
     }
 
-    protected void finalize() throws Throwable {
-        GL11.glDeleteTextures(id);
-        super.finalize();
+    public static void cleanUp() {
+        for (Texture texture: all.values()) {
+            GL11.glDeleteTextures(texture.id);
+        }
     }
 
     /* Setters */

@@ -5,12 +5,16 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
 public class ShaderSprite {
+
+    private static List<ShaderSprite> all = new ArrayList<>();
 
     private final int programId;
     private final int shaderVertexId;
@@ -79,6 +83,8 @@ public class ShaderSprite {
 
         uniformLocationSampler = getUniformLocation("sampler");
         uniformLocationProjection = getUniformLocation("projection");
+
+        all.add(this);
     }
 
     protected int getUniformLocation(String uniformName) {
@@ -93,18 +99,15 @@ public class ShaderSprite {
         GL20.glUseProgram(0);
     }
 
-    public void cleanUp() {
-        unbind();
-        GL20.glDetachShader(programId, shaderVertexId);
-        GL20.glDetachShader(programId, shaderFragmentId);
-        GL20.glDeleteShader(shaderVertexId);
-        GL20.glDeleteShader(shaderFragmentId);
-        GL20.glDeleteProgram(programId);
-    }
-
-    protected void finalize() throws Throwable {
-        cleanUp();
-        super.finalize();
+    public static void cleanUp() {
+        for (ShaderSprite shader: all) {
+            shader.unbind();
+            GL20.glDetachShader(shader.programId, shader.shaderVertexId);
+            GL20.glDetachShader(shader.programId, shader.shaderFragmentId);
+            GL20.glDeleteShader(shader.shaderVertexId);
+            GL20.glDeleteShader(shader.shaderFragmentId);
+            GL20.glDeleteProgram(shader.programId);
+        }
     }
 
     /* Setters */
