@@ -35,10 +35,6 @@ public class Text extends BaseQuad {
         shader.unbind();
     }
 
-    public static void terminate() {
-        shader.cleanUp();
-    }
-
     /* Dynamic */
 
     final String message;

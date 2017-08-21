@@ -2,6 +2,8 @@ package nightingale.structures;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import nightingale.basics.BaseSize;
 import org.lwjgl.opengl.GL11;
@@ -10,6 +12,10 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.BufferUtils;
 
 public class Model {
+
+    private static List<Integer> allVerticesId = new ArrayList<>();
+    private static List<Integer> allTexturesId = new ArrayList<>();
+    private static List<Integer> allIndicesId = new ArrayList<>();
 
     private int drawQuantity;
     private int verticesId;
@@ -64,6 +70,7 @@ public class Model {
                 createBuffer(vertices),
                 GL15.GL_STATIC_DRAW
         );
+        allVerticesId.add(verticesId);
 
         texturesId = GL15.glGenBuffers();
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, texturesId);
@@ -72,6 +79,7 @@ public class Model {
                 createBuffer(textureCoordinates),
                 GL15.GL_STATIC_DRAW
         );
+        allTexturesId.add(texturesId);
 
         indicesId = GL15.glGenBuffers();
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesId);
@@ -80,16 +88,24 @@ public class Model {
                 createBuffer(indices),
                 GL15.GL_STATIC_DRAW
         );
+        allIndicesId.add(indicesId);
 
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
-    protected void finalize() throws Throwable {
-        GL15.glDeleteBuffers(verticesId);
-        GL15.glDeleteBuffers(texturesId);
-        GL15.glDeleteBuffers(indicesId);
-        super.finalize();
+    public static void cleanUp() {
+        for (int verticesId: allVerticesId) {
+            GL15.glDeleteBuffers(verticesId);
+        }
+
+        for (int texturesId: allTexturesId) {
+            GL15.glDeleteBuffers(texturesId);
+        }
+
+        for (int indicesId: allIndicesId) {
+            GL15.glDeleteBuffers(indicesId);
+        }
     }
 
     public void render() {

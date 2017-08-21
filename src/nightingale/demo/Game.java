@@ -84,7 +84,7 @@ public class Game extends Application {
         GuiButton[] buttons = {
                 new GuiButton(
                         BaseGrid.grid12, 4, 8, 4, 1,
-                        "Try it", () -> isPause = false
+                        "Try it", () -> setPause(false)
                 ),
                 new GuiButton(
                         BaseGrid.grid12, 4, 9, 4, 1,
@@ -97,13 +97,14 @@ public class Game extends Application {
 
     protected void gameUpdate() {
         if (Application.getInput().isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
-            isPause = !isPause;
+            setPause(!isPause);
         }
 
         if (isPause) {
             menu.update();
         } else {
             updatePlayerInput();
+            updateCameraZoom();
             BaseSprite.updateAll(Actor.all);
             confinePlayer();
         }
@@ -120,11 +121,7 @@ public class Game extends Application {
         }
     }
 
-    protected void gameCleanUp() {}
-
-    protected void gameTerminate() {
-        Text.terminate();
-    }
+    protected void gameTerminate() {}
 
     private void confinePlayer() {
         int n = borderSize / 2;
@@ -139,6 +136,17 @@ public class Game extends Application {
             player.setY(n);
         } else if (player.getY() < -n) {
             player.setY(-n);
+        }
+    }
+
+    private void updateCameraZoom() {
+        float zoom = Application.getCamera().getZoom();
+        float zoomChange = zoom * 0.02f;
+
+        if (Application.getInput().isKeyDown(GLFW.GLFW_KEY_KP_ADD)) {
+            Application.getCamera().setZoom(zoom + zoomChange);
+        } else if (Application.getInput().isKeyDown(GLFW.GLFW_KEY_KP_SUBTRACT)) {
+            Application.getCamera().setZoom(zoom - zoomChange);
         }
     }
 
@@ -174,6 +182,13 @@ public class Game extends Application {
         GL11.glColor3f(0, 1, 0);
         UtilsGraphics.drawCircle(0, 0, 32, false, true);
         UtilsGraphics.drawFinish();
+    }
+
+    /* Setters */
+
+    public void setPause(boolean isPause) {
+        this.isPause = isPause;
+        Application.getWindow().setCursorGrabbed(!isPause);
     }
 
 }
