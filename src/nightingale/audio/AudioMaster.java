@@ -1,9 +1,13 @@
 package nightingale.audio;
 
 import org.joml.Vector3f;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.*;
+import org.newdawn.slick.openal.OggData;
+import org.newdawn.slick.openal.OggDecoder;
 import org.newdawn.slick.openal.WaveData;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -31,13 +35,36 @@ public class AudioMaster {
         if (sounds.containsKey(name)) {
             return sounds.get(name);
         } else {
-            int sound = loadSound(name);
+            int sound = loadOggSound(name);
             sounds.put(name, sound);
             return sound;
         }
     }
 
-    private static int loadSound(String name) {
+    private static int loadOggSound(String name) {
+        String path = "/" + name + ".ogg";
+        InputStream inputStream = AudioMaster.class.getResourceAsStream(path);
+        OggData oggData;
+
+        try {
+            oggData = new OggDecoder().getData(inputStream);
+        } catch (IOException e) {
+            String message = String.format("Can't load audio file at \"%s\"!", path);
+            System.err.println(message);
+            return 0;
+        }
+
+        IntBuffer intBuffer = BufferUtils.createIntBuffer(1);
+        AL10.alGenBuffers(intBuffer);
+        int buffer = intBuffer.get(0);
+
+        int format = oggData.channels > 1 ? AL10.AL_FORMAT_STEREO16 : AL10.AL_FORMAT_MONO16;
+        AL10.alBufferData(buffer, format, oggData.data, oggData.rate);
+
+        return buffer;
+    }
+
+    private static int loadWavSound(String name) {
         String path = "/" + name + ".wav";
         InputStream inputStream = AudioMaster.class.getResourceAsStream(path);
         WaveData waveData = WaveData.create(inputStream);
