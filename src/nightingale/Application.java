@@ -1,5 +1,6 @@
 package nightingale;
 
+import nightingale.audio.AudioMaster;
 import nightingale.data.DataEngine;
 import nightingale.data.DataTime;
 import nightingale.structures.Model;
@@ -37,6 +38,8 @@ public abstract class Application {
         shader = new ShaderSprite("shaderSprite");
 
         input = new Input(window.getId());
+
+        AudioMaster.initialize();
     }
 
     public final void run() {
@@ -81,10 +84,14 @@ public abstract class Application {
 
     private void engineTerminate() {
         gameTerminate();
+
         Vao.cleanUp();
         Texture.cleanUp();
         Model.cleanUp();
         ShaderSprite.cleanUp();
+
+        AudioMaster.terminate();
+
         GLFW.glfwSetWindowShouldClose(window.getId(), true);
         GLFW.glfwTerminate();
         System.out.println(DataEngine.name + " has terminated gracefully.");

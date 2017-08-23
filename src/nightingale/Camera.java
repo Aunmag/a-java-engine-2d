@@ -1,9 +1,11 @@
 package nightingale;
 
+import nightingale.audio.AudioMaster;
 import nightingale.basics.BasePosition;
 import nightingale.basics.BaseSprite;
 import nightingale.utilities.UtilsMath;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -14,7 +16,7 @@ public class Camera extends BasePosition {
     public static final int DISTANCE_VIEW_MIN = 1;
 
     private Matrix4f viewMatrix = new Matrix4f();
-    private float distanceView = 500;
+    private float distanceView = 640;
     private float zoom = 1;
     private BaseSprite target;
 
@@ -37,6 +39,12 @@ public class Camera extends BasePosition {
         viewMatrix.rotateZ(-getRadians());
         viewMatrix.translate(viewPosition.x, viewPosition.y, 0);
         viewMatrix.scale(viewZoom);
+
+        Vector3f orientation = new Vector3f(0, 1, 0);
+        Quaternionf quaternion = new Quaternionf(0, 0, 0);
+        quaternion.rotateZ(getRadians());
+        orientation.rotate(quaternion);
+        AudioMaster.setListenerPosition(-getX(), -getY(), 1f / zoom, orientation);
     }
 
     public Vector2f calculateViewPosition(float x, float y) {
