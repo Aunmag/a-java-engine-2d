@@ -1,18 +1,22 @@
 package nightingale.audio;
 
+import org.joml.Vector3f;
 import org.lwjgl.openal.*;
 import org.newdawn.slick.openal.WaveData;
 
+import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class AudioMaster {
 
-    private static List<Integer> buffers = new ArrayList<>();
+    private static HashMap<String, Integer> sounds = new HashMap<>();
     private static long device;
     private static long context;
+    private static final int LISTENER_OFFSET_Z = 1;
 
     public static void initialize() {
         device = ALC10.alcOpenDevice((ByteBuffer) null);
@@ -23,27 +27,61 @@ public class AudioMaster {
         AL.createCapabilities(deviceCaps);
     }
 
-    public static void setListenerData(float x, float y) {
-        AL10.alListener3f(AL10.AL_POSITION, x, y, 0);
-        AL10.alListener3f(AL10.AL_VELOCITY, 0, 0, 0);
+    public static int getOrCreate(String name) {
+        if (sounds.containsKey(name)) {
+            return sounds.get(name);
+        } else {
+            int sound = loadSound(name);
+            sounds.put(name, sound);
+            return sound;
+        }
     }
 
-    public static int loadSound(String filename) {
+    private static int loadSound(String name) {
+        String path = "/" + name + ".wav";
+        InputStream inputStream = AudioMaster.class.getResourceAsStream(path);
+        WaveData waveData = WaveData.create(inputStream);
+
         int buffer = AL10.alGenBuffers();
-        buffers.add(buffer);
-        WaveData waveData = WaveData.create(filename);
         AL10.alBufferData(buffer, waveData.format, waveData.data, waveData.samplerate);
         waveData.dispose();
         return buffer;
     }
 
     public static void terminate() {
-        for (int buffer: buffers) {
+        for (int buffer: sounds.values()) {
             AL10.alDeleteBuffers(buffer);
         }
 
         ALC10.alcDestroyContext(context);
         ALC10.alcCloseDevice(device);
+    }
+
+    /* Setters */
+
+    public static void setListenerPosition(
+            float x,
+            float y,
+            float z,
+            Vector3f orientationVector
+    ) {
+        AL10.alListener3f(AL10.AL_POSITION, x / 32f, y / 32f, z + LISTENER_OFFSET_Z);
+
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(6 * 4);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        FloatBuffer orientationBuffer = byteBuffer.asFloatBuffer();
+        orientationBuffer.put(0, orientationVector.x); // Look at X
+        orientationBuffer.put(1, orientationVector.y); // Look at Y
+        orientationBuffer.put(2, orientationVector.z); // Look at Z
+        orientationBuffer.put(3, 0); // Up X
+        orientationBuffer.put(4, 0); // Up Y
+        orientationBuffer.put(5, 1); // Up Z
+
+        AL10.alListenerfv(AL10.AL_ORIENTATION, orientationBuffer);
+    }
+
+    public static void setListenerVelocity(Vector3f velocity) {
+        AL10.alListener3f(AL10.AL_VELOCITY, velocity.x, velocity.y, velocity.z);
     }
 
 }
