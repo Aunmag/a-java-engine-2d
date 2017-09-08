@@ -19,6 +19,8 @@ public class Window extends BaseSize {
         super(1024, 576);
         projection = calculateProjection();
 
+        GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
+
         id = GLFW.glfwCreateWindow(
             (int) width,
             (int) height,
