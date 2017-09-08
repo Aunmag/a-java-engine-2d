@@ -16,8 +16,8 @@ public class Camera extends BasePosition {
     public static final int DISTANCE_VIEW_MIN = 1;
 
     private Matrix4f viewMatrix = new Matrix4f();
-    private float distanceView = 640;
-    private float zoom = 1;
+    private float distanceView = 1280;
+    private float zoom = 2;
     private float zoomView = 1;
     private BaseSprite target;
 

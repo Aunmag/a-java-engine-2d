@@ -6,17 +6,18 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWVidMode;
 
 public class Window extends BaseSize {
 
     private long id;
-    private boolean isFullscreen = false;
     private Matrix4f projection;
     private boolean isCursorGrabbed = false;
 
-    public Window() {
-        super(1024, 576);
+    public Window(boolean isFullscreen) {
+        super(
+                isFullscreen ? getFullScreenWidth() : 1024,
+                isFullscreen ? getFullScreenHeight() : 576
+        );
         projection = calculateProjection();
 
         GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
@@ -34,11 +35,10 @@ public class Window extends BaseSize {
         }
 
         if (!isFullscreen) {
-            GLFWVidMode videoMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
             GLFW.glfwSetWindowPos(
                     id,
-                    (videoMode.width() - (int) width) / 2,
-                    (videoMode.height() - (int) height) / 2
+                    (getFullScreenWidth() - (int) width) / 2,
+                    (getFullScreenHeight() - (int) height) / 2
             );
         }
 
@@ -101,6 +101,14 @@ public class Window extends BaseSize {
 
     public Matrix4f getProjectionCopy() {
         return new Matrix4f(projection);
+    }
+
+    public static int getFullScreenWidth() {
+        return GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).width();
+    }
+
+    public static int getFullScreenHeight() {
+        return GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).height();
     }
 
 }
