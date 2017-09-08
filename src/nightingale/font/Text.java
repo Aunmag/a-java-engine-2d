@@ -8,7 +8,6 @@ import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,8 +98,8 @@ public class Text extends BaseQuad {
         // TODO: Optimize:
         shader.bind();
         font.texture.bind();
+        vao.bind();
 
-        GL30.glBindVertexArray(vao.id);
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         shader.setUniformSampler(0);
@@ -110,7 +109,7 @@ public class Text extends BaseQuad {
 
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
-        GL30.glBindVertexArray(0);
+        vao.unbind();
     }
 
     public void remove() {

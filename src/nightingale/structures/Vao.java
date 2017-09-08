@@ -12,52 +12,56 @@ import java.util.List;
 
 public class Vao {
 
-    private static List<Integer> vaos = new ArrayList<>();
-    private static List<Integer> vbos = new ArrayList<>();
+    private static List<Vao> all = new ArrayList<>();
 
-    public final int id;
+    private final int id;
+    private final int idVertices;
+    private final int idTextureCoordinates;
     public final int vertexCount;
 
     public Vao(float[] vertices, float[] textureCoordinates) {
         id = GL30.glGenVertexArrays();
-        GL30.glBindVertexArray(id);
-        vaos.add(id);
+        idVertices = GL15.glGenBuffers();
+        idTextureCoordinates = GL15.glGenBuffers();
 
-        storeDataInAttributeList(0, 2, vertices);
-        storeDataInAttributeList(1, 2, textureCoordinates);
+        bind();
+        storeDataInAttributeList(idVertices, 0, vertices);
+        storeDataInAttributeList(idTextureCoordinates, 1, textureCoordinates);
         unbind();
 
         vertexCount = vertices.length / 2;
     }
 
-    private void storeDataInAttributeList(int attributeNumber, int coordinateSize, float[] data) {
-        int vboId = GL15.glGenBuffers();
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
-        vbos.add(vboId);
-        FloatBuffer buffer = storeDataInFloatBuffer(data);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
-        GL20.glVertexAttribPointer(attributeNumber, coordinateSize, GL11.GL_FLOAT, false, 0, 0);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-    }
+    private void storeDataInAttributeList(int id, int attributeNumber, float[] data) {
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id);
 
-    private FloatBuffer storeDataInFloatBuffer(float[] data) {
         FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
         buffer.put(data);
         buffer.flip();
-        return buffer;
+
+        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+        GL20.glVertexAttribPointer(attributeNumber, 2, GL11.GL_FLOAT, false, 0, 0);
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
-    private void unbind() {
+    public void bind() {
+        GL30.glBindVertexArray(id);
+    }
+
+    public void unbind() {
         GL30.glBindVertexArray(0);
     }
 
-    public static void cleanUp() {
-        for (int vao: vaos) {
-            GL30.glDeleteVertexArrays(vao);
-        }
+    public void delete() {
+        GL30.glDeleteVertexArrays(id);
+        GL15.glDeleteBuffers(idVertices);
+        GL15.glDeleteBuffers(idTextureCoordinates);
+        all.remove(this);
+    }
 
-        for (int vbo: vbos) {
-            GL15.glDeleteBuffers(vbo);
+    public static void cleanUp() {
+        for (Vao vao: all) {
+            vao.delete();
         }
     }
 
