@@ -18,6 +18,7 @@ public class Camera extends BasePosition {
     private Matrix4f viewMatrix = new Matrix4f();
     private float distanceView = 640;
     private float zoom = 1;
+    private float zoomView = 1;
     private BaseSprite target;
 
     public Camera() {
@@ -30,21 +31,25 @@ public class Camera extends BasePosition {
             setRadians(target.getRadians() - (float) UtilsMath.PIx0_5);
         }
 
-        float viewZoom = zoom * (Application.getWindow().getMaxSide() / distanceView);
+        updateZoomView();
 
         Vector2f viewPosition = new Vector2f(getX(), getY());
-        viewPosition.mul(viewZoom);
+        viewPosition.mul(zoomView);
 
         viewMatrix = Application.getWindow().getProjectionCopy();
         viewMatrix.rotateZ(-getRadians());
         viewMatrix.translate(viewPosition.x, viewPosition.y, 0);
-        viewMatrix.scale(viewZoom);
+        viewMatrix.scale(zoomView);
 
         Vector3f orientation = new Vector3f(0, 1, 0);
         Quaternionf quaternion = new Quaternionf(0, 0, 0);
         quaternion.rotateZ(getRadians());
         orientation.rotate(quaternion);
         AudioMaster.setListenerPosition(-getX(), -getY(), 1f / zoom, orientation);
+    }
+
+    private void updateZoomView() {
+        zoomView = zoom * (Application.getWindow().getMaxSide() / distanceView);
     }
 
     public Vector2f calculateViewPosition(float x, float y) {
@@ -92,6 +97,10 @@ public class Camera extends BasePosition {
 
     public float getZoom() {
         return zoom;
+    }
+
+    public float getZoomView() {
+        return zoomView;
     }
 
 }

@@ -2,6 +2,7 @@ package nightingale.basics;
 
 import nightingale.Application;
 import nightingale.structures.Texture;
+import nightingale.utilities.UtilsMath;
 import org.joml.Matrix4f;
 
 import java.util.ArrayList;
@@ -39,15 +40,25 @@ public abstract class BaseSprite extends BasePosition implements BaseOperative {
     }
 
     public void render() {
-        texture.bind();
-
         Matrix4f projection = Application.getCamera().calculateViewProjection(
                 getX(), getY(), getRadians()
         );
 
+        float size = texture.getMaxSide() * 2 * Application.getCamera().getZoomView();
+
+        float rangeX = size / Application.getWindow().getWidth() + 1;
+        if (!UtilsMath.calculateIsNumberInsideRange(projection.m30(), -rangeX, rangeX)) {
+            return;
+        }
+
+        float rangeY = size / Application.getWindow().getHeight() + 1;
+        if (!UtilsMath.calculateIsNumberInsideRange(projection.m31(), -rangeY, rangeY)) {
+            return;
+        }
+
         Application.getShader().setUniformSampler(0);
         Application.getShader().setUniformProjection(projection);
-
+        texture.bind();
         texture.render();
     }
 
