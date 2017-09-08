@@ -27,7 +27,7 @@ public abstract class Application {
             System.exit(1);
         }
 
-        window = new Window();
+        window = new Window(true);
         GL.createCapabilities();
 
         camera = new Camera();
