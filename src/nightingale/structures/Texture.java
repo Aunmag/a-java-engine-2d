@@ -10,7 +10,6 @@ import nightingale.basics.BaseSize;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL30;
 
 public class Texture extends BaseSize {
