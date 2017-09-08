@@ -4,17 +4,25 @@ import nightingale.structures.Texture;
 import nightingale.structures.Vao;
 import nightingale.utilities.UtilsLanguage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Font {
 
-    public static final float LINE_HEIGHT = 0.03f;
+    private static HashMap<String, Font> all = new HashMap<>();
+    static final float LINE_HEIGHT = 0.03f;
     static final int SPACE_ASCII = 32;
 
-    final Texture texture;
+    public static Font getOrCreate(String name) {
+        if (all.containsKey(name)) {
+            return all.get(name);
+        } else {
+            Font font = new FontLoader(name).build();
+            all.put(name, font);
+            return font;
+        }
+    }
+
+    private final Texture texture;
     private final Map<Integer, Character> characters;
     final float spaceWidth;
 
@@ -124,6 +132,10 @@ public class Font {
         vertices.add(aY);
         vertices.add(aX);
         vertices.add(aY);
+    }
+
+    public void renderPrepare() {
+        texture.bind();
     }
 
 }
