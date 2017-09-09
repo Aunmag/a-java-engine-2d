@@ -115,6 +115,10 @@ public class Texture extends BaseSize {
         setSize(setWidth, setHeight);
     }
 
+    public void scaleAsWindow() {
+        setSize(Application.getWindow().getWidth(), Application.getWindow().getHeight());
+    }
+
     public void bind() {
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
