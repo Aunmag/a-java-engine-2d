@@ -30,7 +30,7 @@ public class FontLoader {
     private float lineStretchX;
     private float spaceWidth;
 
-    public FontLoader(String name) {
+    FontLoader(String name) {
         fileOpen(name);
         loadPadding();
         loadLineScales();
@@ -40,7 +40,7 @@ public class FontLoader {
         texture = Texture.getOrCreate("fonts/" + name);
     }
 
-    public Font build() {
+    Font build() {
         return new Font(texture, characters, spaceWidth);
     }
 
@@ -127,7 +127,7 @@ public class FontLoader {
     private Character loadCharacter() {
         int asciiId = parseVariable("id");
 
-        if (asciiId == Font.SPACE_ASCII) {
+        if (asciiId == ' ') {
             this.spaceWidth = (parseVariable("xadvance") - paddingWidth) * lineStretchX;
             return null;
         }

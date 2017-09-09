@@ -8,44 +8,27 @@ import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Text extends BaseQuad {
 
-    /* Static */
-
-    private static Map<Font, List<Text>> all = new HashMap<>();
     private static final ShaderFont shader = new ShaderFont();
 
-    public static void renderAll() {
-        shader.bind();
-
-        for (Font font: all.keySet()) {
-            font.texture.bind();
-            for (Text text: all.get(font)) {
-                text.render();
-            }
-        }
-
-        shader.unbind();
-    }
-
-    /* Dynamic */
-
-    final String message;
+    public final String message;
     final float fontSize;
     final float spaceWidth;
     final float widthRatio;
-    final Font font;
     final boolean isCenteredX;
     final Vao vao;
     private Vector4f colour = new Vector4f(1f, 1f, 1f, 1f);
     private Matrix4f projection;
+
+    public static void renderPrepare() {
+        shader.bind();
+    }
+
+    public static void renderFinish() {
+        shader.unbind();
+    }
 
     public Text(
             float x,
@@ -64,15 +47,12 @@ public class Text extends BaseQuad {
         );
         this.message = message;
         this.fontSize = fontSize;
-        this.font = font;
         this.widthRatio = width / Application.getWindow().getWidth();
         this.isCenteredX = isCenteredX;
 
         spaceWidth = font.spaceWidth * fontSize;
         vao = font.createTextVao(this);
         projection = calculateProjection();
-
-        addToAll();
     }
 
     private Matrix4f calculateProjection() {
@@ -85,22 +65,9 @@ public class Text extends BaseQuad {
         return projection;
     }
 
-    private void addToAll() {
-        List<Text> fontTexts = all.get(font);
-        if (fontTexts == null) {
-            fontTexts = new ArrayList<>();
-            all.put(font, fontTexts);
-        }
-
-        fontTexts.add(this);
-    }
-
     public void render() {
-        // TODO: Optimize:
-        shader.bind();
-        font.texture.bind();
+        vao.bind();
 
-        GL30.glBindVertexArray(vao.id);
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         shader.setUniformSampler(0);
@@ -110,16 +77,12 @@ public class Text extends BaseQuad {
 
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
-        GL30.glBindVertexArray(0);
+
+        vao.unbind();
     }
 
-    public void remove() {
-        List<Text> fontTexts = all.get(font);
-        fontTexts.remove(this);
-
-        if (fontTexts.isEmpty()) {
-            all.remove(font);
-        }
+    public void delete() {
+        vao.delete();
     }
 
     /* Setters */

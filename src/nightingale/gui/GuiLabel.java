@@ -8,7 +8,7 @@ import nightingale.font.Text;
 
 public class GuiLabel extends BaseQuad {
 
-    public static final Font font = new FontLoader("ubuntu").build();
+    public static final Font font = Font.getOrCreate("ubuntu");
     private static final int padding = 2;
 
     private BaseGrid grid;
@@ -37,6 +37,10 @@ public class GuiLabel extends BaseQuad {
 
     public void render() {
         text.render();
+    }
+
+    public void delete() {
+        text.delete();
     }
 
 }
