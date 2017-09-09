@@ -58,6 +58,7 @@ public abstract class BaseSprite extends BasePosition implements BaseOperative {
 
         Application.getShader().setUniformSampler(0);
         Application.getShader().setUniformProjection(projection);
+        Application.getShader().setUniformColourDefault();
         texture.bind();
         texture.render();
     }
