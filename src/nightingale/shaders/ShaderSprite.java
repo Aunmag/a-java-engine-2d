@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
@@ -21,6 +22,7 @@ public class ShaderSprite {
     private final int shaderFragmentId;
     private final int uniformLocationSampler;
     private final int uniformLocationProjection;
+    private final int uniformLocationColour;
 
     private static String readFile(String filename) {
         StringBuilder string = new StringBuilder();
@@ -83,6 +85,7 @@ public class ShaderSprite {
 
         uniformLocationSampler = getUniformLocation("sampler");
         uniformLocationProjection = getUniformLocation("projection");
+        uniformLocationColour = getUniformLocation("colour");
 
         all.add(this);
     }
@@ -120,6 +123,18 @@ public class ShaderSprite {
         FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
         projection.get(buffer);
         GL20.glUniformMatrix4fv(uniformLocationProjection, false, buffer);
+    }
+
+    public void setUniformColour(Vector4f colour) {
+        setUniformColour(colour.x, colour.y, colour.z, colour.w);
+    }
+
+    public void setUniformColourDefault() {
+        setUniformColour(1, 1, 1, 1);
+    }
+
+    public void setUniformColour(float red, float green, float blue, float alpha) {
+        GL20.glUniform4f(uniformLocationColour, red, green, blue, alpha);
     }
 
 }

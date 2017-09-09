@@ -2,7 +2,6 @@ package nightingale.font;
 
 import nightingale.Application;
 import nightingale.basics.BaseQuad;
-import nightingale.shaders.ShaderFont;
 import nightingale.structures.Vao;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
@@ -10,8 +9,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
 public class Text extends BaseQuad {
-
-    private static final ShaderFont shader = new ShaderFont();
 
     public final String message;
     final float fontSize;
@@ -21,14 +18,6 @@ public class Text extends BaseQuad {
     final Vao vao;
     private Vector4f colour = new Vector4f(1f, 1f, 1f, 1f);
     private Matrix4f projection;
-
-    public static void renderPrepare() {
-        shader.bind();
-    }
-
-    public static void renderFinish() {
-        shader.unbind();
-    }
 
     public Text(
             float x,
@@ -70,9 +59,9 @@ public class Text extends BaseQuad {
 
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
-        shader.setUniformSampler(0);
-        shader.setUniformColour(colour);
-        shader.setUniformProjection(projection);
+        Application.getShader().setUniformSampler(0);
+        Application.getShader().setUniformColour(colour);
+        Application.getShader().setUniformProjection(projection);
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vao.vertexCount);
 
         GL20.glDisableVertexAttribArray(0);
