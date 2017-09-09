@@ -9,10 +9,10 @@ import org.lwjgl.opengl.GL11;
 public class GuiPage {
 
     private GuiLabel[] labels;
-    private GuiButtonAction[] buttons;
+    private GuiButton[] buttons;
     private Texture wallpaper;
 
-    public GuiPage(GuiLabel[] labels, GuiButtonAction[] buttons, Texture wallpaper) {
+    public GuiPage(GuiLabel[] labels, GuiButton[] buttons, Texture wallpaper) {
         this.labels = labels;
         this.buttons = buttons;
         this.wallpaper = wallpaper;
@@ -23,7 +23,7 @@ public class GuiPage {
     }
 
     public void update() {
-        for (GuiButtonAction button: buttons) {
+        for (GuiButton button: buttons) {
             button.update();
         }
     }
@@ -39,7 +39,7 @@ public class GuiPage {
             label.render();
         }
 
-        for (GuiButtonAction button: buttons) {
+        for (GuiButton button: buttons) {
             button.render();
         }
     }

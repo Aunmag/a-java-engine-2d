@@ -19,7 +19,7 @@ public class GuiButton extends GuiLabel {
     private boolean isTouched = false;
     private boolean isPressed = false;
 
-    public GuiButton(
+    GuiButton(
             BaseGrid grid,
             int x,
             int y,
