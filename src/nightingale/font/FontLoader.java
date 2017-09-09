@@ -127,7 +127,7 @@ public class FontLoader {
     private Character loadCharacter() {
         int asciiId = parseVariable("id");
 
-        if (asciiId == Font.SPACE_ASCII) {
+        if (asciiId == ' ') {
             this.spaceWidth = (parseVariable("xadvance") - paddingWidth) * lineStretchX;
             return null;
         }

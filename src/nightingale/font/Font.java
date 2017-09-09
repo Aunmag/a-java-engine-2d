@@ -10,7 +10,6 @@ public class Font {
 
     private static HashMap<String, Font> all = new HashMap<>();
     static final float LINE_HEIGHT = 0.03f;
-    static final int SPACE_ASCII = 32;
 
     public static Font getOrCreate(String name) {
         if (all.containsKey(name)) {
@@ -74,17 +73,19 @@ public class Font {
     }
 
     private List<Line> createTextLines(Text text) {
+        String message = text.message;
         List<Line> lines = new ArrayList<>();
         Word word = new Word(text.fontSize);
         Line line = new Line(text.spaceWidth);
 
-        for (int i = 0; i < text.message.length(); i++) {
-            int ascii = text.message.charAt(i);
+        for (int i = 0; i < message.length(); i++) {
+            int ascii = message.charAt(i);
             int iNext = i + 1;
-            boolean isEndText = text.message.length() == iNext;
-            boolean isEndWord = isEndText || SPACE_ASCII == text.message.charAt(iNext);
+            boolean isEndText = message.length() == iNext;
+            boolean isEndLine = isEndText || message.charAt(iNext) == '\n';
+            boolean isEndWord = isEndLine || message.charAt(iNext) == ' ';
 
-            if (ascii != SPACE_ASCII) {
+            if (ascii != ' ') {
                 Character character = characters.get(ascii);
                 word.addCharacter(character);
             }
@@ -96,6 +97,11 @@ public class Font {
                 }
                 line.addWord(word);
                 word = new Word(text.fontSize);
+            }
+
+            if (isEndLine) {
+                lines.add(line);
+                line = new Line(text.spaceWidth);
             }
         }
 

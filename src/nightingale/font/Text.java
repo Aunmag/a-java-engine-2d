@@ -13,7 +13,7 @@ public class Text extends BaseQuad {
 
     private static final ShaderFont shader = new ShaderFont();
 
-    final String message;
+    public final String message;
     final float fontSize;
     final float spaceWidth;
     final float widthRatio;
