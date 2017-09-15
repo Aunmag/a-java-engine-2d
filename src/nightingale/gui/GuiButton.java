@@ -51,7 +51,7 @@ public class GuiButton extends GuiLabel {
                 Application.getInput().getMouseX(),
                 Application.getInput().getMouseY()
         );
-        isPressed = isTouched && Application.getInput().isMouseButtonPressed(
+        isPressed = isTouched && Application.getInput().isMouseButtonReleased(
                 GLFW.GLFW_MOUSE_BUTTON_1
         );
     }
