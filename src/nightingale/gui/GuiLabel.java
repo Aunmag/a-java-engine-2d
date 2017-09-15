@@ -1,5 +1,6 @@
 package nightingale.gui;
 
+import nightingale.Application;
 import nightingale.basics.BaseGrid;
 import nightingale.basics.BaseQuad;
 import nightingale.font.Font;
@@ -47,6 +48,8 @@ public class GuiLabel extends BaseQuad {
     }
 
     public void render() {
+        Application.getShader().bind();
+        GuiLabel.font.renderPrepare();
         text.render();
     }
 
