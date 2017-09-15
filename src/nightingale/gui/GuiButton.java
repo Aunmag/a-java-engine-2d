@@ -20,6 +20,17 @@ public class GuiButton extends GuiLabel {
     private boolean isPressed = false;
 
     GuiButton(
+            int x,
+            int y,
+            int width,
+            int height,
+            String text
+    ) {
+        super(BaseGrid.grid12, x, y, width, height, text);
+        onScreenQuad = calculateOnScreenQuad();
+    }
+
+    GuiButton(
             BaseGrid grid,
             int x,
             int y,

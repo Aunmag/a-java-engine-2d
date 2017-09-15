@@ -7,6 +7,18 @@ public class GuiButtonAction extends GuiButton {
     private Runnable action;
 
     public GuiButtonAction(
+            int x,
+            int y,
+            int width,
+            int height,
+            String text,
+            Runnable action
+    ) {
+        super(x, y, width, height, text);
+        this.action = action;
+    }
+
+    public GuiButtonAction(
             BaseGrid grid,
             int x,
             int y,
@@ -20,6 +32,8 @@ public class GuiButtonAction extends GuiButton {
     }
 
     public void update() {
+        super.update();
+
         if (isPressed() && action != null) {
             try {
                 action.run();
