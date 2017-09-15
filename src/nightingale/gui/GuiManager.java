@@ -1,22 +1,41 @@
 package nightingale.gui;
 
+import nightingale.Application;
+import org.lwjgl.glfw.GLFW;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class GuiManager {
 
     private static List<GuiPage> pages = new ArrayList<>();
+    private static boolean shouldClose = false;
 
     public static void update() {
+        shouldClose = false;
+
+        if (Application.getInput().isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
+            back();
+        }
+
         getCurrentPage().update();
     }
 
+    public static void activate() {
+        shouldClose = false;
+    }
+
     public static void back() {
-        pages.remove(getLastPageIndex());
+        if (isPageMainOpened()) {
+            shouldClose = true;
+        } else {
+            pages.remove(getLastPageIndex());
+        }
     }
 
     public static void open(GuiPage page) {
         pages.add(page);
+        activate();
     }
 
     public static void render() {
@@ -35,6 +54,10 @@ public class GuiManager {
 
     public static boolean isPageMainOpened() {
         return getLastPageIndex() == 0;
+    }
+
+    public static boolean isShouldClose() {
+        return shouldClose;
     }
 
 }
