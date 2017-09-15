@@ -22,6 +22,10 @@ public class GuiPage {
         }
     }
 
+    public void open() {
+        GuiManager.open(this);
+    }
+
     public void update() {
         for (GuiButton button: buttons) {
             button.update();
@@ -45,7 +49,7 @@ public class GuiPage {
     }
 
     private void fillScreen() {
-        GL11.glColor4f(0.2f, 0.2f, 0.2f, 0.4f);
+        GL11.glColor4f(0.2f, 0.2f, 0.2f, 0.6f);
 
         int width = (int) Application.getWindow().getWidth();
         int height = (int) Application.getWindow().getHeight();

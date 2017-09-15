@@ -6,7 +6,7 @@ import nightingale.basics.BaseQuad;
 import nightingale.utilities.UtilsGraphics;
 import org.lwjgl.glfw.GLFW;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class GuiButton extends GuiLabel {
 
@@ -18,19 +18,27 @@ public class GuiButton extends GuiLabel {
     private boolean isAvailable = true;
     private boolean isTouched = false;
     private boolean isPressed = false;
-    private Runnable action;
 
-    public GuiButton(
+    GuiButton(
+            int x,
+            int y,
+            int width,
+            int height,
+            String text
+    ) {
+        super(BaseGrid.grid12, x, y, width, height, text);
+        onScreenQuad = calculateOnScreenQuad();
+    }
+
+    GuiButton(
             BaseGrid grid,
             int x,
             int y,
             int width,
             int height,
-            String text,
-            Runnable action
+            String text
     ) {
         super(grid, x, y, width, height, text);
-        this.action = action;
         onScreenQuad = calculateOnScreenQuad();
     }
 
@@ -46,14 +54,6 @@ public class GuiButton extends GuiLabel {
         isPressed = isTouched && Application.getInput().isMouseButtonPressed(
                 GLFW.GLFW_MOUSE_BUTTON_1
         );
-
-        if (isPressed && action != null) {
-            try {
-                action.run();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public void render() {
@@ -78,6 +78,12 @@ public class GuiButton extends GuiLabel {
             isTouched = false;
             isPressed = false;
         }
+    }
+
+    /* Getters */
+
+    public boolean isPressed() {
+        return isPressed;
     }
 
 }
