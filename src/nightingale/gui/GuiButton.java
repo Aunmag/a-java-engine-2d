@@ -74,9 +74,17 @@ public class GuiButton extends GuiLabel {
             this.isAvailable = isAvailable;
         }
 
-        if (!isAvailable) {
+        if (isAvailable) {
+            setTextColour(1, 1, 1, 1);
+        } else {
             isTouched = false;
             isPressed = false;
+            setTextColour(
+                fontColorUnavailable.getRed() / 255f,
+                fontColorUnavailable.getGreen() / 255f,
+                fontColorUnavailable.getBlue() / 255f,
+                fontColorUnavailable.getAlpha() / 255f
+            );
         }
     }
 

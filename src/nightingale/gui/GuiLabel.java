@@ -57,4 +57,10 @@ public class GuiLabel extends BaseQuad {
         text.delete();
     }
 
+    /* Setters */
+
+    public void setTextColour(float red, float green, float blue, float alpha) {
+        text.setColour(red, green, blue, alpha);
+    }
+
 }

@@ -81,4 +81,11 @@ public class Text extends BaseQuad {
         projection = calculateProjection();
     }
 
+    public void setColour(float red, float green, float blue, float alpha) {
+        colour.x = red;
+        colour.y = green;
+        colour.z = blue;
+        colour.w = alpha;
+    }
+
 }
