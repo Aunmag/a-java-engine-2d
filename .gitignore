@@ -1,4 +1,3 @@
 out/
-src/test
-res/test
+tmp/
 .idea
