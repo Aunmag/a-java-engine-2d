@@ -19,6 +19,7 @@ public class Camera extends BasePosition {
     private float distanceView = 1280;
     private float zoom = 2;
     private float zoomView = 1;
+    private float offset = Application.getWindow().getCenterY() / 3f;
     private BaseSprite target;
 
     public Camera() {
@@ -32,6 +33,11 @@ public class Camera extends BasePosition {
         }
 
         updateZoomView();
+
+        float offsetZoomed = offset / zoomView;
+        float offsetX = offsetZoomed * (float) Math.cos(getRadians() + UtilsMath.PIx0_5);
+        float offsetY = offsetZoomed * (float) Math.sin(getRadians() + UtilsMath.PIx0_5);
+        addPosition(-offsetX, -offsetY);
 
         Vector2f viewPosition = new Vector2f(getX(), getY());
         viewPosition.mul(zoomView);
