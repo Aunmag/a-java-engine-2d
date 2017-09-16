@@ -31,6 +31,14 @@ public abstract class BaseSprite extends BasePosition implements BaseOperative {
         }
     }
 
+    public static void removeAll(List<? extends BaseSprite> sprites) {
+        for (BaseSprite sprite: sprites) {
+            sprite.remove();
+        }
+
+        sprites.clear();
+    }
+
     private boolean isRemoved = false;
     private Texture texture;
 
