@@ -3,9 +3,7 @@ package nightingale.font;
 import nightingale.Application;
 import nightingale.structures.Texture;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,8 +46,8 @@ public class FontLoader {
         String path = "/fonts/" + name + ".fnt";
 
         try {
-            URL url = FontLoader.class.getResource(path);
-            bufferedReader = new BufferedReader(new FileReader(url.getFile()));
+            InputStream inputStream = getClass().getResourceAsStream(path);
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         } catch (Exception e) {
             e.printStackTrace();
             String message = String.format("Can't read font file at \"%s\"!", path);
