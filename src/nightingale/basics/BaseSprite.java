@@ -5,39 +5,7 @@ import nightingale.structures.Texture;
 import nightingale.utilities.UtilsMath;
 import org.joml.Matrix4f;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class BaseSprite extends BasePosition implements BaseOperative {
-
-    public static void updateAll(List<? extends BaseSprite> sprites) {
-        List<BaseSprite> spritesToDelete = new ArrayList<>();
-
-        for (BaseSprite sprite: sprites) {
-            sprite.update();
-            if (sprite.isRemoved()) {
-                spritesToDelete.add(sprite);
-            }
-        }
-
-        for (BaseSprite sprite: spritesToDelete) {
-            sprites.remove(sprite);
-        }
-    }
-
-    public static void renderAll(List<? extends BaseSprite> sprites) {
-        for (BaseSprite sprite: sprites) {
-            sprite.render();
-        }
-    }
-
-    public static void removeAll(List<? extends BaseSprite> sprites) {
-        for (BaseSprite sprite: sprites) {
-            sprite.remove();
-        }
-
-        sprites.clear();
-    }
 
     private boolean isRemoved = false;
     private Texture texture;

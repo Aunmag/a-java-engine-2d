@@ -1,3 +1,5 @@
 out/
-tmp/
+res/images/
+res/sounds/
+src/game
 .idea

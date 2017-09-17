@@ -8,4 +8,6 @@ public interface BaseOperative {
 
     void remove();
 
+    boolean isRemoved();
+
 }
