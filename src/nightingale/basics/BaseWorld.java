@@ -20,4 +20,8 @@ public abstract class BaseWorld implements BaseOperative {
         return timeCurrent;
     }
 
+    public boolean isRemoved() {
+        return false;
+    }
+
 }
