@@ -3,14 +3,13 @@ package nightingale;
 import nightingale.audio.AudioMaster;
 import nightingale.data.DataEngine;
 import nightingale.data.DataTime;
+import nightingale.shaders.ShaderSprite;
 import nightingale.structures.Model;
 import nightingale.structures.Texture;
 import nightingale.structures.Vao;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
-
-import nightingale.shaders.ShaderSprite;
 
 public abstract class Application {
 
@@ -23,13 +22,11 @@ public abstract class Application {
 
     public Application() {
         if (isInitialized) {
-            System.err.println("Engine is already initialized!");
-            System.exit(1);
+            throw new IllegalStateException("Engine is already initialized!");
         }
 
         if (!GLFW.glfwInit()) {
-            System.err.println("GLFW Failed to initialize!");
-            System.exit(1);
+            throw new IllegalStateException("Failed to initialize GLFW!");
         }
 
         isInitialized = true;
