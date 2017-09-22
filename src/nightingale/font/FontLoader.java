@@ -4,7 +4,6 @@ import nightingale.Application;
 import nightingale.structures.Texture;
 
 import java.io.*;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +34,7 @@ public class FontLoader {
         textureAtlasWidth = parseVariable("scaleW");
         loadCharacters();
         fileClose();
-        texture = Texture.getOrCreate("fonts/" + name);
+        texture = Texture.getOrCreate("fonts/" + name, false, false);
     }
 
     Font build() {

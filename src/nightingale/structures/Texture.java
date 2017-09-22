@@ -20,10 +20,18 @@ public class Texture extends BaseSize {
     private boolean isScaled;
 
     public static Texture getOrCreate(String name) {
+        return getOrCreate(name, true, false);
+    }
+
+    public static Texture getOrCreate(
+            String name,
+            boolean isNearest,
+            boolean isMipmapped
+    ) {
         if (all.containsKey(name)) {
             return all.get(name);
         } else {
-            Texture texture = new Texture(loadImage(name));
+            Texture texture = new Texture(loadImage(name), isNearest, isMipmapped);
             all.put(name, texture);
             return texture;
         }
@@ -45,7 +53,7 @@ public class Texture extends BaseSize {
         return bufferedImage;
     }
 
-    private Texture(BufferedImage bufferedImage) {
+    private Texture(BufferedImage bufferedImage, boolean isNearest, boolean isMipmapped) {
         super(bufferedImage.getWidth(), bufferedImage.getHeight());
 
         isScaled = false;
@@ -73,12 +81,12 @@ public class Texture extends BaseSize {
         GL11.glTexParameterf(
                 GL11.GL_TEXTURE_2D,
                 GL11.GL_TEXTURE_MIN_FILTER,
-                GL11.GL_NEAREST
+                isNearest ? GL11.GL_NEAREST : GL11.GL_LINEAR
         );
         GL11.glTexParameterf(
                 GL11.GL_TEXTURE_2D,
                 GL11.GL_TEXTURE_MAG_FILTER,
-                GL11.GL_NEAREST
+                isNearest ? GL11.GL_NEAREST : GL11.GL_LINEAR
         );
         GL11.glTexImage2D(
                 GL11.GL_TEXTURE_2D,
@@ -92,12 +100,14 @@ public class Texture extends BaseSize {
                 pixelsBuffer
         );
 
-        GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
-        GL11.glTexParameteri(
-                GL11.GL_TEXTURE_2D,
-                GL11.GL_TEXTURE_MIN_FILTER,
-                GL11.GL_NEAREST_MIPMAP_LINEAR
-        );
+        if (isMipmapped) {
+            GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+            GL11.glTexParameteri(
+                    GL11.GL_TEXTURE_2D,
+                    GL11.GL_TEXTURE_MIN_FILTER,
+                    GL11.GL_NEAREST_MIPMAP_LINEAR
+            );
+        }
     }
 
     public void scaleAsWallpaper() {
