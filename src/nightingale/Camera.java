@@ -27,17 +27,17 @@ public class Camera extends BasePosition {
     }
 
     public void update() {
+        updateZoomView();
+
         if (target != null) {
             setPosition(-target.getX(), -target.getY());
             setRadians(target.getRadians() - (float) UtilsMath.PIx0_5);
+
+            float offsetZoomed = offset / zoomView;
+            float offsetX = offsetZoomed * target.getCos();
+            float offsetY = offsetZoomed * target.getSin();
+            addPosition(-offsetX, -offsetY);
         }
-
-        updateZoomView();
-
-        float offsetZoomed = offset / zoomView;
-        float offsetX = offsetZoomed * (float) Math.cos(getRadians() + UtilsMath.PIx0_5);
-        float offsetY = offsetZoomed * (float) Math.sin(getRadians() + UtilsMath.PIx0_5);
-        addPosition(-offsetX, -offsetY);
 
         Vector2f viewPosition = new Vector2f(getX(), getY());
         viewPosition.mul(zoomView);

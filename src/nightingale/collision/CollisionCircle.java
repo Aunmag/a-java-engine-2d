@@ -7,7 +7,7 @@ import java.awt.Color;
 
 public class CollisionCircle extends Collision {
 
-    final float radius;
+    public final float radius;
     float distanceBetweenFromLastCheck;
 
     public CollisionCircle(float x, float y, float radius) {
