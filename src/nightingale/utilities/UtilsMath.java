@@ -1,7 +1,6 @@
 package nightingale.utilities;
 
 import nightingale.basics.BasePoint;
-import org.joml.Vector2f;
 
 import java.util.Random;
 
