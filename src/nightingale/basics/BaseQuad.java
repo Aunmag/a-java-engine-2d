@@ -1,18 +1,23 @@
 package nightingale.basics;
 
 import nightingale.utilities.UtilsMath;
-import org.joml.Vector2f;
 
-public class BaseQuad extends BaseSize {
+public class BaseQuad extends BasePoint {
 
-    private Vector2f pointA;
-    private Vector2f pointB;
-    private Vector2f pointC;
-    private Vector2f pointD;
+    protected float width;
+    protected float height;
+    private float centerX;
+    private float centerY;
+    private float aspectRatio;
 
     public BaseQuad(float x, float y, float width, float height) {
-        super(width, height);
-        setPosition(x, y);
+        super(x, y);
+        setSize(width, height);
+    }
+
+    public BaseQuad(float width, float height) {
+        super(0, 0);
+        setSize(width, height);
     }
 
     public boolean calculateIsPointInside(float testX, float testY) {
@@ -25,11 +30,14 @@ public class BaseQuad extends BaseSize {
 
     /* Setters */
 
-    public void setPosition(float x, float y) {
-        pointA = new Vector2f(x, y);
-        pointB = new Vector2f(x + width, y);
-        pointC = new Vector2f(x + width, y + height);
-        pointD = new Vector2f(x, y + height);
+    protected void setSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+
+        centerX = width / 2f;
+        centerY = height / 2f;
+
+        aspectRatio = width / height;
     }
 
     public void setPositionCenteredBy(float x, float y) {
@@ -38,28 +46,28 @@ public class BaseQuad extends BaseSize {
 
     /* Getters */
 
-    public float getX() {
-        return pointA.x;
+    public float getWidth() {
+        return width;
     }
 
-    public float getY() {
-        return pointA.y;
+    public float getHeight() {
+        return height;
     }
 
-    public Vector2f getPointA() {
-        return pointA;
+    public float getMaxSide() {
+        return Float.max(width, height);
     }
 
-    public Vector2f getPointB() {
-        return pointB;
+    public float getCenterX() {
+        return centerX;
     }
 
-    public Vector2f getPointC() {
-        return pointC;
+    public float getCenterY() {
+        return centerY;
     }
 
-    public Vector2f getPointD() {
-        return pointD;
+    public float getAspectRatio() {
+        return aspectRatio;
     }
 
 }

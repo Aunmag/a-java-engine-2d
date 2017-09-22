@@ -3,7 +3,6 @@ package nightingale.gui;
 import nightingale.Application;
 import nightingale.structures.Texture;
 import nightingale.utilities.UtilsGraphics;
-import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
 
 public class GuiPage {
@@ -55,14 +54,7 @@ public class GuiPage {
         int height = (int) Application.getWindow().getHeight();
 
         UtilsGraphics.drawPrepare();
-        UtilsGraphics.drawQuad(
-                new Vector2f(0, 0),
-                new Vector2f(width, 0),
-                new Vector2f(width, height),
-                new Vector2f(0, height),
-                true,
-                false
-        );
+        UtilsGraphics.drawQuad(0, 0, width, height, true, false);
     }
 
     private void renderWallpaper() {

@@ -5,7 +5,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import nightingale.basics.BaseSize;
+import nightingale.basics.BaseQuad;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -23,12 +23,12 @@ public class Model {
     private int indicesId;
 
     // TODO: Implement getOrCreate
-    public static Model createFromSize(BaseSize size) {
+    public static Model createFromQuad(BaseQuad quad) {
         float[] vertices = new float[] {
-                -size.getCenterX(), +size.getCenterY(), 0,
-                -size.getCenterX(), -size.getCenterY(), 0,
-                +size.getCenterX(), -size.getCenterY(), 0,
-                +size.getCenterX(), +size.getCenterY(), 0,
+                -quad.getCenterX(), +quad.getCenterY(), 0,
+                -quad.getCenterX(), -quad.getCenterY(), 0,
+                +quad.getCenterX(), -quad.getCenterY(), 0,
+                +quad.getCenterX(), +quad.getCenterY(), 0,
         };
 
         float[] texture = new float[] {

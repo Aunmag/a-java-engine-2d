@@ -1,7 +1,6 @@
 package nightingale.utilities;
 
 import nightingale.Application;
-import nightingale.basics.BasePoint;
 import nightingale.basics.BaseQuad;
 import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
@@ -16,74 +15,90 @@ public class UtilsGraphics {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     }
 
-    public static void drawLine(BasePoint a, BasePoint b, boolean isOnWorld) {
-        drawLine(a.getPositionCopy(), b.getPositionCopy(), isOnWorld);
-    }
+    public static void drawLine(
+            float x1,
+            float y1,
+            float x2,
+            float y2,
+            boolean isOnWorld
+    ) {
+        Vector2f a;
+        Vector2f b;
 
-    public static void drawLine(Vector2f a, Vector2f b, boolean isOnWorld) {
         if (isOnWorld) {
-            a = Application.getCamera().calculateViewPosition(a.x, a.y);
-            b = Application.getCamera().calculateViewPosition(b.x, b.y);
+            a = Application.getCamera().calculateViewPosition(x1, y1);
+            b = Application.getCamera().calculateViewPosition(x2, y2);
         } else {
-            a = Application.getWindow().calculateViewPosition(a.x, a.y);
-            b = Application.getWindow().calculateViewPosition(b.x, b.y);
+            a = Application.getWindow().calculateViewPosition(x1, y1);
+            b = Application.getWindow().calculateViewPosition(x2, y2);
         }
 
-        drawLine(a, b);
+        drawLine(a.x(), a.y(), b.x(), b.y());
     }
 
-    public static void drawLine(Vector2f a, Vector2f b) {
+    private static void drawLine(float x1, float y1, float x2, float y2) {
         GL11.glBegin(GL11.GL_LINE_STRIP);
-        GL11.glVertex2f(a.x(), a.y());
-        GL11.glVertex2f(b.x(), b.y());
+        GL11.glVertex2f(x1, y1);
+        GL11.glVertex2f(x2, y2);
         GL11.glEnd();
     }
 
     public static void drawQuad(BaseQuad quad, boolean isFilled, boolean isOnWorld) {
         drawQuad(
-                quad.getPointA(),
-                quad.getPointB(),
-                quad.getPointC(),
-                quad.getPointD(),
+                quad.getX(),
+                quad.getY(),
+                quad.getWidth(),
+                quad.getHeight(),
                 isFilled,
                 isOnWorld
         );
     }
 
     public static void drawQuad(
-            Vector2f a,
-            Vector2f b,
-            Vector2f c,
-            Vector2f d,
+            float x,
+            float y,
+            float width,
+            float height,
             boolean isFilled,
             boolean isOnWorld
     ) {
-        if (isOnWorld) {
-            a = Application.getCamera().calculateViewPosition(a.x, a.y);
-            b = Application.getCamera().calculateViewPosition(b.x, b.y);
-            c = Application.getCamera().calculateViewPosition(c.x, c.y);
-            d = Application.getCamera().calculateViewPosition(d.x, d.y);
-        } else {
-            a = Application.getWindow().calculateViewPosition(a.x, a.y);
-            b = Application.getWindow().calculateViewPosition(b.x, b.y);
-            c = Application.getWindow().calculateViewPosition(c.x, c.y);
-            d = Application.getWindow().calculateViewPosition(d.x, d.y);
+        float x1;
+        float y1;
+        float x2;
+        float y2;
+
+        {
+            Vector2f a;
+            Vector2f b;
+
+            if (isOnWorld) {
+                a = Application.getCamera().calculateViewPosition(x, y);
+                b = Application.getCamera().calculateViewPosition(x + width, y + height);
+            } else {
+                a = Application.getWindow().calculateViewPosition(x, y);
+                b = Application.getWindow().calculateViewPosition(x + width, y + height);
+            }
+
+            x1 = a.x();
+            y1 = a.y();
+            x2 = b.x();
+            y2 = b.y();
         }
 
         if (isFilled) {
             GL11.glBegin(GL11.GL_TRIANGLES);
-            GL11.glVertex2f(a.x(), a.y()); // 1. a - top left
-            GL11.glVertex2f(d.x(), d.y()); // 1. d - down left
-            GL11.glVertex2f(b.x(), b.y()); // 1. b - top right
-            GL11.glVertex2f(b.x(), b.y()); // 2. b - top right
-            GL11.glVertex2f(d.x(), d.y()); // 2. d - down left
-            GL11.glVertex2f(c.x(), c.y()); // 2. c - down right
+            GL11.glVertex2f(x1, y1); // 1. a - top left
+            GL11.glVertex2f(x1, y2); // 1. d - down left
+            GL11.glVertex2f(x2, y1); // 1. b - top right
+            GL11.glVertex2f(x2, y1); // 2. b - top right
+            GL11.glVertex2f(x1, y2); // 2. d - down left
+            GL11.glVertex2f(x2, y2); // 2. c - down right
             GL11.glEnd();
         } else {
-            drawLine(a, b);
-            drawLine(b, c);
-            drawLine(c, d);
-            drawLine(d, a);
+            drawLine(x1, y1, x2, y1);
+            drawLine(x2, y1, x2, y2);
+            drawLine(x2, y2, x1, y2);
+            drawLine(x1, y2, x1, y1);
         }
     }
 

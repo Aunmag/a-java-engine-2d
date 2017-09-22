@@ -2,7 +2,6 @@ package nightingale.basics;
 
 import nightingale.Application;
 import nightingale.utilities.UtilsGraphics;
-import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
 
 public class BaseGrid {
@@ -32,14 +31,14 @@ public class BaseGrid {
 
         for (float n = 0f; n < slices; n++) {
             UtilsGraphics.drawLine(
-                    new Vector2f(stepX * n, 0),
-                    new Vector2f(stepX * n, Application.getWindow().height),
+                    stepX * n, 0,
+                    stepX * n, Application.getWindow().height,
                     false
             );
 
             UtilsGraphics.drawLine(
-                    new Vector2f(0, stepY * n),
-                    new Vector2f(Application.getWindow().width, stepY * n),
+                    0, stepY * n,
+                    Application.getWindow().width, stepY * n,
                     false
             );
         }
