@@ -58,11 +58,7 @@ public class UtilsMath {
     }
 
     private static void logGotEqualValuesInsideRandomizeBetween(float value) {
-        String message = String.format(
-                "Min and max values are equal. Returned %s once.",
-                value
-        );
-        UtilsLog.log("randomizeBetween", message);
+        System.out.println("Min and max values are equal. Returned " + value +" once.");
     }
 
     public static float randomizeFlexibly(float middle, float offset) {
