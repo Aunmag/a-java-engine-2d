@@ -1,13 +1,13 @@
 package nightingale;
 
-import nightingale.basics.BaseSize;
+import nightingale.basics.BaseQuad;
 import nightingale.data.DataEngine;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
-public class Window extends BaseSize {
+public class Window extends BaseQuad {
 
     private long id;
     private Matrix4f projection;

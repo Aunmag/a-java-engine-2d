@@ -6,13 +6,13 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import nightingale.Application;
-import nightingale.basics.BaseSize;
+import nightingale.basics.BaseQuad;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL30;
 
-public class Texture extends BaseSize {
+public class Texture extends BaseQuad {
 
     private static HashMap<String, Texture> all = new HashMap<>();
     private int id;
@@ -149,7 +149,7 @@ public class Texture extends BaseSize {
     protected void setSize(float width, float height) {
         super.setSize(width, height);
         isScaled = true;
-        model = Model.createFromSize(this);
+        model = Model.createFromQuad(this);
     }
 
     /* Getters */
