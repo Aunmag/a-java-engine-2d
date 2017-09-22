@@ -14,29 +14,34 @@ import nightingale.shaders.ShaderSprite;
 
 public abstract class Application {
 
-    // TODO: Prevent multiple launching
-    public static boolean isRunning = false;
+    private static boolean isInitialized = false;
+    private static boolean isRunning = false;
     private static Window window;
     private static Camera camera;
     private static ShaderSprite shader;
     private static Input input;
 
     public Application() {
+        if (isInitialized) {
+            System.err.println("Engine is already initialized!");
+            System.exit(1);
+        }
+
         if (!GLFW.glfwInit()) {
             System.err.println("GLFW Failed to initialize!");
             System.exit(1);
         }
 
-        window = new Window(true);
-        GL.createCapabilities();
+        isInitialized = true;
 
-        camera = new Camera();
+        window = new Window();
+        GL.createCapabilities();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glEnable(GL11.GL_BLEND);
 
+        camera = new Camera();
         shader = new ShaderSprite("shaderSprite");
-
         input = new Input(window.getId());
 
         AudioMaster.initialize();
@@ -71,12 +76,17 @@ public abstract class Application {
         camera.update();
 
         if (GLFW.glfwWindowShouldClose(window.getId())) {
-            isRunning = false;
+            stopRunning();
         }
     }
 
     private void engineRender() {
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+        GL11.glClearColor(
+                Configs.getClearColor().x(),
+                Configs.getClearColor().y(),
+                Configs.getClearColor().z(),
+                1f);
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         Application.getShader().bind();
         gameRender();
         window.swapBuffers();
@@ -103,7 +113,19 @@ public abstract class Application {
 
     protected abstract void gameTerminate();
 
+    public static void stopRunning() {
+        isRunning = false;
+    }
+
     /* Getters */
+
+    public static boolean isInitialized() {
+        return isInitialized;
+    }
+
+    public static boolean isRunning() {
+        return isRunning;
+    }
 
     public static Window getWindow() {
         return window;

@@ -13,20 +13,20 @@ public class Window extends BaseSize {
     private Matrix4f projection;
     private boolean isCursorGrabbed = false;
 
-    public Window(boolean isFullscreen) {
+    Window() {
         super(
-                isFullscreen ? getFullScreenWidth() : 1024,
-                isFullscreen ? getFullScreenHeight() : 576
+                Configs.isFullscreen() ? getFullScreenWidth() : 1024,
+                Configs.isFullscreen() ? getFullScreenHeight() : 576
         );
         projection = calculateProjection();
 
-        GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
+        GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, Configs.getAntialiasing());
 
         id = GLFW.glfwCreateWindow(
             (int) width,
             (int) height,
             DataEngine.titleFull,
-            isFullscreen ? GLFW.glfwGetPrimaryMonitor() : 0,
+            Configs.isFullscreen() ? GLFW.glfwGetPrimaryMonitor() : 0,
             0
         );
 
@@ -34,7 +34,7 @@ public class Window extends BaseSize {
             throw new IllegalStateException("Failed to create window!");
         }
 
-        if (!isFullscreen) {
+        if (!Configs.isFullscreen()) {
             GLFW.glfwSetWindowPos(
                     id,
                     (getFullScreenWidth() - (int) width) / 2,
