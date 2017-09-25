@@ -62,6 +62,11 @@ public class UtilsGraphics {
             boolean isFilled,
             boolean isOnWorld
     ) {
+        if (isFilled) {
+            x -= 1;
+            y -= 1;
+        }
+
         float x1;
         float y1;
         float x2;
