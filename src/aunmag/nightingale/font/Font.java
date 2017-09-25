@@ -10,6 +10,8 @@ public class Font {
 
     private static HashMap<String, Font> all = new HashMap<>();
     static final float LINE_HEIGHT = 0.03f;
+    public static final Font fontTitle = Font.getOrCreate("ubuntu-bold");
+    public static final Font fontDefault = Font.getOrCreate("ubuntu");
 
     public static Font getOrCreate(String name) {
         if (all.containsKey(name)) {

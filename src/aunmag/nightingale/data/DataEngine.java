@@ -3,7 +3,7 @@ package aunmag.nightingale.data;
 public class DataEngine {
 
     public static final String name = "Nightingale Engine";
-    public static final String version = "0.35.0";
+    public static final String version = "0.36.0";
     public static final String license = "Apache 2.0";
     public static final String developer = "Aunmag";
     public static final String developerEmail = "aunmag@gmail.com";

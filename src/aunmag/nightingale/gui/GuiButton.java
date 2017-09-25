@@ -3,6 +3,7 @@ package aunmag.nightingale.gui;
 import aunmag.nightingale.Application;
 import aunmag.nightingale.basics.BaseGrid;
 import aunmag.nightingale.basics.BaseQuad;
+import aunmag.nightingale.font.Font;
 import aunmag.nightingale.utilities.UtilsGraphics;
 import org.lwjgl.glfw.GLFW;
 
@@ -19,15 +20,8 @@ public class GuiButton extends GuiLabel {
     private boolean isTouched = false;
     private boolean isPressed = false;
 
-    GuiButton(
-            int x,
-            int y,
-            int width,
-            int height,
-            String text
-    ) {
-        super(BaseGrid.grid12, x, y, width, height, text);
-        onScreenQuad = calculateOnScreenQuad();
+    GuiButton(int x, int y, int width, int height, String text) {
+        this(BaseGrid.grid12, x, y, width, height, text);
     }
 
     GuiButton(
@@ -38,7 +32,7 @@ public class GuiButton extends GuiLabel {
             int height,
             String text
     ) {
-        super(grid, x, y, width, height, text);
+        super(grid, x, y, width, height, text, Font.fontTitle, 1.5f);
         onScreenQuad = calculateOnScreenQuad();
     }
 
