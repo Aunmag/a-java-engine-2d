@@ -8,30 +8,43 @@ import aunmag.nightingale.font.Text;
 
 public class GuiLabel extends BaseQuad {
 
-    public static final Font font = Font.getOrCreate("ubuntu");
     private static final int padding = 2;
-
     private BaseGrid grid;
     private Text text;
+    private Font font;
 
     public GuiLabel(int x, int y, int width, int height, String message) {
-        super(x, y, width, height);
-        this.grid = BaseGrid.grid12;
-
-        BaseQuad onScreenQuad = calculateOnScreenQuad();
-        text = new Text(0, 0, onScreenQuad.getWidth() * 2, message, 1.6f, font, true);
-        text.setPositionCenteredBy(
-                onScreenQuad.getX() + onScreenQuad.getCenterX(),
-                onScreenQuad.getY() + onScreenQuad.getCenterY()
-        );
+        this(BaseGrid.grid12, x, y, width, height, message, Font.fontTitle, 2);
     }
 
-    public GuiLabel(BaseGrid grid, int x, int y, int width, int height, String message) {
+    public GuiLabel(
+            int x,
+            int y,
+            int width,
+            int height,
+            String message,
+            Font font,
+            float fontSize
+    ) {
+        this(BaseGrid.grid12, x, y, width, height, message, font, fontSize);
+    }
+
+    public GuiLabel(
+            BaseGrid grid,
+            int x,
+            int y,
+            int width,
+            int height,
+            String message,
+            Font font,
+            float fontSize
+    ) {
         super(x, y, width, height);
         this.grid = grid;
+        this.font = font;
 
         BaseQuad onScreenQuad = calculateOnScreenQuad();
-        text = new Text(0, 0, onScreenQuad.getWidth() * 2, message, 1.6f, font, true);
+        text = new Text(0, 0, onScreenQuad.getWidth() * 2, message, fontSize, font, true);
         text.setPositionCenteredBy(
                 onScreenQuad.getX() + onScreenQuad.getCenterX(),
                 onScreenQuad.getY() + onScreenQuad.getCenterY()
@@ -49,7 +62,7 @@ public class GuiLabel extends BaseQuad {
 
     public void render() {
         Application.getShader().bind();
-        GuiLabel.font.renderPrepare();
+        font.renderPrepare();
         text.render();
     }
 
