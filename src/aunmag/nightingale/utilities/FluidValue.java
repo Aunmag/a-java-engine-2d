@@ -1,6 +1,6 @@
 package aunmag.nightingale.utilities;
 
-public class FloatSmooth {
+public class FluidValue {
 
     private float valueInitial = 0;
     private float valueCurrent = 0;
@@ -9,7 +9,7 @@ public class FloatSmooth {
     private long timeInitial = System.currentTimeMillis();
     private long timeDuration;
 
-    public FloatSmooth(long timeDuration) {
+    public FluidValue(long timeDuration) {
         this.timeDuration = timeDuration;
     }
 
@@ -61,6 +61,10 @@ public class FloatSmooth {
 
     public float getValueCurrent() {
         return valueCurrent;
+    }
+
+    public float getValueTarget() {
+        return valueTarget;
     }
 
     public boolean isTargetReached() {
