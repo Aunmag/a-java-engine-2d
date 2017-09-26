@@ -19,7 +19,9 @@ public class Camera extends BasePosition {
     private float distanceView = 1280;
     private float zoom = 2;
     private float zoomView = 1;
-    private float offset = Application.getWindow().getCenterY() / 3f;
+    private float offsetYBase = Application.getWindow().getCenterY() / 2f;
+    private float offsetYTemporary = 0;
+    private float offsetRadiansTemporary = 0;
     private BaseSprite target;
 
     public Camera() {
@@ -30,28 +32,25 @@ public class Camera extends BasePosition {
         updateZoomView();
 
         if (target != null) {
-            setPosition(-target.getX(), -target.getY());
+            setPosition(target.getX(), target.getY());
             setRadians(target.getRadians() - (float) UtilsMath.PIx0_5);
-
-            float offsetZoomed = offset / zoomView;
-            float offsetX = offsetZoomed * target.getCos();
-            float offsetY = offsetZoomed * target.getSin();
-            addPosition(-offsetX, -offsetY);
         }
 
-        Vector2f viewPosition = new Vector2f(getX(), getY());
-        viewPosition.mul(zoomView);
+        float radians = UtilsMath.correctRadians(getRadians() + offsetRadiansTemporary);
+        float offset = (offsetYBase + offsetYTemporary) / zoomView;
+        float x = getX() + offset * (float) Math.cos(radians + UtilsMath.PIx0_5);
+        float y = getY() + offset * (float) Math.sin(radians + UtilsMath.PIx0_5);
 
         viewMatrix = Application.getWindow().getProjectionCopy();
-        viewMatrix.rotateZ(-getRadians());
-        viewMatrix.translate(viewPosition.x, viewPosition.y, 0);
+        viewMatrix.rotateZ(-radians);
+        viewMatrix.translate(-x * zoomView, -y * zoomView, 0);
         viewMatrix.scale(zoomView);
 
         Vector3f orientation = new Vector3f(0, 1, 0);
         Quaternionf quaternion = new Quaternionf(0, 0, 0);
-        quaternion.rotateZ(getRadians());
+        quaternion.rotateZ(radians);
         orientation.rotate(quaternion);
-        AudioMaster.setListenerPosition(-getX(), -getY(), 1f / zoom, orientation);
+        AudioMaster.setListenerPosition(x, y, 1f / zoom, orientation);
     }
 
     private void updateZoomView() {
@@ -69,6 +68,11 @@ public class Camera extends BasePosition {
         projection.translate(x, y, 0);
         projection.rotateZ(radians);
         return projection;
+    }
+
+    void resetTemporaryVariables() {
+        offsetYTemporary = 0;
+        offsetRadiansTemporary = 0;
     }
 
     /* Setters */
@@ -95,6 +99,18 @@ public class Camera extends BasePosition {
         this.zoom = zoom;
     }
 
+    public void setOffsetYBase(float offsetYBase) {
+        this.offsetYBase = offsetYBase;
+    }
+
+    public void addOffsetYTemporary(float offsetYTemporary) {
+        this.offsetYTemporary += offsetYTemporary;
+    }
+
+    public void addRadiansTemporary(float radiansTemporary) {
+        this.offsetRadiansTemporary += radiansTemporary;
+    }
+
     /* Getters */
 
     public float getDistanceView() {
@@ -107,6 +123,18 @@ public class Camera extends BasePosition {
 
     public float getZoomView() {
         return zoomView;
+    }
+
+    public float getOffsetYBase() {
+        return offsetYBase;
+    }
+
+    public float getOffsetYTemporary() {
+        return offsetYTemporary;
+    }
+
+    public float getOffsetRadiansTemporary() {
+        return offsetRadiansTemporary;
     }
 
 }
