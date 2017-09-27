@@ -20,6 +20,8 @@ public abstract class Application {
     private static ShaderSprite shader;
     private static Input input;
 
+    private float timeFrameDuration;
+
     public Application() {
         if (isInitialized) {
             throw new IllegalStateException("Engine is already initialized!");
@@ -41,6 +43,8 @@ public abstract class Application {
         shader = new ShaderSprite("shaderSprite");
         input = new Input(window.getId());
 
+        timeFrameDuration = 1000f / (float) Configs.getFpsLimit();
+
         AudioMaster.initialize();
     }
 
@@ -51,7 +55,7 @@ public abstract class Application {
         while (isRunning) {
             long timeCurrent = System.currentTimeMillis();
             long timePassed = timeCurrent - timeLast;
-            float timeDelta = timePassed / DataTime.getTimeFrameDuration();
+            float timeDelta = timePassed / timeFrameDuration;
 
             if (timeDelta >= 1) {
                 DataTime.setTimeCurrent(timeCurrent);
