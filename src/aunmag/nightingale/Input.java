@@ -4,6 +4,7 @@ import java.nio.DoubleBuffer;
 import java.util.Arrays;
 
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 
@@ -81,8 +82,8 @@ public class Input {
         return !isMouseButtonDown(button) && mouseButtons[button];
     }
 
-    public Vector2f getMouseVelocity() {
-        return new Vector2f(mouseVelocity);
+    public Vector2fc getMouseVelocity() {
+        return mouseVelocity.toImmutable();
     }
 
     public float getMouseX() {

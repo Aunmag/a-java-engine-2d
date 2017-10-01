@@ -3,6 +3,7 @@ package aunmag.nightingale;
 import aunmag.nightingale.basics.BaseQuad;
 import aunmag.nightingale.data.DataEngine;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
@@ -99,8 +100,8 @@ public class Window extends BaseQuad {
         return id;
     }
 
-    public Matrix4f getProjectionCopy() {
-        return new Matrix4f(projection);
+    public Matrix4fc getProjection() {
+        return projection.toImmutable();
     }
 
     public static int getFullScreenWidth() {

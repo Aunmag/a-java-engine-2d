@@ -62,7 +62,7 @@ public class GuiPage {
 
         Application.getShader().setUniformSampler(0);
         Application.getShader().setUniformProjection(
-                Application.getWindow().getProjectionCopy()
+                Application.getWindow().getProjection()
         );
 
         wallpaper.render();
