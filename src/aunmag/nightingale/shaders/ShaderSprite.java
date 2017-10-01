@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
@@ -117,6 +118,12 @@ public class ShaderSprite {
 
     public void setUniformSampler(int sampler) {
         GL20.glUniform1i(uniformLocationSampler, sampler);
+    }
+
+    public void setUniformProjection(Matrix4fc projection) {
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
+        projection.get(buffer);
+        GL20.glUniformMatrix4fv(uniformLocationProjection, false, buffer);
     }
 
     public void setUniformProjection(Matrix4f projection) {

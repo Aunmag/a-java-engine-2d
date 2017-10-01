@@ -1,6 +1,7 @@
 package aunmag.nightingale.basics;
 
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 
 public class BasePoint {
 
@@ -43,8 +44,8 @@ public class BasePoint {
         return position.y();
     }
 
-    public Vector2f getPositionCopy() {
-        return new Vector2f(position);
+    public Vector2fc getPosition() {
+        return position.toImmutable();
     }
 
 }
