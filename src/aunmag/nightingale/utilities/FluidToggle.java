@@ -36,11 +36,11 @@ public class FluidToggle extends FluidValue {
 
     /* Getters */
 
-    public boolean isCompitelyOn() {
+    public boolean isCompletelyOn() {
         return getValueCurrent() == VALUE_MAX;
     }
 
-    public boolean isCompitelyOff() {
+    public boolean isCompletelyOff() {
         return getValueCurrent() == VALUE_MIN;
     }
 

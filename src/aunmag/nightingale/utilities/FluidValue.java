@@ -49,12 +49,12 @@ public class FluidValue {
         this.flexDegree = flexDegree;
     }
 
-    public void setTimeDuration(long timeDuration) {
-        this.timeDuration = timeDuration;
-    }
-
     public void setTimeInitial(long timeInitial) {
         this.timeInitial = timeInitial;
+    }
+
+    public void setTimeDuration(long timeDuration) {
+        this.timeDuration = timeDuration;
     }
 
     /* Getters */
