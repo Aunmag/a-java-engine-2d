@@ -2,23 +2,32 @@ package aunmag.nightingale.audio;
 
 import org.lwjgl.openal.AL10;
 
+import java.util.ArrayList;
+
 public class AudioSource {
 
+    private static ArrayList<Integer> ids = new ArrayList<>();
+
+    public static void cleanUp() {
+        for (int id: ids) {
+            AL10.alSourceStop(id);
+            AL10.alDeleteSources(id);
+        }
+
+        ids.clear();
+    }
+
     private final int id;
+    private float volume = 1;
 
     public AudioSource() {
         id = AL10.alGenSources();
+        ids.add(id);
     }
 
-    public void play(int buffer) {
-        stop();
-        AL10.alSourcei(id, AL10.AL_BUFFER, buffer);
-        playContinue();
-    }
-
-    public void playContinue() {
+    public void play() {
         AL10.alSourcePlay(id);
-        setVolume(1);
+        setVolume(volume);
     }
 
     public void pause() {
@@ -29,15 +38,16 @@ public class AudioSource {
         AL10.alSourceStop(id);
     }
 
-    public void delete() {
-        stop();
-        AL10.alDeleteSources(id);
-    }
-
     /* Setters */
 
     public void setVolume(float volume) {
+        this.volume = volume;
         AL10.alSourcef(id, AL10.AL_GAIN, volume);
+    }
+
+    public void setSample(int sample) {
+        stop();
+        AL10.alSourcei(id, AL10.AL_BUFFER, sample);
     }
 
     public void setPitch(float pitch) {
