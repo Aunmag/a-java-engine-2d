@@ -5,7 +5,7 @@ import org.joml.Vector3f;
 public class Configs {
 
     private static boolean isFullscreen = false;
-    private static Vector3f clearColor = new Vector3f(0f, 0f, 0f);
+    private static Vector3f clearColor = new Vector3f(0.2f, 0.2f, 0.2f);
     private static int antialiasing = 2;
     private static int fpsLimit = 60;
 
