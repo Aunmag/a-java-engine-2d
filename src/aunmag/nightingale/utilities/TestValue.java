@@ -5,7 +5,7 @@ import aunmag.nightingale.Input;
 import org.lwjgl.glfw.GLFW;
 
 /**
- * This utils simply allows to store a float value and change it quickly with some rules.
+ * This util simply allows to store a float value and change it quickly with some rules.
  */
 
 public class TestValue {
