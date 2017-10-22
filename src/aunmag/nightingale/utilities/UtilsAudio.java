@@ -7,7 +7,7 @@ public class UtilsAudio {
 
     public static AudioSource getOrCreateSound(String name) {
         AudioSource audioSource = new AudioSource();
-        audioSource.setSample(AudioSample.getOrCreate(name));
+        audioSource.setSample(AudioSample.getOrCreateOgg(name));
         return audioSource;
     }
 

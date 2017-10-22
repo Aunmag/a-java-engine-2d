@@ -4,6 +4,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL10;
 import org.newdawn.slick.openal.OggData;
 import org.newdawn.slick.openal.OggDecoder;
+import org.newdawn.slick.openal.WaveData;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,11 +15,21 @@ public class AudioSample {
 
     private static HashMap<String, Integer> samples = new HashMap<>();
 
-    public static int getOrCreate(String name) {
+    public static int getOrCreateOgg(String name) {
         if (samples.containsKey(name)) {
             return samples.get(name);
         } else {
             int sample = loadOggSample(name);
+            samples.put(name, sample);
+            return sample;
+        }
+    }
+
+    public static int getOrCreateWav(String name) {
+        if (samples.containsKey(name)) {
+            return samples.get(name);
+        } else {
+            int sample = loadWavSample(name);
             samples.put(name, sample);
             return sample;
         }
@@ -44,6 +55,17 @@ public class AudioSample {
         int format = oggData.channels > 1 ? AL10.AL_FORMAT_STEREO16 : AL10.AL_FORMAT_MONO16;
         AL10.alBufferData(buffer, format, oggData.data, oggData.rate);
 
+        return buffer;
+    }
+
+    private static int loadWavSample(String name) {
+        String path = "/" + name + ".wav";
+        InputStream inputStream = AudioMaster.class.getResourceAsStream(path);
+        WaveData waveData = WaveData.create(inputStream);
+
+        int buffer = AL10.alGenBuffers();
+        AL10.alBufferData(buffer, waveData.format, waveData.data, waveData.samplerate);
+        waveData.dispose();
         return buffer;
     }
 
