@@ -20,7 +20,6 @@ public abstract class Application {
     private static Window window;
     private static Camera camera;
     private static ShaderSprite shader;
-    private static Input input;
 
     private float timeFrameDuration;
 
@@ -43,7 +42,6 @@ public abstract class Application {
 
         camera = new Camera();
         shader = new ShaderSprite("shaderSprite");
-        input = new Input(window.getId());
 
         timeFrameDuration = 1000f / (float) Configs.getFpsLimit();
 
@@ -73,13 +71,13 @@ public abstract class Application {
 
     private void engineUpdate() {
         camera.resetTemporaryVariables();
-        input.update();
+        Input.update();
         GLFW.glfwPollEvents();
 
         gameUpdate();
         camera.update();
 
-        if (GLFW.glfwWindowShouldClose(window.getId())) {
+        if (GLFW.glfwWindowShouldClose(window.id)) {
             stopRunning();
         }
     }
@@ -107,7 +105,7 @@ public abstract class Application {
         AudioSample.cleanUp();
         AudioMaster.terminate();
 
-        GLFW.glfwSetWindowShouldClose(window.getId(), true);
+        GLFW.glfwSetWindowShouldClose(window.id, true);
         GLFW.glfwTerminate();
         System.out.println(DataEngine.name + " has terminated gracefully.");
     }
@@ -142,10 +140,6 @@ public abstract class Application {
 
     public static ShaderSprite getShader() {
         return shader;
-    }
-
-    public static Input getInput() {
-        return input;
     }
 
 }

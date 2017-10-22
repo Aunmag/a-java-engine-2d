@@ -10,7 +10,8 @@ import org.lwjgl.glfw.GLFW;
 
 public class Window extends BaseQuad {
 
-    private long id;
+    public static final int UNDEFINED_ID = 0;
+    public final long id;
     private Matrix4f projection;
     private boolean isCursorGrabbed = false;
 
@@ -31,7 +32,7 @@ public class Window extends BaseQuad {
             0
         );
 
-        if (id == 0) {
+        if (id == UNDEFINED_ID) {
             throw new IllegalStateException("Failed to create window!");
         }
 
@@ -95,10 +96,6 @@ public class Window extends BaseQuad {
     }
 
     /* Getters */
-
-    public long getId() {
-        return id;
-    }
 
     public Matrix4fc getProjection() {
         return projection.toImmutable();

@@ -1,6 +1,5 @@
 package aunmag.nightingale.utilities;
 
-import aunmag.nightingale.Application;
 import aunmag.nightingale.Input;
 import org.lwjgl.glfw.GLFW;
 
@@ -44,27 +43,25 @@ public class TestValue {
     }
 
     public void update() {
-        Input input = Application.getInput();
-
-        if (input.isKeyPressed(keyIncrease)) {
+        if (Input.isKeyPressed(keyIncrease)) {
             current += step;
         }
 
-        if (input.isKeyPressed(keyDecrease)) {
+        if (Input.isKeyPressed(keyDecrease)) {
             current -= step;
         }
 
-        if (input.isKeyPressed(keySetMin)) {
+        if (Input.isKeyPressed(keySetMin)) {
             current = min;
         }
 
-        if (input.isKeyPressed(keySetMax)) {
+        if (Input.isKeyPressed(keySetMax)) {
             current = max;
         }
 
         correct();
 
-        if (input.isKeyPressed(keySwitch)) {
+        if (Input.isKeyPressed(keySwitch)) {
             float mid = (min + max) / 2f;
 
             if (current < mid) {
