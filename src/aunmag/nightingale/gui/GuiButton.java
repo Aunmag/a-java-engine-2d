@@ -1,6 +1,6 @@
 package aunmag.nightingale.gui;
 
-import aunmag.nightingale.Application;
+import aunmag.nightingale.Input;
 import aunmag.nightingale.basics.BaseGrid;
 import aunmag.nightingale.basics.BaseQuad;
 import aunmag.nightingale.font.Font;
@@ -42,12 +42,10 @@ public class GuiButton extends GuiLabel {
         }
 
         isTouched = onScreenQuad.calculateIsPointInside(
-                Application.getInput().getMouseX(),
-                Application.getInput().getMouseY()
+                Input.getMouseX(),
+                Input.getMouseY()
         );
-        isPressed = isTouched && Application.getInput().isMouseButtonReleased(
-                GLFW.GLFW_MOUSE_BUTTON_1
-        );
+        isPressed = isTouched && Input.isMouseButtonReleased(GLFW.GLFW_MOUSE_BUTTON_1);
     }
 
     public void render() {

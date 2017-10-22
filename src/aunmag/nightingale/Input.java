@@ -10,88 +10,95 @@ import org.lwjgl.glfw.GLFW;
 
 public class Input {
 
-    private final long windowId;
-    private Vector2f mousePosition;
-    private Vector2f mouseVelocity = new Vector2f(0, 0);
-    private boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
-    private boolean[] mouseButtons = new boolean[GLFW.GLFW_MOUSE_BUTTON_LAST];
+    private static boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
+    private static boolean[] mouseButtons = new boolean[GLFW.GLFW_MOUSE_BUTTON_LAST];
+    private static Vector2f mousePosition = new Vector2f(0f, 0f);
+    private static Vector2f mouseVelocity = new Vector2f(0f, 0f);
 
-    Input(long windowId) {
-        this.windowId = windowId;
+    static {
         Arrays.fill(keys, false);
         Arrays.fill(mouseButtons, false);
-        mousePosition = fetchMousePositionNew();
     }
 
-    void update() {
-        for (int i = 0; i < keys.length; i++) {
-            keys[i] = isKeyDown(i);
+    static void update() {
+        for (int key = 0; key < keys.length; key++) {
+            keys[key] = isKeyDown(key);
         }
 
-        for (int i = 0; i < mouseButtons.length; i++) {
-            mouseButtons[i] = isMouseButtonDown(i);
+        for (int button = 0; button < mouseButtons.length; button++) {
+            mouseButtons[button] = isMouseButtonDown(button);
         }
 
         updateMouse();
     }
 
-    private void updateMouse() {
-        Vector2f mousePositionNew = fetchMousePositionNew();
-        mouseVelocity.x = mousePosition.x - mousePositionNew.x;
-        mouseVelocity.y = mousePosition.y - mousePositionNew.y;
-        mousePosition = mousePositionNew;
-    }
+    private static void updateMouse() {
+        if (!isAvailable()) {
+            mouseVelocity.set(0, 0);
+            return;
+        }
 
-    private Vector2f fetchMousePositionNew() {
         DoubleBuffer xBuffer = BufferUtils.createDoubleBuffer(1);
         DoubleBuffer yBuffer = BufferUtils.createDoubleBuffer(1);
-        GLFW.glfwGetCursorPos(windowId, xBuffer, yBuffer);
+        GLFW.glfwGetCursorPos(getWindowId(), xBuffer, yBuffer);
 
         // TODO: Learn more:
         xBuffer.rewind();
         yBuffer.rewind();
-        float newX = (float) xBuffer.get();
-        float newY = (float) yBuffer.get();
+        float x = (float) xBuffer.get();
+        float y = (float) yBuffer.get();
 
-        return new Vector2f(newX, newY);
+        float xVelocity = mousePosition.x() - x;
+        float yVelocity = mousePosition.y() - y;
+
+        mouseVelocity.set(xVelocity, yVelocity);
+        mousePosition.set(x, y);
     }
 
     /* Getters */
 
-    public boolean isKeyDown(int key) {
-        return GLFW.glfwGetKey(windowId, key) == GLFW.GLFW_TRUE;
+    private static long getWindowId() {
+        return Application.getWindow().id;
     }
 
-    public boolean isKeyPressed(int key) {
+    public static boolean isAvailable() {
+        return getWindowId() != Window.UNDEFINED_ID;
+    }
+
+    public static boolean isKeyDown(int key) {
+        return isAvailable() && GLFW.glfwGetKey(getWindowId(), key) == GLFW.GLFW_TRUE;
+    }
+
+    public static boolean isKeyPressed(int key) {
         return isKeyDown(key) && !keys[key];
     }
 
-    public boolean isKeyReleased(int key) {
+    public static boolean isKeyReleased(int key) {
         return !isKeyDown(key) && keys[key];
     }
 
-    public boolean isMouseButtonDown(int button) {
-        return GLFW.glfwGetMouseButton(windowId, button) == GLFW.GLFW_TRUE;
+    public static boolean isMouseButtonDown(int button) {
+        return isAvailable() && GLFW.glfwGetMouseButton(getWindowId(), button) == GLFW.GLFW_TRUE;
     }
 
-    public boolean isMouseButtonPressed(int button) {
+    public static boolean isMouseButtonPressed(int button) {
         return isMouseButtonDown(button) && !mouseButtons[button];
     }
 
-    public boolean isMouseButtonReleased(int button) {
+    public static boolean isMouseButtonReleased(int button) {
         return !isMouseButtonDown(button) && mouseButtons[button];
     }
 
-    public Vector2fc getMouseVelocity() {
+    public static Vector2fc getMouseVelocity() {
         return mouseVelocity.toImmutable();
     }
 
-    public float getMouseX() {
-        return mousePosition.x;
+    public static float getMouseX() {
+        return mousePosition.x();
     }
 
-    public float getMouseY() {
-        return mousePosition.y;
+    public static float getMouseY() {
+        return mousePosition.y();
     }
 
 }
