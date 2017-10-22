@@ -17,7 +17,6 @@ public class UtilsMath {
 
     public static int randomizeBetween(int a, int b) {
         if (a == b) {
-            logGotEqualValuesInsideRandomizeBetween(a);
             return a;
         }
 
@@ -38,7 +37,6 @@ public class UtilsMath {
 
     public static float randomizeBetween(float a, float b) {
         if (a == b) {
-            logGotEqualValuesInsideRandomizeBetween(a);
             return a;
         }
 
@@ -55,10 +53,6 @@ public class UtilsMath {
 
         float difference = max - min;
         return random.nextFloat() * difference + min;
-    }
-
-    private static void logGotEqualValuesInsideRandomizeBetween(float value) {
-        System.out.println("Min and max values are equal. Returned " + value +" once.");
     }
 
     public static float randomizeFlexibly(float middle, float offset) {
