@@ -1,6 +1,8 @@
 package aunmag.nightingale;
 
 import aunmag.nightingale.audio.AudioMaster;
+import aunmag.nightingale.audio.AudioSample;
+import aunmag.nightingale.audio.AudioSource;
 import aunmag.nightingale.data.DataEngine;
 import aunmag.nightingale.data.DataTime;
 import aunmag.nightingale.shaders.ShaderSprite;
@@ -101,7 +103,8 @@ public abstract class Application {
         Texture.cleanUp();
         Model.cleanUp();
         ShaderSprite.cleanUp();
-
+        AudioSource.cleanUp();
+        AudioSample.cleanUp();
         AudioMaster.terminate();
 
         GLFW.glfwSetWindowShouldClose(window.getId(), true);

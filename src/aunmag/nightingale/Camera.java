@@ -50,7 +50,7 @@ public class Camera extends BasePosition {
         Quaternionf quaternion = new Quaternionf(0, 0, 0);
         quaternion.rotateZ(radians);
         orientation.rotate(quaternion);
-        AudioMaster.setListenerPosition(x, y, 1f / zoom, orientation);
+        AudioMaster.setListenerPosition(getX(), getY(), 0, orientation);
     }
 
     private void updateZoomView() {
