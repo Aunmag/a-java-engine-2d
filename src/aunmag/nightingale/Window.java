@@ -5,72 +5,61 @@ import aunmag.nightingale.data.DataEngine;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 public class Window extends BaseQuad {
 
     public static final int UNDEFINED_ID = 0;
     public final long id;
-    private Matrix4f projection;
+    public final Matrix4fc projection;
     private boolean isCursorGrabbed = false;
+    private boolean isInitialized = false;
 
     Window() {
-        super(
-                Configs.isFullscreen() ? getFullScreenWidth() : 1024,
-                Configs.isFullscreen() ? getFullScreenHeight() : 576
+        super(1024, 576);
+
+        long monitorId = Configs.isFullscreen()? GLFW.glfwGetPrimaryMonitor() : 0;
+        int monitorSizeX = GLFW.glfwGetVideoMode(monitorId).width();
+        int monitorSizeY = GLFW.glfwGetVideoMode(monitorId).height();
+
+        if (Configs.isFullscreen()) {
+            setSize(monitorSizeX, monitorSizeY);
+        }
+
+        int sizeX = (int) getWidth();
+        int sizeY = (int) getHeight();
+
+        projection = new Matrix4f().setOrtho2D(
+                -getCenterX(),
+                +getCenterX(),
+                -getCenterY(),
+                +getCenterY()
         );
-        projection = calculateProjection();
 
         GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, Configs.getAntialiasing());
 
-        id = GLFW.glfwCreateWindow(
-            (int) width,
-            (int) height,
-            DataEngine.titleFull,
-            Configs.isFullscreen() ? GLFW.glfwGetPrimaryMonitor() : 0,
-            0
-        );
+        id = GLFW.glfwCreateWindow(sizeX, sizeY, DataEngine.titleFull, monitorId, 0);
 
         if (id == UNDEFINED_ID) {
             throw new IllegalStateException("Failed to create window!");
         }
 
         if (!Configs.isFullscreen()) {
-            GLFW.glfwSetWindowPos(
-                    id,
-                    (getFullScreenWidth() - (int) width) / 2,
-                    (getFullScreenHeight() - (int) height) / 2
-            );
+            int centerX = (monitorSizeX - sizeX) / 2;
+            int centerY = (monitorSizeY - sizeY) / 2;
+            GLFW.glfwSetWindowPos(id, centerX, centerY);
         }
 
         GLFW.glfwShowWindow(id);
         GLFW.glfwMakeContextCurrent(id);
-    }
 
-    private Matrix4f calculateProjection() {
-        projection = new Matrix4f();
-        projection.setOrtho2D(-getCenterX(), getCenterX(), -getCenterY(), getCenterY());
-        return projection;
-    }
-
-    public void swapBuffers() {
-        GLFW.glfwSwapBuffers(id);
+        isInitialized = true;
     }
 
     public Vector2f calculateViewPosition(float x, float y) {
-        Vector3f viewPosition = calculateViewPosition(x, y, 0);
-        return new Vector2f(viewPosition.x, viewPosition.y);
-    }
-
-    private Vector3f calculateViewPosition(float x, float y, float z) {
-        Vector3f viewPosition = new Vector3f(
-                x - getCenterX() + 1,
-                getCenterY() - y - 1,
-                z
-        );
-        viewPosition.mulPosition(projection);
-        return viewPosition;
+        x = (x - getCenterX() + 1) / getCenterX();
+        y = (getCenterY() - y - 1) / getCenterY();
+        return new Vector2f(x, y);
     }
 
     public void setCursorGrabbed(boolean isCursorGrabbed) {
@@ -91,22 +80,12 @@ public class Window extends BaseQuad {
     /* Setters */
 
     protected void setSize(float width, float height) {
-        super.setSize(width, height);
-        projection = calculateProjection();
-    }
-
-    /* Getters */
-
-    public Matrix4fc getProjection() {
-        return projection.toImmutable();
-    }
-
-    public static int getFullScreenWidth() {
-        return GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).width();
-    }
-
-    public static int getFullScreenHeight() {
-        return GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).height();
+        if (isInitialized) {
+            String message = "Unable to change window size after initialization";
+            System.err.println(message);
+        } else {
+            super.setSize(width, height);
+        }
     }
 
 }

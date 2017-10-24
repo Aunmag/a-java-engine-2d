@@ -2,59 +2,51 @@ package aunmag.nightingale;
 
 import aunmag.nightingale.audio.AudioMaster;
 import aunmag.nightingale.basics.BasePosition;
-import aunmag.nightingale.basics.BaseSprite;
 import aunmag.nightingale.utilities.UtilsMath;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 import org.joml.Vector3f;
 
 public class Camera extends BasePosition {
 
     public static final int ZOOM_MIN = 1;
-    public static final int ZOOM_MAX = 10;
-    public static final int DISTANCE_VIEW_MIN = 1;
+    public static final int ZOOM_MAX = 8;
 
     private Matrix4f viewMatrix = new Matrix4f();
-    private float distanceView = 1280;
-    private float zoom = 2;
-    private float zoomView = 1;
-    private float offsetYBase = Application.getWindow().getCenterY() / 2f;
-    private float offsetYTemporary = 0;
-    private float offsetRadiansTemporary = 0;
-    private BaseSprite target;
+    private float distanceView;
+    private float scaleWindow;
+    private float scaleZoom = 2;
+    private float scaleFull;
+    private float radiansOffset = 0;
+    private Vector2f offset = new Vector2f(0, 0);
 
-    public Camera() {
+    Camera() {
         super(0, 0, 0);
+        setDistanceView(1280);
     }
 
     public void update() {
-        updateZoomView();
+        float radians = UtilsMath.correctRadians(getRadians() + radiansOffset);
+        float x = getX() + offset.x();
+        float y = getY() + offset.y();
 
-        if (target != null) {
-            setPosition(target.getX(), target.getY());
-            setRadians(target.getRadians() - (float) UtilsMath.PIx0_5);
-        }
-
-        float radians = UtilsMath.correctRadians(getRadians() + offsetRadiansTemporary);
-        float offset = (offsetYBase + offsetYTemporary) / zoomView;
-        float x = getX() + offset * (float) Math.cos(radians + UtilsMath.PIx0_5);
-        float y = getY() + offset * (float) Math.sin(radians + UtilsMath.PIx0_5);
-
-        viewMatrix = new Matrix4f(Application.getWindow().getProjection());
+        viewMatrix = new Matrix4f(Application.getWindow().projection);
         viewMatrix.rotateZ(-radians);
-        viewMatrix.translate(-x * zoomView, -y * zoomView, 0);
-        viewMatrix.scale(zoomView);
+        viewMatrix.scale(scaleFull);
+        viewMatrix.translate(-x, -y, 0);
 
         Vector3f orientation = new Vector3f(0, 1, 0);
         Quaternionf quaternion = new Quaternionf(0, 0, 0);
+        quaternion.set(0, 0, 0);
         quaternion.rotateZ(radians);
         orientation.rotate(quaternion);
         AudioMaster.setListenerPosition(getX(), getY(), 0, orientation);
     }
 
-    private void updateZoomView() {
-        zoomView = zoom * (Application.getWindow().getMaxSide() / distanceView);
+    private void updateScaleFull() {
+        scaleFull = scaleWindow * scaleZoom;
     }
 
     public Vector2f calculateViewPosition(float x, float y) {
@@ -70,45 +62,44 @@ public class Camera extends BasePosition {
         return projection;
     }
 
-    void resetTemporaryVariables() {
-        offsetYTemporary = 0;
-        offsetRadiansTemporary = 0;
+    void resetOffsets() {
+        offset.set(0, 0);
+        radiansOffset = 0;
     }
 
     /* Setters */
 
-    public void setTarget(BaseSprite target) {
-        this.target = target;
+    public void addOffset(float radians, float distance, boolean useZoom) {
+        if (useZoom) {
+            distance /= scaleFull;
+        }
+
+        radians += getRadians() + radiansOffset + UtilsMath.PIx0_5;
+        radians = UtilsMath.correctRadians(radians);
+        float x = distance * (float) Math.cos(radians);
+        float y = distance * (float) Math.sin(radians);
+        offset.add(x, y);
     }
 
     public void setDistanceView(float distanceView) {
-        if (distanceView < DISTANCE_VIEW_MIN) {
-            distanceView = DISTANCE_VIEW_MIN;
-        }
-
         this.distanceView = distanceView;
+        scaleWindow = Application.getWindow().getDiagonal() / distanceView;
+        updateScaleFull();
     }
 
-    public void setZoom(float zoom) {
-        if (zoom < ZOOM_MIN) {
-            zoom = ZOOM_MIN;
-        } else if (zoom > ZOOM_MAX) {
-            zoom = ZOOM_MAX;
+    public void setScaleZoom(float scaleZoom) {
+        if (scaleZoom < ZOOM_MIN) {
+            scaleZoom = ZOOM_MIN;
+        } else if (scaleZoom > ZOOM_MAX) {
+            scaleZoom = ZOOM_MAX;
         }
 
-        this.zoom = zoom;
+        this.scaleZoom = scaleZoom;
+        updateScaleFull();
     }
 
-    public void setOffsetYBase(float offsetYBase) {
-        this.offsetYBase = offsetYBase;
-    }
-
-    public void addOffsetYTemporary(float offsetYTemporary) {
-        this.offsetYTemporary += offsetYTemporary;
-    }
-
-    public void addRadiansTemporary(float radiansTemporary) {
-        this.offsetRadiansTemporary += radiansTemporary;
+    public void addRadiansOffset(float radiansOffset) {
+        this.radiansOffset += radiansOffset;
     }
 
     /* Getters */
@@ -117,24 +108,24 @@ public class Camera extends BasePosition {
         return distanceView;
     }
 
-    public float getZoom() {
-        return zoom;
+    public float getScaleWindow() {
+        return scaleWindow;
     }
 
-    public float getZoomView() {
-        return zoomView;
+    public float getScaleZoom() {
+        return scaleZoom;
     }
 
-    public float getOffsetYBase() {
-        return offsetYBase;
+    public float getScaleFull() {
+        return scaleFull;
     }
 
-    public float getOffsetYTemporary() {
-        return offsetYTemporary;
+    public Vector2fc getOffset() {
+        return offset.toImmutable();
     }
 
-    public float getOffsetRadiansTemporary() {
-        return offsetRadiansTemporary;
+    public float getRadiansOffset() {
+        return radiansOffset;
     }
 
 }

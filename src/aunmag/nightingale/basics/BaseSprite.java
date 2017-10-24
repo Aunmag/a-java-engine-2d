@@ -20,7 +20,7 @@ public abstract class BaseSprite extends BasePosition implements BaseOperative {
                 getX(), getY(), getRadians()
         );
 
-        float size = texture.getMaxSide() * 2 * Application.getCamera().getZoomView();
+        float size = texture.getMaxSide() * 2 * Application.getCamera().getScaleFull();
 
         float rangeX = size / Application.getWindow().getWidth() + 1;
         if (!UtilsMath.calculateIsNumberInsideRange(projection.m30(), -rangeX, rangeX)) {

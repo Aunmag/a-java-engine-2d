@@ -70,7 +70,7 @@ public abstract class Application {
     }
 
     private void engineUpdate() {
-        camera.resetTemporaryVariables();
+        camera.resetOffsets();
         Input.update();
         GLFW.glfwPollEvents();
 
@@ -91,7 +91,7 @@ public abstract class Application {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         Application.getShader().bind();
         gameRender();
-        window.swapBuffers();
+        GLFW.glfwSwapBuffers(window.id);
     }
 
     private void engineTerminate() {
