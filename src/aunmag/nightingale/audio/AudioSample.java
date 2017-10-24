@@ -15,21 +15,18 @@ public class AudioSample {
 
     private static HashMap<String, Integer> samples = new HashMap<>();
 
-    public static int getOrCreateOgg(String name) {
+    public static int getOrCreate(String name, AudioSampleType type) {
         if (samples.containsKey(name)) {
             return samples.get(name);
         } else {
-            int sample = loadOggSample(name);
-            samples.put(name, sample);
-            return sample;
-        }
-    }
+            int sample;
 
-    public static int getOrCreateWav(String name) {
-        if (samples.containsKey(name)) {
-            return samples.get(name);
-        } else {
-            int sample = loadWavSample(name);
+            if (type == AudioSampleType.OGG) {
+                sample = loadOggSample(name);
+            } else {
+                sample = loadWavSample(name);
+            }
+
             samples.put(name, sample);
             return sample;
         }
