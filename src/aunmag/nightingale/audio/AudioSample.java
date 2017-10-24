@@ -1,5 +1,6 @@
 package aunmag.nightingale.audio;
 
+import aunmag.nightingale.Configs;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL10;
 import org.newdawn.slick.openal.OggData;
@@ -16,6 +17,10 @@ public class AudioSample {
     private static HashMap<String, Integer> samples = new HashMap<>();
 
     public static int getOrCreate(String name, AudioSampleType type) {
+        if (!Configs.isSamplesLoadingEnabled()) {
+            return 0;
+        }
+
         if (samples.containsKey(name)) {
             return samples.get(name);
         } else {

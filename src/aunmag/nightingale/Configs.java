@@ -5,6 +5,7 @@ import org.joml.Vector3f;
 public class Configs {
 
     private static boolean isFullscreen = false;
+    private static boolean isSamplesLoadingEnabled = true;
     private static Vector3f clearColor = new Vector3f(0.2f, 0.2f, 0.2f);
     private static int antialiasing = 2;
     private static int fpsLimit = 60;
@@ -13,6 +14,10 @@ public class Configs {
 
     public static boolean isFullscreen() {
         return isFullscreen;
+    }
+
+    public static boolean isSamplesLoadingEnabled() {
+        return isSamplesLoadingEnabled;
     }
 
     public static Vector3f getClearColor() {
@@ -36,6 +41,16 @@ public class Configs {
         } else {
             Configs.isFullscreen = isFullscreen;
         }
+    }
+
+    public static void setSamplesLoadingEnabled(boolean isSamplesLoadingEnabled) {
+        if (Application.isInitialized()) {
+            String message = "Warning: " +
+                    "The all samples loaded already will continue to be available";
+            System.err.println(message);
+        }
+
+        Configs.isSamplesLoadingEnabled = isSamplesLoadingEnabled;
     }
 
     public static void setClearColor(Vector3f clearColor) {
