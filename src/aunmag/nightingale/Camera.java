@@ -28,14 +28,6 @@ public class Camera extends BasePosition {
     }
 
     public void update() {
-        Quaternionf quaternion = new Quaternionf(0, 0, 0);
-
-        // TODO: Optimize
-        Vector3f offset = new Vector3f(this.offset.x(), this.offset.y(), 0);
-        quaternion.rotateZ(radiansOffset);
-        offset.rotate(quaternion);
-        quaternion.set(0, 0, 0);
-
         float radians = UtilsMath.correctRadians(getRadians() + radiansOffset);
         float x = getX() + offset.x();
         float y = getY() + offset.y();
@@ -46,6 +38,7 @@ public class Camera extends BasePosition {
         viewMatrix.translate(-x, -y, 0);
 
         Vector3f orientation = new Vector3f(0, 1, 0);
+        Quaternionf quaternion = new Quaternionf(0, 0, 0);
         quaternion.set(0, 0, 0);
         quaternion.rotateZ(radians);
         orientation.rotate(quaternion);
@@ -81,7 +74,8 @@ public class Camera extends BasePosition {
             distance /= scaleFull;
         }
 
-        radians = UtilsMath.correctRadians(radians + getRadians() + UtilsMath.PIx0_5);
+        radians += getRadians() + radiansOffset + UtilsMath.PIx0_5;
+        radians = UtilsMath.correctRadians(radians);
         float x = distance * (float) Math.cos(radians);
         float y = distance * (float) Math.sin(radians);
         offset.add(x, y);
