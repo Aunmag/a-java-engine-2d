@@ -8,6 +8,7 @@ public class BaseQuad extends BasePoint {
     private float height;
     private float centerX;
     private float centerY;
+    private float diagonal;
     private float aspectRatio;
 
     public BaseQuad(float x, float y, float width, float height) {
@@ -37,6 +38,8 @@ public class BaseQuad extends BasePoint {
         centerX = width / 2f;
         centerY = height / 2f;
 
+        diagonal = (float) Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
+
         aspectRatio = width / height;
     }
 
@@ -64,6 +67,10 @@ public class BaseQuad extends BasePoint {
 
     public float getCenterY() {
         return centerY;
+    }
+
+    public float getDiagonal() {
+        return diagonal;
     }
 
     public float getAspectRatio() {
