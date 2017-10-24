@@ -12,23 +12,22 @@ import org.joml.Vector3f;
 public class Camera extends BasePosition {
 
     public static final int ZOOM_MIN = 1;
-    public static final int ZOOM_MAX = 10;
-    public static final int DISTANCE_VIEW_MIN = 1;
+    public static final int ZOOM_MAX = 8;
 
     private Matrix4f viewMatrix = new Matrix4f();
-    private float distanceView = 1280;
-    private float zoom = 2;
-    private float zoomView = 1;
+    private float distanceView;
+    private float scaleWindow;
+    private float scaleZoom = 2;
+    private float scaleFull;
     private float radiansOffset = 0;
     private Vector2f offset = new Vector2f(0, 0);
 
     Camera() {
         super(0, 0, 0);
+        setDistanceView(1280);
     }
 
     public void update() {
-        updateZoomView();
-
         Quaternionf quaternion = new Quaternionf(0, 0, 0);
 
         Vector3f offset = new Vector3f(this.offset.x(), this.offset.y(), 0);
@@ -42,8 +41,8 @@ public class Camera extends BasePosition {
 
         viewMatrix = new Matrix4f(Application.getWindow().projection);
         viewMatrix.rotateZ(-radians);
-        viewMatrix.translate(-x * zoomView, -y * zoomView, 0);
-        viewMatrix.scale(zoomView);
+        viewMatrix.scale(scaleFull);
+        viewMatrix.translate(-x, -y, 0);
 
         Vector3f orientation = new Vector3f(0, 1, 0);
         quaternion.set(0, 0, 0);
@@ -52,8 +51,8 @@ public class Camera extends BasePosition {
         AudioMaster.setListenerPosition(getX(), getY(), 0, orientation);
     }
 
-    private void updateZoomView() {
-        zoomView = zoom * (Application.getWindow().getMaxSide() / distanceView);
+    private void updateScaleFull() {
+        scaleFull = scaleWindow * scaleZoom;
     }
 
     public Vector2f calculateViewPosition(float x, float y) {
@@ -78,10 +77,9 @@ public class Camera extends BasePosition {
 
     public void addOffset(float radians, float distance, boolean useZoom) {
         if (useZoom) {
-            distance /= zoomView;
+            distance /= scaleFull;
         }
 
-//        radians += getRadians() + UtilsMath.PIx0_5 +
         radians = UtilsMath.correctRadians(radians + getRadians() + UtilsMath.PIx0_5);
         float x = distance * (float) Math.cos(radians);
         float y = distance * (float) Math.sin(radians);
@@ -89,21 +87,20 @@ public class Camera extends BasePosition {
     }
 
     public void setDistanceView(float distanceView) {
-        if (distanceView < DISTANCE_VIEW_MIN) {
-            distanceView = DISTANCE_VIEW_MIN;
-        }
-
         this.distanceView = distanceView;
+        scaleWindow = Application.getWindow().getMaxSide() / distanceView;
+        updateScaleFull();
     }
 
-    public void setZoom(float zoom) {
-        if (zoom < ZOOM_MIN) {
-            zoom = ZOOM_MIN;
-        } else if (zoom > ZOOM_MAX) {
-            zoom = ZOOM_MAX;
+    public void setScaleZoom(float scaleZoom) {
+        if (scaleZoom < ZOOM_MIN) {
+            scaleZoom = ZOOM_MIN;
+        } else if (scaleZoom > ZOOM_MAX) {
+            scaleZoom = ZOOM_MAX;
         }
 
-        this.zoom = zoom;
+        this.scaleZoom = scaleZoom;
+        updateScaleFull();
     }
 
     public void addRadiansTemporary(float radiansOffset) {
@@ -116,12 +113,16 @@ public class Camera extends BasePosition {
         return distanceView;
     }
 
-    public float getZoom() {
-        return zoom;
+    public float getScaleWindow() {
+        return scaleWindow;
     }
 
-    public float getZoomView() {
-        return zoomView;
+    public float getScaleZoom() {
+        return scaleZoom;
+    }
+
+    public float getScaleFull() {
+        return scaleFull;
     }
 
     public Vector2fc getOffset() {
