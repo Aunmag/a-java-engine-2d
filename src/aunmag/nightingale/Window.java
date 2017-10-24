@@ -31,8 +31,8 @@ public class Window extends BaseQuad {
         GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, Configs.getAntialiasing());
 
         id = GLFW.glfwCreateWindow(
-            (int) width,
-            (int) height,
+            (int) getWidth(),
+            (int) getHeight(),
             DataEngine.titleFull,
             Configs.isFullscreen() ? GLFW.glfwGetPrimaryMonitor() : 0,
             0
@@ -45,8 +45,8 @@ public class Window extends BaseQuad {
         if (!Configs.isFullscreen()) {
             GLFW.glfwSetWindowPos(
                     id,
-                    (getFullScreenWidth() - (int) width) / 2,
-                    (getFullScreenHeight() - (int) height) / 2
+                    (getFullScreenWidth() - (int) getWidth()) / 2,
+                    (getFullScreenHeight() - (int) getHeight()) / 2
             );
         }
 

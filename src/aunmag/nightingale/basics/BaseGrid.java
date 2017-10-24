@@ -33,13 +33,13 @@ public class BaseGrid {
         for (float n = 0f; n < slices; n++) {
             UtilsGraphics.drawLine(
                     stepX * n, 0,
-                    stepX * n, Application.getWindow().height,
+                    stepX * n, Application.getWindow().getHeight(),
                     false
             );
 
             UtilsGraphics.drawLine(
                     0, stepY * n,
-                    Application.getWindow().width, stepY * n,
+                    Application.getWindow().getWidth(), stepY * n,
                     false
             );
         }

@@ -4,8 +4,8 @@ import aunmag.nightingale.utilities.UtilsMath;
 
 public class BaseQuad extends BasePoint {
 
-    protected float width;
-    protected float height;
+    private float width;
+    private float height;
     private float centerX;
     private float centerY;
     private float aspectRatio;
