@@ -70,7 +70,7 @@ public abstract class Application {
     }
 
     private void engineUpdate() {
-        camera.resetTemporaryVariables();
+        camera.resetOffsets();
         Input.update();
         GLFW.glfwPollEvents();
 

@@ -30,6 +30,7 @@ public class Camera extends BasePosition {
     public void update() {
         Quaternionf quaternion = new Quaternionf(0, 0, 0);
 
+        // TODO: Optimize
         Vector3f offset = new Vector3f(this.offset.x(), this.offset.y(), 0);
         quaternion.rotateZ(radiansOffset);
         offset.rotate(quaternion);
@@ -68,7 +69,7 @@ public class Camera extends BasePosition {
         return projection;
     }
 
-    void resetTemporaryVariables() {
+    void resetOffsets() {
         offset.set(0, 0);
         radiansOffset = 0;
     }
@@ -103,7 +104,7 @@ public class Camera extends BasePosition {
         updateScaleFull();
     }
 
-    public void addRadiansTemporary(float radiansOffset) {
+    public void addRadiansOffset(float radiansOffset) {
         this.radiansOffset += radiansOffset;
     }
 
