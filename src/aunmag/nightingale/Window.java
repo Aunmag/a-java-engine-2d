@@ -6,6 +6,7 @@ import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWVidMode;
 
 public class Window extends BaseQuad {
 
@@ -16,10 +17,19 @@ public class Window extends BaseQuad {
     private boolean isInitialized = false;
 
     Window() {
-        super(
-                Configs.isFullscreen() ? getFullScreenWidth() : 1024,
-                Configs.isFullscreen() ? getFullScreenHeight() : 576
-        );
+        super(1024, 576);
+
+        long monitorId = Configs.isFullscreen()? GLFW.glfwGetPrimaryMonitor() : 0;
+        GLFWVidMode videoMode = GLFW.glfwGetVideoMode(monitorId);
+        int monitorSizeX = videoMode.width();
+        int monitorSizeY = videoMode.height();
+
+        if (Configs.isFullscreen()) {
+            setSize(monitorSizeX, monitorSizeY);
+        }
+
+        int sizeX = (int) getWidth();
+        int sizeY = (int) getHeight();
 
         projection = new Matrix4f().setOrtho2D(
                 -getCenterX(),
@@ -30,34 +40,22 @@ public class Window extends BaseQuad {
 
         GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, Configs.getAntialiasing());
 
-        id = GLFW.glfwCreateWindow(
-            (int) getWidth(),
-            (int) getHeight(),
-            DataEngine.titleFull,
-            Configs.isFullscreen() ? GLFW.glfwGetPrimaryMonitor() : 0,
-            0
-        );
+        id = GLFW.glfwCreateWindow(sizeX, sizeY, DataEngine.titleFull, monitorId, 0);
 
         if (id == UNDEFINED_ID) {
             throw new IllegalStateException("Failed to create window!");
         }
 
         if (!Configs.isFullscreen()) {
-            GLFW.glfwSetWindowPos(
-                    id,
-                    (getFullScreenWidth() - (int) getWidth()) / 2,
-                    (getFullScreenHeight() - (int) getHeight()) / 2
-            );
+            int centerX = (monitorSizeX - sizeX) / 2;
+            int centerY = (monitorSizeY - sizeY) / 2;
+            GLFW.glfwSetWindowPos(id, centerX, centerY);
         }
 
         GLFW.glfwShowWindow(id);
         GLFW.glfwMakeContextCurrent(id);
 
         isInitialized = true;
-    }
-
-    public void swapBuffers() {
-        GLFW.glfwSwapBuffers(id);
     }
 
     public Vector2f calculateViewPosition(float x, float y) {
@@ -90,16 +88,6 @@ public class Window extends BaseQuad {
         } else {
             super.setSize(width, height);
         }
-    }
-
-    /* Getters */
-
-    public static int getFullScreenWidth() {
-        return GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).width();
-    }
-
-    public static int getFullScreenHeight() {
-        return GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).height();
     }
 
 }
