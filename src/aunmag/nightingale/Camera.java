@@ -83,7 +83,7 @@ public class Camera extends BasePosition {
 
     public void setDistanceView(float distanceView) {
         this.distanceView = distanceView;
-        scaleWindow = Application.getWindow().getMaxSide() / distanceView;
+        scaleWindow = Application.getWindow().getDiagonal() / distanceView;
         updateScaleFull();
     }
 
