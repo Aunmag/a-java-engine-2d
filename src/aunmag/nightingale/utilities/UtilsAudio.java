@@ -6,9 +6,15 @@ import aunmag.nightingale.audio.AudioSource;
 
 public class UtilsAudio {
 
-    public static AudioSource getOrCreateSound(String name, AudioSampleType type) {
+    public static AudioSource getOrCreateSoundOgg(String name) {
         AudioSource audioSource = new AudioSource();
-        audioSource.setSample(AudioSample.getOrCreate(name, type));
+        audioSource.setSample(AudioSample.getOrCreate(name, AudioSampleType.OGG));
+        return audioSource;
+    }
+
+    public static AudioSource getOrCreateSoundWav(String name) {
+        AudioSource audioSource = new AudioSource();
+        audioSource.setSample(AudioSample.getOrCreate(name, AudioSampleType.WAV));
         return audioSource;
     }
 
