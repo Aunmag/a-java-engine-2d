@@ -6,7 +6,6 @@ import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWVidMode;
 
 public class Window extends BaseQuad {
 
@@ -20,9 +19,8 @@ public class Window extends BaseQuad {
         super(1024, 576);
 
         long monitorId = Configs.isFullscreen()? GLFW.glfwGetPrimaryMonitor() : 0;
-        GLFWVidMode videoMode = GLFW.glfwGetVideoMode(monitorId);
-        int monitorSizeX = videoMode.width();
-        int monitorSizeY = videoMode.height();
+        int monitorSizeX = GLFW.glfwGetVideoMode(monitorId).width();
+        int monitorSizeY = GLFW.glfwGetVideoMode(monitorId).height();
 
         if (Configs.isFullscreen()) {
             setSize(monitorSizeX, monitorSizeY);
