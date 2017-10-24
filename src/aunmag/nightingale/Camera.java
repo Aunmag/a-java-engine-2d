@@ -41,7 +41,7 @@ public class Camera extends BasePosition {
         float x = getX() + offset * (float) Math.cos(radians + UtilsMath.PIx0_5);
         float y = getY() + offset * (float) Math.sin(radians + UtilsMath.PIx0_5);
 
-        viewMatrix = new Matrix4f(Application.getWindow().getProjection());
+        viewMatrix = new Matrix4f(Application.getWindow().projection);
         viewMatrix.rotateZ(-radians);
         viewMatrix.translate(-x * zoomView, -y * zoomView, 0);
         viewMatrix.scale(zoomView);
