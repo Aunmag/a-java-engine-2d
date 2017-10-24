@@ -18,7 +18,7 @@ public class Window extends BaseQuad {
     Window() {
         super(1024, 576);
 
-        long monitorId = Configs.isFullscreen()? GLFW.glfwGetPrimaryMonitor() : 0;
+        long monitorId = GLFW.glfwGetPrimaryMonitor();
         int monitorSizeX = GLFW.glfwGetVideoMode(monitorId).width();
         int monitorSizeY = GLFW.glfwGetVideoMode(monitorId).height();
 
@@ -38,7 +38,13 @@ public class Window extends BaseQuad {
 
         GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, Configs.getAntialiasing());
 
-        id = GLFW.glfwCreateWindow(sizeX, sizeY, DataEngine.titleFull, monitorId, 0);
+        id = GLFW.glfwCreateWindow(
+                sizeX,
+                sizeY,
+                DataEngine.titleFull,
+                Configs.isFullscreen() ? monitorId : 0,
+                0
+        );
 
         if (id == UNDEFINED_ID) {
             throw new IllegalStateException("Failed to create window!");
