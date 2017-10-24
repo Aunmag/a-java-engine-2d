@@ -2,11 +2,11 @@ package aunmag.nightingale;
 
 import aunmag.nightingale.audio.AudioMaster;
 import aunmag.nightingale.basics.BasePosition;
-import aunmag.nightingale.basics.BaseSprite;
 import aunmag.nightingale.utilities.UtilsMath;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 import org.joml.Vector3f;
 
 public class Camera extends BasePosition {
@@ -19,27 +19,26 @@ public class Camera extends BasePosition {
     private float distanceView = 1280;
     private float zoom = 2;
     private float zoomView = 1;
-    private float offsetYBase = Application.getWindow().getCenterY() / 2f;
-    private float offsetYTemporary = 0;
-    private float offsetRadiansTemporary = 0;
-    private BaseSprite target;
+    private float radiansOffset = 0;
+    private Vector2f offset = new Vector2f(0, 0);
 
-    public Camera() {
+    Camera() {
         super(0, 0, 0);
     }
 
     public void update() {
         updateZoomView();
 
-        if (target != null) {
-            setPosition(target.getX(), target.getY());
-            setRadians(target.getRadians() - (float) UtilsMath.PIx0_5);
-        }
+        Quaternionf quaternion = new Quaternionf(0, 0, 0);
 
-        float radians = UtilsMath.correctRadians(getRadians() + offsetRadiansTemporary);
-        float offset = (offsetYBase + offsetYTemporary) / zoomView;
-        float x = getX() + offset * (float) Math.cos(radians + UtilsMath.PIx0_5);
-        float y = getY() + offset * (float) Math.sin(radians + UtilsMath.PIx0_5);
+        Vector3f offset = new Vector3f(this.offset.x(), this.offset.y(), 0);
+        quaternion.rotateZ(radiansOffset);
+        offset.rotate(quaternion);
+        quaternion.set(0, 0, 0);
+
+        float radians = UtilsMath.correctRadians(getRadians() + radiansOffset);
+        float x = getX() + offset.x();
+        float y = getY() + offset.y();
 
         viewMatrix = new Matrix4f(Application.getWindow().projection);
         viewMatrix.rotateZ(-radians);
@@ -47,7 +46,7 @@ public class Camera extends BasePosition {
         viewMatrix.scale(zoomView);
 
         Vector3f orientation = new Vector3f(0, 1, 0);
-        Quaternionf quaternion = new Quaternionf(0, 0, 0);
+        quaternion.set(0, 0, 0);
         quaternion.rotateZ(radians);
         orientation.rotate(quaternion);
         AudioMaster.setListenerPosition(getX(), getY(), 0, orientation);
@@ -71,14 +70,22 @@ public class Camera extends BasePosition {
     }
 
     void resetTemporaryVariables() {
-        offsetYTemporary = 0;
-        offsetRadiansTemporary = 0;
+        offset.set(0, 0);
+        radiansOffset = 0;
     }
 
     /* Setters */
 
-    public void setTarget(BaseSprite target) {
-        this.target = target;
+    public void addOffset(float radians, float distance, boolean useZoom) {
+        if (useZoom) {
+            distance /= zoomView;
+        }
+
+//        radians += getRadians() + UtilsMath.PIx0_5 +
+        radians = UtilsMath.correctRadians(radians + getRadians() + UtilsMath.PIx0_5);
+        float x = distance * (float) Math.cos(radians);
+        float y = distance * (float) Math.sin(radians);
+        offset.add(x, y);
     }
 
     public void setDistanceView(float distanceView) {
@@ -99,16 +106,8 @@ public class Camera extends BasePosition {
         this.zoom = zoom;
     }
 
-    public void setOffsetYBase(float offsetYBase) {
-        this.offsetYBase = offsetYBase;
-    }
-
-    public void addOffsetYTemporary(float offsetYTemporary) {
-        this.offsetYTemporary += offsetYTemporary;
-    }
-
-    public void addRadiansTemporary(float radiansTemporary) {
-        this.offsetRadiansTemporary += radiansTemporary;
+    public void addRadiansTemporary(float radiansOffset) {
+        this.radiansOffset += radiansOffset;
     }
 
     /* Getters */
@@ -125,16 +124,12 @@ public class Camera extends BasePosition {
         return zoomView;
     }
 
-    public float getOffsetYBase() {
-        return offsetYBase;
+    public Vector2fc getOffset() {
+        return offset.toImmutable();
     }
 
-    public float getOffsetYTemporary() {
-        return offsetYTemporary;
-    }
-
-    public float getOffsetRadiansTemporary() {
-        return offsetRadiansTemporary;
+    public float getRadiansOffset() {
+        return radiansOffset;
     }
 
 }
