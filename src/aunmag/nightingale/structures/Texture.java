@@ -19,36 +19,27 @@ public class Texture extends BaseQuad {
     private int id;
     private Model model;
 
-    public static Texture getOrCreate(String name) {
-        return getOrCreate(name, true, false, true);
+    public static Texture getOrCreateAsSprite(String name) {
+        return getOrCreate(name, true, true);
     }
 
-    public static Texture getOrCreate(
-            String name,
-            boolean isNearest,
-            boolean isMipmapped
-    ) {
-        return getOrCreate(name, isNearest, isMipmapped, false);
-    }
-
-    public static Texture getOrCreate(
-            String name,
-            boolean isNearest,
-            boolean isMipmapped,
-            boolean isSprite
-    ) {
+    public static Texture getOrCreate(String name, boolean isNearest, boolean isSprite) {
         if (all.containsKey(name)) {
             return all.get(name);
-        } else {
-            Texture texture = new Texture(
-                    loadImage(name),
-                    isNearest,
-                    isMipmapped,
-                    isSprite
-            );
-            all.put(name, texture);
-            return texture;
         }
+
+        BufferedImage image = loadImage(name);
+        float modelSizeX = image.getWidth();
+        float modelSizeY = image.getHeight();
+
+        if (isSprite) {
+            modelSizeX /= Configs.getPixelsPerMeter();
+            modelSizeY /= Configs.getPixelsPerMeter();
+        }
+
+        Texture texture = new Texture(image, isNearest, isSprite, modelSizeX, modelSizeY);
+        all.put(name, texture);
+        return texture;
     }
 
     private static BufferedImage loadImage(String name) {
@@ -59,7 +50,7 @@ public class Texture extends BaseQuad {
             bufferedImage = ImageIO.read(Texture.class.getResourceAsStream(path));
         } catch (Exception e) {
             bufferedImage = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
-            String message = String.format("Can't load image at \"%s\"!", path);
+            String message = String.format("Can't load image from \"%s\"!", path);
             System.err.println(message);
             e.printStackTrace();
         }
@@ -71,9 +62,10 @@ public class Texture extends BaseQuad {
             BufferedImage bufferedImage,
             boolean isNearest,
             boolean isMipmapped,
-            boolean isSprite
+            float modelSizeX,
+            float modelSizeY
     ) {
-        super(bufferedImage.getWidth(), bufferedImage.getHeight());
+        super(modelSizeX, modelSizeY);
 
         int width = bufferedImage.getWidth();
         int height = bufferedImage.getHeight();
@@ -125,10 +117,6 @@ public class Texture extends BaseQuad {
                     GL11.GL_NEAREST_MIPMAP_LINEAR
             );
         }
-
-        if (isSprite) {
-            scaleAsSprite();
-        }
     }
 
     public void scaleAsWallpaper() {
@@ -148,13 +136,6 @@ public class Texture extends BaseQuad {
 
     public void scaleAsWindow() {
         setSize(Application.getWindow().getWidth(), Application.getWindow().getHeight());
-    }
-
-    private void scaleAsSprite() {
-        setSize(
-                getWidth() / Configs.getPixelsPerMeter(),
-                getHeight() / Configs.getPixelsPerMeter()
-        );
     }
 
     public void bind() {
