@@ -9,6 +9,7 @@ public class Configs {
     private static Vector3f clearColor = new Vector3f(0.2f, 0.2f, 0.2f);
     private static int antialiasing = 2;
     private static int fpsLimit = 60;
+    private static float pixelsPerMeter = 32f;
 
     /* Getters */
 
@@ -30,6 +31,10 @@ public class Configs {
 
     public static int getFpsLimit() {
         return fpsLimit;
+    }
+
+    public static float getPixelsPerMeter() {
+        return pixelsPerMeter;
     }
 
     /* Setters */
@@ -72,6 +77,15 @@ public class Configs {
             System.err.println(message);
         } else {
             Configs.fpsLimit = fpsLimit;
+        }
+    }
+
+    public static void setPixelsPerMeter(float pixelsPerMeter) {
+        if (Application.isInitialized()) {
+            String message = "Unable to change metrics after engine initialization";
+            System.err.println(message);
+        } else {
+            Configs.pixelsPerMeter = pixelsPerMeter;
         }
     }
 

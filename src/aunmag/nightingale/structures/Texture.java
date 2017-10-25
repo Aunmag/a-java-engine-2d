@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import aunmag.nightingale.Application;
+import aunmag.nightingale.Configs;
 import aunmag.nightingale.basics.BaseQuad;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -17,10 +18,10 @@ public class Texture extends BaseQuad {
     private static HashMap<String, Texture> all = new HashMap<>();
     private int id;
     private Model model;
-    private boolean isScaled;
+    private boolean isScaled; // TODO: Remove
 
     public static Texture getOrCreate(String name) {
-        return getOrCreate(name, true, false);
+        return getOrCreate(name, true, false, true);
     }
 
     public static Texture getOrCreate(
@@ -28,10 +29,24 @@ public class Texture extends BaseQuad {
             boolean isNearest,
             boolean isMipmapped
     ) {
+        return getOrCreate(name, isNearest, isMipmapped, false);
+    }
+
+    public static Texture getOrCreate(
+            String name,
+            boolean isNearest,
+            boolean isMipmapped,
+            boolean isSprite
+    ) {
         if (all.containsKey(name)) {
             return all.get(name);
         } else {
-            Texture texture = new Texture(loadImage(name), isNearest, isMipmapped);
+            Texture texture = new Texture(
+                    loadImage(name),
+                    isNearest,
+                    isMipmapped,
+                    isSprite
+            );
             all.put(name, texture);
             return texture;
         }
@@ -53,7 +68,12 @@ public class Texture extends BaseQuad {
         return bufferedImage;
     }
 
-    private Texture(BufferedImage bufferedImage, boolean isNearest, boolean isMipmapped) {
+    private Texture(
+            BufferedImage bufferedImage,
+            boolean isNearest,
+            boolean isMipmapped,
+            boolean isSprite
+    ) {
         super(bufferedImage.getWidth(), bufferedImage.getHeight());
 
         isScaled = false;
@@ -108,6 +128,10 @@ public class Texture extends BaseQuad {
                     GL11.GL_NEAREST_MIPMAP_LINEAR
             );
         }
+
+        if (isSprite) {
+            scaleAsSprite();
+        }
     }
 
     public void scaleAsWallpaper() {
@@ -127,6 +151,14 @@ public class Texture extends BaseQuad {
 
     public void scaleAsWindow() {
         setSize(Application.getWindow().getWidth(), Application.getWindow().getHeight());
+    }
+
+    private void scaleAsSprite() {
+        setSize(
+                getWidth() / Configs.getPixelsPerMeter(),
+                getHeight() / Configs.getPixelsPerMeter()
+        );
+        isScaled = false;
     }
 
     public void bind() {

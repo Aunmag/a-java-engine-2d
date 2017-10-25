@@ -55,7 +55,7 @@ public class AudioSource {
     }
 
     public void setPosition(float x, float y) {
-        AL10.alSource3f(id, AL10.AL_POSITION, x / 32f, y / 32f, 0);
+        AL10.alSource3f(id, AL10.AL_POSITION, x, y, 0);
     }
 
     public void setVelocity(float x, float y) {

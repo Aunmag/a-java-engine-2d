@@ -36,7 +36,7 @@ public class AudioMaster {
             float z,
             Vector3f orientationVector
     ) {
-        AL10.alListener3f(AL10.AL_POSITION, x / 32f, y / 32f, z + LISTENER_OFFSET_Z);
+        AL10.alListener3f(AL10.AL_POSITION, x, y, z + LISTENER_OFFSET_Z);
 
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(6 * 4);
         byteBuffer.order(ByteOrder.nativeOrder());

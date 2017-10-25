@@ -17,14 +17,14 @@ public class Camera extends BasePosition {
     private Matrix4f viewMatrix = new Matrix4f();
     private float distanceView;
     private float scaleWindow;
-    private float scaleZoom = 2;
+    private float scaleZoom = ZOOM_MIN * 2;
     private float scaleFull;
     private float radiansOffset = 0;
     private Vector2f offset = new Vector2f(0, 0);
 
     Camera() {
         super(0, 0, 0);
-        setDistanceView(1280);
+        setDistanceView(40);
     }
 
     public void update() {
