@@ -18,7 +18,6 @@ public class Texture extends BaseQuad {
     private static HashMap<String, Texture> all = new HashMap<>();
     private int id;
     private Model model;
-    private boolean isScaled; // TODO: Remove
 
     public static Texture getOrCreate(String name) {
         return getOrCreate(name, true, false, true);
@@ -75,8 +74,6 @@ public class Texture extends BaseQuad {
             boolean isSprite
     ) {
         super(bufferedImage.getWidth(), bufferedImage.getHeight());
-
-        isScaled = false;
 
         int width = bufferedImage.getWidth();
         int height = bufferedImage.getHeight();
@@ -158,7 +155,6 @@ public class Texture extends BaseQuad {
                 getWidth() / Configs.getPixelsPerMeter(),
                 getHeight() / Configs.getPixelsPerMeter()
         );
-        isScaled = false;
     }
 
     public void bind() {
@@ -180,14 +176,7 @@ public class Texture extends BaseQuad {
 
     protected void setSize(float width, float height) {
         super.setSize(width, height);
-        isScaled = true;
         model = Model.createFromQuad(this);
-    }
-
-    /* Getters */
-
-    public boolean isScaled() {
-        return isScaled;
     }
 
 }
