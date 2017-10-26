@@ -15,10 +15,6 @@ public class GuiPage {
         this.labels = labels;
         this.buttons = buttons;
         this.wallpaper = wallpaper;
-
-        if (wallpaper != null && !wallpaper.isScaled()) {
-            wallpaper.scaleAsWallpaper();
-        }
     }
 
     public void open() {
