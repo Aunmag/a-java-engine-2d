@@ -19,8 +19,8 @@ public class DataTime {
 
     /* Getters */
 
-    public static float getTimeDelta() {
-        return (float) timeDelta;
+    public static double getTimeDelta() {
+        return timeDelta;
     }
 
     public static long getTimeCurrent() {
