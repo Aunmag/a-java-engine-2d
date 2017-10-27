@@ -28,9 +28,11 @@ public class Camera extends BasePosition {
     }
 
     public void update() {
-        float radians = UtilsMath.correctRadians(getRadians() + radiansOffset);
         float x = getX() + offset.x();
         float y = getY() + offset.y();
+        float radians = UtilsMath.correctRadians(
+                getRadians() + radiansOffset - UtilsMath.PIx0_5
+        );
 
         viewMatrix = new Matrix4f(Application.getWindow().projection);
         viewMatrix.rotateZ(-radians);
@@ -74,7 +76,7 @@ public class Camera extends BasePosition {
             distance /= scaleFull;
         }
 
-        radians += getRadians() + radiansOffset + UtilsMath.PIx0_5;
+        radians += getRadians() + radiansOffset;
         radians = UtilsMath.correctRadians(radians);
         float x = distance * (float) Math.cos(radians);
         float y = distance * (float) Math.sin(radians);
