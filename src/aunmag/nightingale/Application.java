@@ -21,7 +21,7 @@ public abstract class Application {
     private static Camera camera;
     private static ShaderSprite shader;
 
-    private float timeFrameDuration;
+    private double timeFrameDuration;
 
     public Application() {
         if (isInitialized) {
@@ -43,7 +43,7 @@ public abstract class Application {
         camera = new Camera();
         shader = new ShaderSprite("shaderSprite");
 
-        timeFrameDuration = 1000f / (float) Configs.getFpsLimit();
+        timeFrameDuration = 1d / (double) Configs.getFpsLimit();
 
         AudioMaster.initialize();
     }
@@ -54,10 +54,9 @@ public abstract class Application {
 
         while (isRunning) {
             long timeCurrent = System.currentTimeMillis();
-            long timePassed = timeCurrent - timeLast;
-            float timeDelta = timePassed / timeFrameDuration;
+            double timeDelta = (timeCurrent - timeLast) / 1000d;
 
-            if (timeDelta >= 1) {
+            if (timeDelta >= timeFrameDuration) {
                 DataTime.setTimeCurrent(timeCurrent);
                 DataTime.setTimeDelta(timeDelta);
                 engineUpdate();

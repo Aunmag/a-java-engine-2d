@@ -2,13 +2,13 @@ package aunmag.nightingale.data;
 
 public class DataTime {
 
-    private static float timeDelta = 0;
+    private static double timeDelta = 0;
     private static long timeCurrent = System.currentTimeMillis();
     private static long timePassed = 0;
 
     /* Setters */
 
-    public static void setTimeDelta(float timeDelta) {
+    public static void setTimeDelta(double timeDelta) {
         DataTime.timeDelta = timeDelta;
     }
 
@@ -20,7 +20,7 @@ public class DataTime {
     /* Getters */
 
     public static float getTimeDelta() {
-        return timeDelta;
+        return (float) timeDelta;
     }
 
     public static long getTimeCurrent() {
