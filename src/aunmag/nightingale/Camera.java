@@ -76,8 +76,7 @@ public class Camera extends BasePosition {
             distance /= scaleFull;
         }
 
-        radians += getRadians() + radiansOffset;
-        radians = UtilsMath.correctRadians(radians);
+        radians = UtilsMath.correctRadians(radians + getRadians() + radiansOffset);
         float x = distance * (float) Math.cos(radians);
         float y = distance * (float) Math.sin(radians);
         offset.add(x, y);
