@@ -29,6 +29,14 @@ public class TimerNext {
 
     /* Getters */
 
+    public int getTimeDuration() {
+        return timeDuration;
+    }
+
+    public long getTimeNext() {
+        return timeNext;
+    }
+
     public boolean isNow() {
         return isNow;
     }
