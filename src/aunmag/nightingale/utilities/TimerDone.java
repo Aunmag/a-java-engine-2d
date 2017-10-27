@@ -30,4 +30,18 @@ public class TimerDone {
         updateTimeTarget();
     }
 
+    /* Getters */
+
+    public int getTimeDuration() {
+        return timeDuration;
+    }
+
+    public long getTimeInitial() {
+        return timeInitial;
+    }
+
+    public long getTimeTarget() {
+        return timeTarget;
+    }
+
 }
