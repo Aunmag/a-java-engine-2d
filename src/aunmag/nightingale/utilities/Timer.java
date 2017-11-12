@@ -1,6 +1,6 @@
 package aunmag.nightingale.utilities;
 
-public class TimerBase {
+public class Timer {
 
     private double timeCurrent = 0.0;
     private double timeDuration = 0.0;
@@ -8,11 +8,11 @@ public class TimerBase {
     private double timeDurationCurrent = 0.0;
     private double timeTarget = 0.0;
 
-    public TimerBase(double timeDuration) {
+    public Timer(double timeDuration) {
         this(timeDuration, 0.0);
     }
 
-    public TimerBase(double timeDuration, double timeDurationDeviationFactor) {
+    public Timer(double timeDuration, double timeDurationDeviationFactor) {
         this.timeDurationDeviationFactor = timeDurationDeviationFactor;
         setTimeDuration(timeDuration);
     }
