@@ -52,7 +52,6 @@ public class Texture extends BaseQuad {
             bufferedImage = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
             String message = String.format("Can't load image from \"%s\"!", path);
             System.err.println(message);
-            e.printStackTrace();
         }
 
         return bufferedImage;
