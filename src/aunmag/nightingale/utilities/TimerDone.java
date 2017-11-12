@@ -1,27 +1,25 @@
 package aunmag.nightingale.utilities;
 
-public class TimerDone {
+public class TimerDone extends TimerBase {
 
-    private double timeDuration = 0.0;
     private double timeInitial = 0.0;
-    private double timeTarget = 0.0;
 
     public TimerDone(double timeDuration) {
         setTimeDuration(timeDuration);
     }
 
     private void updateTimeTarget() {
-        timeTarget = timeInitial + timeDuration;
+        setTimeTarget(timeInitial + getTimeDuration());
     }
 
     public boolean calculateIsDone(double timeCurrent) {
-        return timeTarget <= timeCurrent;
+        return getTimeTarget() <= timeCurrent;
     }
 
     /* Setters */
 
     public void setTimeDuration(double timeDuration) {
-        this.timeDuration = timeDuration;
+        super.setTimeDuration(timeDuration);
         updateTimeTarget();
     }
 
@@ -32,16 +30,8 @@ public class TimerDone {
 
     /* Getters */
 
-    public double getTimeDuration() {
-        return timeDuration;
-    }
-
     public double getTimeInitial() {
         return timeInitial;
-    }
-
-    public double getTimeTarget() {
-        return timeTarget;
     }
 
 }
