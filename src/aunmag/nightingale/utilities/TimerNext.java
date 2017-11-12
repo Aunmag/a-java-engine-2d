@@ -2,15 +2,15 @@ package aunmag.nightingale.utilities;
 
 public class TimerNext {
 
-    private int timeDuration = 0;
-    private long timeNext = 0;
+    private double timeDuration = 0.0;
+    private double timeNext = 0.0;
     private boolean isNow = false;
 
-    public TimerNext(int timeDuration) {
+    public TimerNext(double timeDuration) {
         setTimeDuration(timeDuration);
     }
 
-    public void update(long timeCurrent) {
+    public void update(double timeCurrent) {
         isNow = false;
 
         if (timeCurrent > timeNext) {
@@ -21,7 +21,7 @@ public class TimerNext {
 
     /* Setters */
 
-    public void setTimeDuration(int timeDuration) {
+    public void setTimeDuration(double timeDuration) {
         timeNext -= this.timeDuration;
         this.timeDuration = timeDuration;
         timeNext += this.timeDuration;
@@ -29,11 +29,11 @@ public class TimerNext {
 
     /* Getters */
 
-    public int getTimeDuration() {
+    public double getTimeDuration() {
         return timeDuration;
     }
 
-    public long getTimeNext() {
+    public double getTimeNext() {
         return timeNext;
     }
 
