@@ -2,13 +2,18 @@ package aunmag.nightingale.utilities;
 
 public class TimerBase {
 
-    public enum From {NOW, LAST_TARGET}
-
     private double timeCurrent = 0.0;
     private double timeDuration = 0.0;
+    private double timeDurationDeviationFactor = 0.0;
+    private double timeDurationCurrent = 0.0;
     private double timeTarget = 0.0;
 
     public TimerBase(double timeDuration) {
+        this(timeDuration, 0.0);
+    }
+
+    public TimerBase(double timeDuration, double timeDurationDeviationFactor) {
+        this.timeDurationDeviationFactor = timeDurationDeviationFactor;
         setTimeDuration(timeDuration);
     }
 
@@ -17,18 +22,22 @@ public class TimerBase {
         return isDone();
     }
 
-    public void next(From from, boolean isDoneMustBe) {
+    public void next(boolean isDoneMustBe) {
         if (isDone() == isDoneMustBe) {
-            next(from);
+            next();
         }
     }
 
-    public void next(From from) {
-        if (from == From.NOW) {
-            setTimeTarget(getTimeCurrent() + getTimeDuration());
-        } else if (from == From.LAST_TARGET) {
-            addTimeTarget(getTimeDuration());
-        }
+    public void next() {
+        updateTimeDurationCurrent();
+        setTimeTarget(timeDurationCurrent + timeCurrent);
+    }
+
+    private void updateTimeDurationCurrent() {
+        timeDurationCurrent = UtilsMath.randomizeFlexibly(
+                (float) timeDuration,
+                (float) (timeDuration * timeDurationDeviationFactor)
+        );
     }
 
     /* Setters */
@@ -38,16 +47,21 @@ public class TimerBase {
     }
 
     public void setTimeDuration(double timeDuration) {
-        addTimeTarget(-getTimeDuration());
+        addTimeTarget(-timeDurationCurrent);
         this.timeDuration = timeDuration;
-        addTimeTarget(timeDuration);
+        updateTimeDurationCurrent();
+        addTimeTarget(timeDurationCurrent);
     }
 
-    protected final void addTimeTarget(double addTimeTarget) {
+    public void setTimeDurationDeviationFactor(double timeDurationDeviationFactor) {
+        this.timeDurationDeviationFactor = timeDurationDeviationFactor;
+    }
+
+    public final void addTimeTarget(double addTimeTarget) {
         setTimeTarget(timeTarget + addTimeTarget);
     }
 
-    protected void setTimeTarget(double timeTarget) {
+    public void setTimeTarget(double timeTarget) {
         this.timeTarget = timeTarget;
     }
 
@@ -59,6 +73,14 @@ public class TimerBase {
 
     public double getTimeDuration() {
         return timeDuration;
+    }
+
+    public double getTimeDurationDeviationFactor() {
+        return timeDurationDeviationFactor;
+    }
+
+    public double getTimeDurationCurrent() {
+        return timeDurationCurrent;
     }
 
     public double getTimeTarget() {

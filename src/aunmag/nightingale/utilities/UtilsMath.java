@@ -56,6 +56,10 @@ public class UtilsMath {
     }
 
     public static float randomizeFlexibly(float middle, float offset) {
+        if (offset == 0f) {
+            return middle;
+        }
+
         // Randomize offset to flexed result
         float flex = 0.5f;
         float offsetMin = offset * randomizeBetween(0, flex);
