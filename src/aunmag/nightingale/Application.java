@@ -4,7 +4,6 @@ import aunmag.nightingale.audio.AudioMaster;
 import aunmag.nightingale.audio.AudioSample;
 import aunmag.nightingale.audio.AudioSource;
 import aunmag.nightingale.data.DataEngine;
-import aunmag.nightingale.data.DataTime;
 import aunmag.nightingale.shaders.ShaderSprite;
 import aunmag.nightingale.structures.Model;
 import aunmag.nightingale.structures.Texture;
@@ -17,6 +16,7 @@ public abstract class Application {
 
     private static boolean isInitialized = false;
     private static boolean isRunning = false;
+    private static double timeDelta = 0.0;
     private static Window window;
     private static Camera camera;
     private static ShaderSprite shader;
@@ -55,11 +55,9 @@ public abstract class Application {
 
         while (isRunning) {
             long timeCurrent = System.currentTimeMillis();
-            double timeDelta = (timeCurrent - timeLast) / 1000d;
+            timeDelta = (timeCurrent - timeLast) / 1000.0;
 
             if (timeDelta >= timeFrameDuration) {
-                DataTime.setCurrentMilliseconds(timeCurrent);
-                DataTime.setDelta(timeDelta);
                 engineUpdate();
                 engineRender();
                 timeLast = timeCurrent;
@@ -123,6 +121,10 @@ public abstract class Application {
 
     public static boolean isRunning() {
         return isRunning;
+    }
+
+    public static double getTimeDelta() {
+        return timeDelta;
     }
 
     public static Window getWindow() {
