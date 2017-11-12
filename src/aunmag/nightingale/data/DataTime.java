@@ -2,33 +2,33 @@ package aunmag.nightingale.data;
 
 public class DataTime {
 
-    private static double timeDelta = 0;
-    private static long timeCurrent = System.currentTimeMillis();
-    private static long timePassed = 0;
+    private static double delta = 0;
+    private static long currentMilliseconds = System.currentTimeMillis();
+    private static long passedMilliseconds = 0;
 
     /* Setters */
 
-    public static void setTimeDelta(double timeDelta) {
-        DataTime.timeDelta = timeDelta;
+    public static void setDelta(double delta) {
+        DataTime.delta = delta;
     }
 
-    public static void setTimeCurrent(long timeCurrent) {
-        timePassed = timeCurrent - DataTime.timeCurrent;
-        DataTime.timeCurrent = timeCurrent;
+    public static void setCurrentMilliseconds(long currentMilliseconds) {
+        passedMilliseconds = currentMilliseconds - DataTime.currentMilliseconds;
+        DataTime.currentMilliseconds = currentMilliseconds;
     }
 
     /* Getters */
 
-    public static double getTimeDelta() {
-        return timeDelta;
+    public static double getDelta() {
+        return delta;
     }
 
-    public static long getTimeCurrent() {
-        return timeCurrent;
+    public static long getCurrentMilliseconds() {
+        return currentMilliseconds;
     }
 
-    public static long getTimePassed() {
-        return timePassed;
+    public static long getPassedMilliseconds() {
+        return passedMilliseconds;
     }
 
 }

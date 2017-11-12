@@ -6,27 +6,27 @@ public class FluidValue {
     private float valueCurrent = 0;
     private float valueTarget = 0;
     private float flexDegree = 1;
-    private long timeInitial = System.currentTimeMillis();
-    private long timeDuration;
+    private double timeInitial = ((double) System.currentTimeMillis() / 1000.0);
+    private double timeDuration;
 
-    public FluidValue(long timeDuration) {
+    public FluidValue(double timeDuration) {
         this.timeDuration = timeDuration;
     }
 
-    public void update(long timeCurrent) {
+    public void update(double timeCurrent) {
         if (isTargetReached()) {
             return;
         }
 
-        long timePassed = timeCurrent - timeInitial;
-        float timeDone = (float) timePassed / (float) timeDuration;
+        double timePassed = timeCurrent - timeInitial;
+        double timeDone = timePassed / timeDuration;
 
         if (timeDone >= 1) {
             reachTargetNow();
         } else {
-            timeDone = (float) Math.pow(timeDone, flexDegree);
+            timeDone = Math.pow(timeDone, flexDegree);
             float valueRange = valueTarget - valueInitial;
-            float valueIncrease = valueRange * timeDone;
+            float valueIncrease = (float) (valueRange * timeDone);
             valueCurrent = valueInitial + valueIncrease;
         }
     }
@@ -37,7 +37,7 @@ public class FluidValue {
 
     /* Setters */
 
-    public void setValueTarget(float valueTarget, long timeInitial) {
+    public void setValueTarget(float valueTarget, double timeInitial) {
         if (valueTarget != this.valueTarget) {
             valueInitial = this.valueCurrent;
             this.valueTarget = valueTarget;
@@ -49,11 +49,11 @@ public class FluidValue {
         this.flexDegree = flexDegree;
     }
 
-    public void setTimeInitial(long timeInitial) {
+    public void setTimeInitial(double timeInitial) {
         this.timeInitial = timeInitial;
     }
 
-    public void setTimeDuration(long timeDuration) {
+    public void setTimeDuration(double timeDuration) {
         this.timeDuration = timeDuration;
     }
 
@@ -71,7 +71,7 @@ public class FluidValue {
         return valueCurrent == valueTarget;
     }
 
-    public long getTimeDuration() {
+    public double getTimeDuration() {
         return timeDuration;
     }
 

@@ -58,8 +58,8 @@ public abstract class Application {
             double timeDelta = (timeCurrent - timeLast) / 1000d;
 
             if (timeDelta >= timeFrameDuration) {
-                DataTime.setTimeCurrent(timeCurrent);
-                DataTime.setTimeDelta(timeDelta);
+                DataTime.setCurrentMilliseconds(timeCurrent);
+                DataTime.setDelta(timeDelta);
                 engineUpdate();
                 engineRender();
                 timeLast = timeCurrent;

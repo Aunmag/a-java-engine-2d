@@ -5,26 +5,26 @@ public class FluidToggle extends FluidValue {
     public static final int VALUE_MIN = 0;
     public static final int VALUE_MAX = 1;
 
-    public FluidToggle(long timeDuration) {
+    public FluidToggle(double timeDuration) {
         super(timeDuration);
     }
 
-    public void on(long timeInitial) {
+    public void on(double timeInitial) {
         super.setValueTarget(VALUE_MAX, timeInitial);
     }
 
-    public void off(long timeInitial) {
+    public void off(double timeInitial) {
         super.setValueTarget(VALUE_MIN, timeInitial);
     }
 
-    public void toggle(long timeInitial) {
+    public void toggle(double timeInitial) {
         boolean toggleOn = getValueTarget() == VALUE_MIN;
         super.setValueTarget(toggleOn ? VALUE_MAX : VALUE_MIN, timeInitial);
     }
 
     /* Setters */
 
-    public void setValueTarget(float valueTarget, long timeInitial) {
+    public void setValueTarget(float valueTarget, double timeInitial) {
         if (valueTarget < VALUE_MIN) {
             valueTarget = VALUE_MIN;
         } else if (VALUE_MAX < valueTarget) {
