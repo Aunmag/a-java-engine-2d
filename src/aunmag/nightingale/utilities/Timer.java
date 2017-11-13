@@ -2,24 +2,24 @@ package aunmag.nightingale.utilities;
 
 public class Timer {
 
-    private double timeCurrent = 0.0;
-    private double timeDuration = 0.0;
-    private double timeDurationDeviationFactor = 0.0;
-    private double timeDurationCurrent = 0.0;
-    private double timeTarget = 0.0;
+    public final TimeFlow time;
+    private double target = 0.0;
+    private double duration = 0.0;
+    private double durationDeviationFactor = 0.0;
+    private double durationCurrent = 0.0;
 
-    public Timer(double timeDuration) {
-        this(timeDuration, 0.0);
+    public Timer(TimeFlow time, double duration) {
+        this(time, duration, 0.0);
     }
 
-    public Timer(double timeDuration, double timeDurationDeviationFactor) {
-        this.timeDurationDeviationFactor = timeDurationDeviationFactor;
-        setTimeDuration(timeDuration);
-    }
-
-    public boolean calculateIsDone(double timeCurrent) {
-        setTimeCurrent(timeCurrent);
-        return isDone();
+    public Timer(
+            TimeFlow time,
+            double duration,
+            double durationDeviationFactor
+    ) {
+        this.time = time;
+        this.durationDeviationFactor = durationDeviationFactor;
+        setDuration(duration);
     }
 
     public void next(boolean isDoneMustBe) {
@@ -29,66 +29,58 @@ public class Timer {
     }
 
     public void next() {
-        updateTimeDurationCurrent();
-        setTimeTarget(timeDurationCurrent + timeCurrent);
+        updateDurationCurrent();
+        setTarget(durationCurrent + time.getCurrent());
     }
 
-    private void updateTimeDurationCurrent() {
-        timeDurationCurrent = UtilsMath.randomizeFlexibly(
-                (float) timeDuration,
-                (float) (timeDuration * timeDurationDeviationFactor)
+    private void updateDurationCurrent() {
+        durationCurrent = UtilsMath.randomizeFlexibly(
+                (float) duration,
+                (float) (duration * durationDeviationFactor)
         );
     }
 
     /* Setters */
 
-    public void setTimeCurrent(double timeCurrent) {
-        this.timeCurrent = timeCurrent;
+    public void setDuration(double duration) {
+        addTarget(-durationCurrent);
+        this.duration = duration;
+        updateDurationCurrent();
+        addTarget(durationCurrent);
     }
 
-    public void setTimeDuration(double timeDuration) {
-        addTimeTarget(-timeDurationCurrent);
-        this.timeDuration = timeDuration;
-        updateTimeDurationCurrent();
-        addTimeTarget(timeDurationCurrent);
+    public void setDurationDeviationFactor(double durationDeviationFactor) {
+        this.durationDeviationFactor = durationDeviationFactor;
     }
 
-    public void setTimeDurationDeviationFactor(double timeDurationDeviationFactor) {
-        this.timeDurationDeviationFactor = timeDurationDeviationFactor;
+    public final void addTarget(double addTarget) {
+        setTarget(target + addTarget);
     }
 
-    public final void addTimeTarget(double addTimeTarget) {
-        setTimeTarget(timeTarget + addTimeTarget);
-    }
-
-    public void setTimeTarget(double timeTarget) {
-        this.timeTarget = timeTarget;
+    public void setTarget(double target) {
+        this.target = target;
     }
 
     /* Getters */
 
-    public double getTimeCurrent() {
-        return timeCurrent;
+    public double getDuration() {
+        return duration;
     }
 
-    public double getTimeDuration() {
-        return timeDuration;
+    public double getDurationDeviationFactor() {
+        return durationDeviationFactor;
     }
 
-    public double getTimeDurationDeviationFactor() {
-        return timeDurationDeviationFactor;
+    public double getDurationCurrent() {
+        return durationCurrent;
     }
 
-    public double getTimeDurationCurrent() {
-        return timeDurationCurrent;
-    }
-
-    public double getTimeTarget() {
-        return timeTarget;
+    public double getTarget() {
+        return target;
     }
 
     public boolean isDone() {
-        return timeCurrent >= timeTarget;
+        return time.getCurrent() >= target;
     }
 
 }
