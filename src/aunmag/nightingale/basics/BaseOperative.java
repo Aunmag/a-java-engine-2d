@@ -2,9 +2,9 @@ package aunmag.nightingale.basics;
 
 public interface BaseOperative {
 
-    void update();
+    default void update() {}
 
-    void render();
+    default void render() {}
 
     void remove();
 

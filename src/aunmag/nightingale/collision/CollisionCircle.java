@@ -1,9 +1,10 @@
 package aunmag.nightingale.collision;
 
+import aunmag.nightingale.Application;
+import aunmag.nightingale.structures.Texture;
 import aunmag.nightingale.utilities.UtilsGraphics;
 import aunmag.nightingale.utilities.UtilsMath;
-
-import java.awt.Color;
+import org.joml.Matrix4f;
 
 public class CollisionCircle extends Collision {
 
@@ -11,20 +12,39 @@ public class CollisionCircle extends Collision {
     float distanceBetweenFromLastCheck;
 
     public CollisionCircle(float x, float y, float radius) {
-        super(x, y);
+        super(x, y, 0f);
         this.radius = radius;
     }
 
     public void render() {
-        render(renderColor);
+        super.render();
+        UtilsGraphics.drawCircle(getX(), getY(), radius, true, true);
     }
 
-    public void render(Color color) {
-        // TODO: Don't render if is invisible!
-        UtilsGraphics.setDrawColor(color);
-        UtilsGraphics.drawPrepare();
-        UtilsGraphics.drawCircle(getX(), getY(), radius, true, true);
-        UtilsGraphics.drawFinish();
+    public void renderTexture(Texture texture) {
+        Matrix4f projection = Application.getCamera().calculateViewProjection(
+                getX(),
+                getY(),
+                getRadians()
+        );
+
+        float size = texture.getMaxSide() * 2 * Application.getCamera().getScaleFull();
+
+        float rangeX = size / Application.getWindow().getWidth() + 1;
+        if (!UtilsMath.calculateIsNumberInsideRange(projection.m30(), -rangeX, rangeX)) {
+            return;
+        }
+
+        float rangeY = size / Application.getWindow().getHeight() + 1;
+        if (!UtilsMath.calculateIsNumberInsideRange(projection.m31(), -rangeY, rangeY)) {
+            return;
+        }
+
+        Application.getShader().setUniformSampler(0);
+        Application.getShader().setUniformProjection(projection);
+        Application.getShader().setUniformColourDefault();
+        texture.bind();
+        texture.render();
     }
 
     public void preventCollisionWith(CollisionCircle opponent) {

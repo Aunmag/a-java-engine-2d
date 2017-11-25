@@ -1,29 +1,33 @@
 package aunmag.nightingale.collision;
 
 import aunmag.nightingale.basics.BasePoint;
+import aunmag.nightingale.utilities.UtilsGraphics;
 
 public class CollisionLine extends Collision {
 
-    private BasePoint positionTail;
+    public final BasePoint positionTail;
 
-    public CollisionLine(float x1, float y1, float x2, float y2) {
-        super(x1, y1);
-        positionTail = new BasePoint(x2, y2);
+    public CollisionLine(float x, float y) {
+        super(x, y, 0f);
+        positionTail = new BasePoint(x, y);
     }
 
-    public void render() {}
-
-    /* Getters */
-
-    public BasePoint getPositionTail() {
-        return positionTail;
+    public void render() {
+        super.render();
+        UtilsGraphics.drawLine(
+                getX(),
+                getY(),
+                positionTail.getX(),
+                positionTail.getY(),
+                true
+        );
     }
 
     /* Setters */
 
-    public void setPosition(float x1, float y1, float x2, float y2) {
-        super.setPosition(x1, y1);
-        positionTail.setPosition(x2, y2);
+    public void setPosition(float x, float y) {
+        positionTail.setPosition(getX(), getY());
+        super.setPosition(x, y);
     }
 
 }
