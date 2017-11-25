@@ -3,6 +3,8 @@ package aunmag.nightingale.utilities;
 import aunmag.nightingale.Application;
 import aunmag.nightingale.basics.BaseQuad;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
@@ -148,6 +150,14 @@ public class UtilsGraphics {
                 color.getBlue() / 255f,
                 color.getAlpha() / 255f
         );
+    }
+
+    public static void setDrawColor(Vector3f color) {
+        GL11.glColor3f(color.x(), color.y(), color.z());
+    }
+
+    public static void setDrawColor(Vector4f color) {
+        GL11.glColor4f(color.x(), color.y(), color.z(), color.w());
     }
 
 }
