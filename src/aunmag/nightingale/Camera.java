@@ -89,13 +89,7 @@ public class Camera extends BasePosition {
     }
 
     public void setScaleZoom(float scaleZoom) {
-        if (scaleZoom < ZOOM_MIN) {
-            scaleZoom = ZOOM_MIN;
-        } else if (scaleZoom > ZOOM_MAX) {
-            scaleZoom = ZOOM_MAX;
-        }
-
-        this.scaleZoom = scaleZoom;
+        this.scaleZoom = UtilsMath.limitNumber(scaleZoom, ZOOM_MIN, ZOOM_MAX);
         updateScaleFull();
     }
 

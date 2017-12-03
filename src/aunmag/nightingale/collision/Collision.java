@@ -1,19 +1,33 @@
 package aunmag.nightingale.collision;
 
-import aunmag.nightingale.basics.BasePoint;
+import aunmag.nightingale.basics.BaseOperative;
+import aunmag.nightingale.basics.BasePosition;
+import aunmag.nightingale.utilities.UtilsGraphics;
 import aunmag.nightingale.utilities.UtilsMath;
+import org.joml.Vector4f;
 
-import java.awt.Color;
+public abstract class Collision extends BasePosition implements BaseOperative {
 
-public abstract class Collision extends BasePoint {
+    private boolean isRemoved = false;
+    public Vector4f color = new Vector4f(1f, 1f, 1f, 0.5f);
 
-    static final Color renderColor = new Color(255, 255, 255, 100);
-
-    Collision(float x, float y) {
-        super(x, y);
+    Collision(float x, float y, float radians) {
+        super(x, y, radians);
     }
 
-    public abstract void render();
+    public void render() {
+        UtilsGraphics.setDrawColor(color);
+    }
+
+    public void remove() {
+        isRemoved = true;
+    }
+
+    /* Getters */
+
+    public boolean isRemoved() {
+        return isRemoved;
+    }
 
     public static boolean calculateIsCollision(CollisionCircle a, CollisionCircle b) {
         float distanceBetween = UtilsMath.calculateDistanceBetween(a, b);
@@ -29,8 +43,8 @@ public abstract class Collision extends BasePoint {
     ) {
         float lineX1 = line.getX() - circle.getX();
         float lineY1 = line.getY() - circle.getY();
-        float lineX2 = line.getPositionTail().getX() - circle.getX();
-        float lineY2 = line.getPositionTail().getY() - circle.getY();
+        float lineX2 = line.positionTail.getX() - circle.getX();
+        float lineY2 = line.positionTail.getY() - circle.getY();
 
         float differenceX = lineX2 - lineX1;
         float differenceY = lineY2 - lineY1;
