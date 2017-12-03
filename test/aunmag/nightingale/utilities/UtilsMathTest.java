@@ -66,4 +66,13 @@ class UtilsMathTest {
         assertFalse(calculateIsNumberInsideRange(0.5f, -1, 0));
     }
 
+    @Test
+    void testLimitNumber() {
+        assertEquals(0, limitNumber(0, 0, 0));
+        assertEquals(0, limitNumber(0, 0, 1));
+        assertEquals(1, limitNumber(0, 1, 1));
+        assertEquals(-1, limitNumber(-1.5f, -1, 1));
+        assertEquals(+1, limitNumber(+1.5f, -1, 1));
+    }
+
 }

@@ -73,11 +73,7 @@ public class TestValue {
     }
 
     public void correct() {
-        if (current < min) {
-            current = min;
-        } else if (max < current) {
-            current = max;
-        }
+        current = UtilsMath.limitNumber(current, min, max);
     }
 
 }
