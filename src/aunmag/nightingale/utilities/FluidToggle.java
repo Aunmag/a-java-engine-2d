@@ -25,12 +25,7 @@ public class FluidToggle extends FluidValue {
     /* Setters */
 
     public void setValueTarget(float valueTarget, double timeInitial) {
-        if (valueTarget < VALUE_MIN) {
-            valueTarget = VALUE_MIN;
-        } else if (VALUE_MAX < valueTarget) {
-            valueTarget = VALUE_MAX;
-        }
-
+        valueTarget = UtilsMath.limitNumber(valueTarget, VALUE_MIN, VALUE_MAX);
         super.setValueTarget(valueTarget, timeInitial);
     }
 

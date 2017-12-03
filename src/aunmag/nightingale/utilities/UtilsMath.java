@@ -56,17 +56,14 @@ public class UtilsMath {
     }
 
     public static float randomizeFlexibly(float middle, float offset) {
-        // Randomize offset to flexed result
         float flex = 0.5f;
         float offsetMin = offset * randomizeBetween(0, flex);
         float offsetMax = offset * randomizeBetween(flex, 1);
         float offsetRandom = randomizeBetween(offsetMin, offsetMax);
 
-        // Set minimal and maximal result value
         float resultMin = middle - offsetRandom;
         float resultMax = middle + offsetRandom;
 
-        // Randomize and return result
         return randomizeBetween(resultMin, resultMax);
     }
 
@@ -100,6 +97,16 @@ public class UtilsMath {
             float max
     ) {
         return min <= number && number <= max;
+    }
+
+    public static float limitNumber(float number, float min, float max) {
+        if (number < min) {
+            number = min;
+        } else if (number > max) {
+            number = max;
+        }
+
+        return number;
     }
 
 }
