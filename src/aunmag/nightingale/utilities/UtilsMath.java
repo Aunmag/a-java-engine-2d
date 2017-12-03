@@ -99,7 +99,7 @@ public class UtilsMath {
             float min,
             float max
     ) {
-        return min < number && number < max;
+        return min <= number && number <= max;
     }
 
 }
