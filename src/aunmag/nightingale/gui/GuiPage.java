@@ -55,7 +55,6 @@ public class GuiPage {
 
     private void renderWallpaper() {
         wallpaper.bind();
-        Application.getShader().setUniformSampler(0);
         Application.getShader().setUniformProjection(Application.getWindow().projection);
         wallpaper.render();
     }
