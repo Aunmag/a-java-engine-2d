@@ -75,6 +75,18 @@ public class Timer {
         return durationCurrent;
     }
 
+    public double getInitial() {
+        return target - duration;
+    }
+
+    public double getPassed() {
+        return time.getCurrent() - getInitial();
+    }
+
+    public double getRemain() {
+        return target - time.getCurrent();
+    }
+
     public double getTarget() {
         return target;
     }
