@@ -4,8 +4,9 @@ import aunmag.nightingale.audio.AudioMaster;
 import aunmag.nightingale.audio.AudioSample;
 import aunmag.nightingale.audio.AudioSource;
 import aunmag.nightingale.data.DataEngine;
-import aunmag.nightingale.shaders.ShaderSprite;
+import aunmag.nightingale.shaders.ShaderTextured;
 import aunmag.nightingale.structures.Model;
+import aunmag.nightingale.structures.Shader;
 import aunmag.nightingale.structures.Texture;
 import aunmag.nightingale.structures.Vao;
 import org.lwjgl.glfw.GLFW;
@@ -19,7 +20,7 @@ public abstract class Application {
     private static double timeDelta = 0.0;
     private static Window window;
     private static Camera camera;
-    private static ShaderSprite shader;
+    private static ShaderTextured shader;
 
     private double timeFrameDuration;
 
@@ -42,7 +43,7 @@ public abstract class Application {
         GL11.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
         camera = new Camera();
-        shader = new ShaderSprite("shaderSprite");
+        shader = new ShaderTextured();
 
         timeFrameDuration = 1d / (double) Configs.getFpsLimit();
 
@@ -82,7 +83,6 @@ public abstract class Application {
 
     private void engineRender() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        Application.getShader().bind();
         gameRender();
         GLFW.glfwSwapBuffers(window.id);
     }
@@ -93,7 +93,7 @@ public abstract class Application {
         Vao.cleanUp();
         Texture.cleanUp();
         Model.cleanUp();
-        ShaderSprite.cleanUp();
+        Shader.cleanUp();
         AudioSource.cleanUp();
         AudioSample.cleanUp();
         AudioMaster.terminate();
@@ -135,7 +135,7 @@ public abstract class Application {
         return camera;
     }
 
-    public static ShaderSprite getShader() {
+    public static ShaderTextured getShader() {
         return shader;
     }
 

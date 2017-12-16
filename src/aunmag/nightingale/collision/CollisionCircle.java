@@ -40,7 +40,6 @@ public class CollisionCircle extends Collision {
             return;
         }
 
-        Application.getShader().setUniformSampler(0);
         Application.getShader().setUniformProjection(projection);
         Application.getShader().setUniformColourDefault();
         texture.bind();

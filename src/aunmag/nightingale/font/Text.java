@@ -59,7 +59,6 @@ public class Text extends BaseQuad {
 
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
-        Application.getShader().setUniformSampler(0);
         Application.getShader().setUniformColour(colour);
         Application.getShader().setUniformProjection(projection);
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vao.vertexCount);
