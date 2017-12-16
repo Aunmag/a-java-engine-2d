@@ -23,11 +23,8 @@ public class CollisionLine extends Collision {
         );
     }
 
-    /* Setters */
-
-    public void setPosition(float x, float y) {
+    public void pullUpTail() {
         positionTail.setPosition(getX(), getY());
-        super.setPosition(x, y);
     }
 
 }
