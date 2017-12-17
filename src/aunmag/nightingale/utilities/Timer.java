@@ -40,6 +40,10 @@ public class Timer {
         );
     }
 
+    public double calculateIsDoneRatio() {
+        return getPassed() / duration;
+    }
+
     /* Setters */
 
     public void setDuration(double duration) {

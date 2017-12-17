@@ -9,6 +9,7 @@ import aunmag.nightingale.structures.Model;
 import aunmag.nightingale.structures.Shader;
 import aunmag.nightingale.structures.Texture;
 import aunmag.nightingale.structures.Vao;
+import aunmag.nightingale.utilities.TimeFlow;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -21,6 +22,7 @@ public abstract class Application {
     private static Window window;
     private static Camera camera;
     private static ShaderTextured shader;
+    public static TimeFlow time = new TimeFlow();
 
     private double timeFrameDuration;
 
@@ -69,6 +71,7 @@ public abstract class Application {
     }
 
     private void engineUpdate() {
+        time.update();
         camera.resetOffsets();
         Input.update();
         GLFW.glfwPollEvents();

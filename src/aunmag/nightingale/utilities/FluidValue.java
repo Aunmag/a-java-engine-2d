@@ -2,46 +2,41 @@ package aunmag.nightingale.utilities;
 
 public class FluidValue {
 
-    private float valueInitial = 0;
-    private float valueCurrent = 0;
-    private float valueTarget = 0;
+    public final Timer timer;
+    private float initial = 0;
+    private float current = 0;
+    private float target = 0;
     private float flexDegree = 1;
-    private double timeInitial = ((double) System.currentTimeMillis() / 1000.0);
-    private double timeDuration;
 
-    public FluidValue(double timeDuration) {
-        this.timeDuration = timeDuration;
+    public FluidValue(TimeFlow time, double duration) {
+        timer = new Timer(time, duration);
     }
 
-    public void update(double timeCurrent) {
+    public void update() {
         if (isTargetReached()) {
             return;
         }
 
-        double timePassed = timeCurrent - timeInitial;
-        double timeDone = timePassed / timeDuration;
-
-        if (timeDone >= 1) {
+        if (timer.isDone()) {
             reachTargetNow();
         } else {
-            timeDone = Math.pow(timeDone, flexDegree);
-            float valueRange = valueTarget - valueInitial;
-            float valueIncrease = (float) (valueRange * timeDone);
-            valueCurrent = valueInitial + valueIncrease;
+            double isDoneRatio = Math.pow(timer.calculateIsDoneRatio(), flexDegree);
+            double valueIncrease = getValueRange() * isDoneRatio;
+            current = (float) (initial + valueIncrease);
         }
     }
 
     public void reachTargetNow() {
-        valueCurrent = valueTarget;
+        current = target;
     }
 
     /* Setters */
 
-    public void setValueTarget(float valueTarget, double timeInitial) {
-        if (valueTarget != this.valueTarget) {
-            valueInitial = this.valueCurrent;
-            this.valueTarget = valueTarget;
-            setTimeInitial(timeInitial);
+    public void setTarget(float target) {
+        if (target != this.target) {
+            initial = this.current;
+            this.target = target;
+            timer.next();
         }
     }
 
@@ -49,30 +44,22 @@ public class FluidValue {
         this.flexDegree = flexDegree;
     }
 
-    public void setTimeInitial(double timeInitial) {
-        this.timeInitial = timeInitial;
-    }
-
-    public void setTimeDuration(double timeDuration) {
-        this.timeDuration = timeDuration;
-    }
-
     /* Getters */
 
-    public float getValueCurrent() {
-        return valueCurrent;
+    public float getCurrent() {
+        return current;
     }
 
-    public float getValueTarget() {
-        return valueTarget;
+    public float getTarget() {
+        return target;
+    }
+
+    public float getValueRange() {
+        return target - initial;
     }
 
     public boolean isTargetReached() {
-        return valueCurrent == valueTarget;
-    }
-
-    public double getTimeDuration() {
-        return timeDuration;
+        return current == target;
     }
 
 }
