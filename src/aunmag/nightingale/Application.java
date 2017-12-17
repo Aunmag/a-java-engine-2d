@@ -72,7 +72,6 @@ public abstract class Application {
 
     private void engineUpdate() {
         time.update();
-
         camera.resetOffsets();
         Input.update();
         GLFW.glfwPollEvents();

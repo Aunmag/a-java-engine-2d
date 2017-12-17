@@ -40,8 +40,8 @@ public class Timer {
         );
     }
 
-    public float calculateIsDoneRatio() {
-        return (float) (getPassed() / duration);
+    public double calculateIsDoneRatio() {
+        return getPassed() / duration;
     }
 
     /* Setters */
