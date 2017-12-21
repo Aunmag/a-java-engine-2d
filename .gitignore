@@ -1,5 +1,10 @@
-out/
-res/images/
-res/sounds/
-src/aunmag/shooter
+lib
+target
+
+*.log
+
+# IntelliJ IDEA:
+*.iml
 .idea
+out
+
