@@ -1,16 +1,17 @@
 package aunmag.nightingale.utilities;
 
-import aunmag.nightingale.Application;
-
 public class TimeFlow {
 
     private double current = 0.0;
     private double delta = 0.0;
     private double speed = 1.0;
 
-    public void update() {
-        delta = Application.getTimeDelta() * speed;
-        current += delta;
+    public void add(double add, boolean useSpeed) {
+        if (useSpeed) {
+            add *= speed;
+        }
+
+        current += add;
     }
 
     /* Getters */
@@ -29,7 +30,11 @@ public class TimeFlow {
 
     /* Setters */
 
-    public void setCurrent(double current) {
+    public void setCurrent(double current, boolean doDeltaUpdate) {
+        if (doDeltaUpdate) {
+            delta = current - this.current;
+        }
+
         this.current = current;
     }
 
