@@ -18,13 +18,11 @@ public abstract class Application {
 
     private static boolean isInitialized = false;
     private static boolean isRunning = false;
-    private static double timeDelta = 0.0;
     private static Window window;
     private static Camera camera;
     private static ShaderTextured shader;
-    public static TimeFlow time = new TimeFlow();
-
-    private double timeFrameDuration;
+    public static final FrameRate frameRate = new FrameRate(60);
+    public static final TimeFlow time = new TimeFlow();
 
     public Application() {
         if (isInitialized) {
@@ -47,23 +45,18 @@ public abstract class Application {
         camera = new Camera();
         shader = new ShaderTextured();
 
-        timeFrameDuration = 1d / (double) Configs.getFpsLimit();
-
         AudioMaster.initialize();
     }
 
     public final void run() {
         isRunning = true;
-        long timeLast = System.currentTimeMillis();
 
         while (isRunning) {
-            long timeCurrent = System.currentTimeMillis();
-            timeDelta = (timeCurrent - timeLast) / 1000.0;
+            double timeCurrent = (double) System.currentTimeMillis() / 1000.0;
 
-            if (timeDelta >= timeFrameDuration) {
+            if (frameRate.calculateIsNow(timeCurrent)) {
                 engineUpdate();
                 engineRender();
-                timeLast = timeCurrent;
             }
         }
 
@@ -71,7 +64,7 @@ public abstract class Application {
     }
 
     private void engineUpdate() {
-        time.update();
+        time.add(frameRate.getTimeDelta(), true);
         camera.resetOffsets();
         Input.update();
         GLFW.glfwPollEvents();
@@ -124,10 +117,6 @@ public abstract class Application {
 
     public static boolean isRunning() {
         return isRunning;
-    }
-
-    public static double getTimeDelta() {
-        return timeDelta;
     }
 
     public static Window getWindow() {

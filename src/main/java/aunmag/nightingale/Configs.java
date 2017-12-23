@@ -5,7 +5,6 @@ public class Configs {
     private static boolean isFullscreen = false;
     private static boolean isSamplesLoadingEnabled = true;
     private static int antialiasing = 2;
-    private static int fpsLimit = 60;
     private static float pixelsPerMeter = 32f;
 
     /* Getters */
@@ -20,10 +19,6 @@ public class Configs {
 
     public static int getAntialiasing() {
         return antialiasing;
-    }
-
-    public static int getFpsLimit() {
-        return fpsLimit;
     }
 
     public static float getPixelsPerMeter() {
@@ -57,15 +52,6 @@ public class Configs {
             System.err.println(message);
         } else {
             Configs.antialiasing = antialiasing;
-        }
-    }
-
-    public static void setFpsLimit(int fpsLimit) {
-        if (Application.isInitialized()) {
-            String message = "Unable to change FPS limit after engine initialization";
-            System.err.println(message);
-        } else {
-            Configs.fpsLimit = fpsLimit;
         }
     }
 
