@@ -4,6 +4,7 @@ import aunmag.nightingale.audio.AudioMaster;
 import aunmag.nightingale.audio.AudioSample;
 import aunmag.nightingale.audio.AudioSource;
 import aunmag.nightingale.data.DataEngine;
+import aunmag.nightingale.input.Input;
 import aunmag.nightingale.shaders.ShaderTextured;
 import aunmag.nightingale.structures.Model;
 import aunmag.nightingale.structures.Shader;
@@ -41,6 +42,7 @@ public abstract class Application {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+        GLFW.glfwSetScrollCallback(window.id, Input.mouse.wheel.callbackUpdate);
 
         camera = new Camera();
         shader = new ShaderTextured();
