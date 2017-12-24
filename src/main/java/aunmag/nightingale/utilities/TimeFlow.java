@@ -7,11 +7,13 @@ public class TimeFlow {
     private double speed = 1.0;
 
     public void add(double add, boolean useSpeed) {
+        delta = add;
+
         if (useSpeed) {
-            add *= speed;
+            delta *= speed;
         }
 
-        current += add;
+        current += delta;
     }
 
     /* Getters */
@@ -30,9 +32,11 @@ public class TimeFlow {
 
     /* Setters */
 
-    public void setCurrent(double current, boolean doDeltaUpdate) {
-        if (doDeltaUpdate) {
+    public void setCurrent(double current, boolean doRecalculateDelta) {
+        if (doRecalculateDelta) {
             delta = current - this.current;
+        } else {
+            delta = 0;
         }
 
         this.current = current;
