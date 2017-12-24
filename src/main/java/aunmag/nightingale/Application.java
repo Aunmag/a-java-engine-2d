@@ -56,11 +56,6 @@ public abstract class Application {
 
             if (frameRate.calculateIsNow(timeCurrent)) {
                 engineUpdate();
-
-                if (Input.getMouseVelocity().x() != 0) {
-                    System.out.println(time.getDelta());
-                }
-
                 engineRender();
             }
         }
