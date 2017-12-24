@@ -1,6 +1,6 @@
 package aunmag.nightingale.gui;
 
-import aunmag.nightingale.Input;
+import aunmag.nightingale.input.Input;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class GuiManager {
     public static void update() {
         shouldClose = false;
 
-        if (Input.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
+        if (Input.keyboard.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
             back();
         }
 
