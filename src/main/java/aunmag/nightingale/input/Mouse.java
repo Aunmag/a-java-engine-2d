@@ -45,7 +45,6 @@ public final class Mouse {
         DoubleBuffer yBuffer = BufferUtils.createDoubleBuffer(1);
         GLFW.glfwGetCursorPos(Application.getWindow().id, xBuffer, yBuffer);
 
-        // TODO: Learn more:
         xBuffer.rewind();
         yBuffer.rewind();
         float x = (float) xBuffer.get();

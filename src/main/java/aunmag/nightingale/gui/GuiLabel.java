@@ -5,6 +5,7 @@ import aunmag.nightingale.basics.BaseGrid;
 import aunmag.nightingale.basics.BaseQuad;
 import aunmag.nightingale.font.Font;
 import aunmag.nightingale.font.Text;
+import org.joml.Vector4f;
 
 public class GuiLabel extends BaseQuad {
 
@@ -74,6 +75,10 @@ public class GuiLabel extends BaseQuad {
 
     public void setTextColour(float red, float green, float blue, float alpha) {
         text.setColour(red, green, blue, alpha);
+    }
+
+    public void setTextColour(Vector4f colour) {
+        text.setColour(colour);
     }
 
 }

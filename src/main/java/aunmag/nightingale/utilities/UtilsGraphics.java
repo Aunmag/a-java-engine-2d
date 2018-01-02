@@ -8,8 +8,6 @@ import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
-import java.awt.Color;
-
 public class UtilsGraphics {
 
     public static void drawPrepare() {
@@ -116,7 +114,6 @@ public class UtilsGraphics {
             boolean isFilled,
             boolean isOnWorld
     ) {
-        // TODO: Learn difference between GL_TRIANGLE_FAN and GL_POLYGON
         GL11.glBegin(isFilled ? GL11.GL_TRIANGLE_FAN : GL11.GL_LINE_LOOP);
 
         final float accuracy = 0.4f; // TODO: Use in settings
@@ -140,16 +137,6 @@ public class UtilsGraphics {
 
     public static void drawFinish() {
         Application.getShader().bind();
-    }
-
-    public static void setDrawColor(Color color) {
-        // TODO: Optimize:
-        GL11.glColor4f(
-                color.getRed() / 255f,
-                color.getGreen() / 255f,
-                color.getBlue() / 255f,
-                color.getAlpha() / 255f
-        );
     }
 
     public static void setDrawColor(Vector3f color) {
