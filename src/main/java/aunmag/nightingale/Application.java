@@ -98,7 +98,7 @@ public abstract class Application {
 
         GLFW.glfwSetWindowShouldClose(window.id, true);
         GLFW.glfwTerminate();
-        System.out.println(DataEngine.name + " has terminated gracefully.");
+        System.out.println(DataEngine.TITLE + " has terminated gracefully.");
     }
 
     protected abstract void gameUpdate();
