@@ -108,7 +108,7 @@ public class UtilsGraphics {
     }
 
     public static void fillScreen() {
-        final float n = 0.5f;
+        final float n = 1f;
         GL11.glBegin(GL11.GL_TRIANGLES);
         GL11.glVertex2f(-n, +n); // 1. a - top left
         GL11.glVertex2f(-n, -n); // 1. d - down left

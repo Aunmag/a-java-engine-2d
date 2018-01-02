@@ -41,7 +41,7 @@ public class GuiPage {
     }
 
     private void fillScreen() {
-        GL11.glColor4f(0.2f, 0.2f, 0.2f, 0.6f);
+        GL11.glColor4f(0.2f, 0.2f, 0.2f, 0.2f);
         UtilsGraphics.drawPrepare();
         UtilsGraphics.fillScreen();
     }
