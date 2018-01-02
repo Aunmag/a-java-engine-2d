@@ -56,7 +56,7 @@ public abstract class Application {
         while (isRunning) {
             double timeCurrent = (double) System.currentTimeMillis() / 1000.0;
 
-            if (frameRate.calculateIsNow(timeCurrent)) {
+            if (frameRate.tryNext(timeCurrent)) {
                 engineUpdate();
                 engineRender();
             }
