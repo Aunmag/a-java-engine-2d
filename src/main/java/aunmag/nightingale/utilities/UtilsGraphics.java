@@ -107,6 +107,18 @@ public class UtilsGraphics {
         }
     }
 
+    public static void fillScreen() {
+        final float n = 0.5f;
+        GL11.glBegin(GL11.GL_TRIANGLES);
+        GL11.glVertex2f(-n, +n); // 1. a - top left
+        GL11.glVertex2f(-n, -n); // 1. d - down left
+        GL11.glVertex2f(+n, +n); // 1. b - top right
+        GL11.glVertex2f(+n, +n); // 2. b - top right
+        GL11.glVertex2f(-n, -n); // 2. d - down left
+        GL11.glVertex2f(+n, -n); // 2. c - down right
+        GL11.glEnd();
+    }
+
     public static void drawCircle(
             float x,
             float y,
