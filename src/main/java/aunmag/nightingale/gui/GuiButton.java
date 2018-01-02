@@ -5,15 +5,15 @@ import aunmag.nightingale.basics.BaseGrid;
 import aunmag.nightingale.basics.BaseQuad;
 import aunmag.nightingale.font.Font;
 import aunmag.nightingale.utilities.UtilsGraphics;
+import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
-
-import java.awt.*;
 
 public class GuiButton extends GuiLabel {
 
-    private static final Color colorDefault = new Color(128, 128, 128, 200);
-    private static final Color colorTouched = new Color(166, 166, 166, 200);
-    private static final Color fontColorUnavailable = new Color(204, 204, 204, 128);
+    private static final Vector4f colorDefault = new Vector4f(0.5f, 0.5f, 0.5f, 0.8f);
+    private static final Vector4f colorTouched = new Vector4f(0.6f, 0.6f, 0.6f, 0.8f);
+    private static final Vector4f colorFont = new Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
+    private static final Vector4f colorFontLight = new Vector4f(0.8f, 0.8f, 0.8f, 0.5f);
 
     private BaseQuad onScreenQuad;
     private boolean isAvailable = true;
@@ -49,7 +49,7 @@ public class GuiButton extends GuiLabel {
     }
 
     public void render() {
-        Color color = isTouched ? colorTouched : colorDefault;
+        Vector4f color = isTouched ? colorTouched : colorDefault;
         UtilsGraphics.setDrawColor(color);
         UtilsGraphics.drawPrepare();
         UtilsGraphics.drawQuad(onScreenQuad, true, false);
@@ -67,16 +67,11 @@ public class GuiButton extends GuiLabel {
         }
 
         if (isAvailable) {
-            setTextColour(1, 1, 1, 1);
+            setTextColour(colorFont);
         } else {
             isTouched = false;
             isPressed = false;
-            setTextColour(
-                fontColorUnavailable.getRed() / 255f,
-                fontColorUnavailable.getGreen() / 255f,
-                fontColorUnavailable.getBlue() / 255f,
-                fontColorUnavailable.getAlpha() / 255f
-            );
+            setTextColour(colorFontLight);
         }
     }
 

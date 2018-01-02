@@ -69,8 +69,8 @@ public class Font {
         }
 
         return new Vao(
-                UtilsLanguage.convertListToArray(vertices),
-                UtilsLanguage.convertListToArray(textureCoordinates)
+                UtilsLanguage.listToArray(vertices),
+                UtilsLanguage.listToArray(textureCoordinates)
         );
     }
 

@@ -87,4 +87,8 @@ public class Text extends BaseQuad {
         colour.w = alpha;
     }
 
+    public void setColour(Vector4f colour) {
+        this.colour = colour;
+    }
+
 }
