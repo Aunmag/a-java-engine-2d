@@ -1,16 +1,31 @@
 package aunmag.nightingale.data;
 
+import java.io.InputStream;
+import java.util.Properties;
+
 public class DataEngine {
 
-    public static final String name = "Nightingale Engine";
-    public static final String version = "0.43.1";
-    public static final String license = "Apache 2.0";
-    public static final String developer = "Aunmag";
-    public static final String developerEmail = "aunmag@gmail.com";
-    public static final String title = String.format("%s v%s", name, version);
-    public static final String titleFull = String.format("%s by %s", title, developer);
-    public static final String description = (
-            "This is my 2D nightingale.engine which is powered by LWJGL."
-    );
+    public static final String TITLE = "Nightingale Engine";
+    public static final String TITLE_FULL;
+    public static final String VERSION;
+    public static final String DEVELOPER = "Aunmag";
+
+    static {
+        String filename = "/nightingale-engine.properties";
+        String version = "X.X.X";
+
+        try {
+            InputStream inputStream = DataEngine.class.getResourceAsStream(filename);
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            version = properties.getProperty("version");
+            inputStream.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        VERSION = version;
+        TITLE_FULL = String.format("%s v%s by %s", TITLE, VERSION, DEVELOPER);
+    }
 
 }

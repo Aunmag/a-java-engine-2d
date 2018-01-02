@@ -41,7 +41,7 @@ public class Window extends BaseQuad {
         id = GLFW.glfwCreateWindow(
                 sizeX,
                 sizeY,
-                DataEngine.titleFull,
+                DataEngine.TITLE_FULL,
                 Configs.isFullscreen() ? monitorId : 0,
                 0
         );
