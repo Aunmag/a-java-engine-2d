@@ -23,7 +23,7 @@ public class Font {
         }
     }
 
-    private final Texture texture;
+    final Texture texture;
     private final Map<Integer, Character> characters;
     final float spaceWidth;
 
@@ -140,10 +140,6 @@ public class Font {
         vertices.add(aY);
         vertices.add(aX);
         vertices.add(aY);
-    }
-
-    public void renderPrepare() {
-        texture.bind();
     }
 
 }

@@ -10,7 +10,10 @@ import org.lwjgl.opengl.GL20;
 
 public class Text extends BaseQuad {
 
+    public static final TextManager manager = new TextManager();
+
     public final String message;
+    final Font font;
     final float fontSize;
     final float spaceWidth;
     final float widthRatio;
@@ -18,6 +21,7 @@ public class Text extends BaseQuad {
     final Vao vao;
     private Vector4f colour = new Vector4f(1f, 1f, 1f, 1f);
     private Matrix4f projection;
+    private boolean isRenderingOrdered = false;
 
     public Text(
             float x,
@@ -38,10 +42,13 @@ public class Text extends BaseQuad {
         this.fontSize = fontSize;
         this.widthRatio = width / Application.getWindow().getWidth();
         this.isCenteredX = isCenteredX;
+        this.font = font;
 
         spaceWidth = font.spaceWidth * fontSize;
         vao = font.createTextVao(this);
         projection = calculateProjection();
+
+        manager.add(this);
     }
 
     private Matrix4f calculateProjection() {
@@ -54,23 +61,28 @@ public class Text extends BaseQuad {
         return projection;
     }
 
-    public void render() {
+    public void orderRendering() {
+        isRenderingOrdered = true;
+    }
+
+    void render() {
         vao.bind();
+
+        Application.getShader().setUniformColour(colour);
+        Application.getShader().setUniformProjection(projection);
 
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
-        Application.getShader().setUniformColour(colour);
-        Application.getShader().setUniformProjection(projection);
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vao.vertexCount);
-
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
 
-        vao.unbind();
+        isRenderingOrdered = false;
     }
 
-    public void delete() {
-        vao.delete();
+    public void remove() {
+        manager.remove(this);
+        vao.remove();
     }
 
     /* Setters */
@@ -89,6 +101,16 @@ public class Text extends BaseQuad {
 
     public void setColour(Vector4f colour) {
         this.colour = colour;
+    }
+
+    /* Getters */
+
+    public boolean isRemoved() {
+        return vao.isRemoved();
+    }
+
+    public boolean isRenderingOrdered() {
+        return isRenderingOrdered;
     }
 
 }
