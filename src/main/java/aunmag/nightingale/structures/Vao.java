@@ -18,6 +18,7 @@ public class Vao {
     private final int idVertices;
     private final int idTextureCoordinates;
     public final int vertexCount;
+    private boolean isRemoved = false;
 
     public Vao(float[] vertices, float[] textureCoordinates) {
         id = GL30.glGenVertexArrays();
@@ -48,11 +49,12 @@ public class Vao {
         GL30.glBindVertexArray(id);
     }
 
-    public void unbind() {
+    public static void unbind() {
         GL30.glBindVertexArray(0);
     }
 
-    public void delete() {
+    public void remove() {
+        isRemoved = true;
         GL30.glDeleteVertexArrays(id);
         GL15.glDeleteBuffers(idVertices);
         GL15.glDeleteBuffers(idTextureCoordinates);
@@ -61,8 +63,14 @@ public class Vao {
 
     public static void cleanUp() {
         for (Vao vao: all) {
-            vao.delete();
+            vao.remove();
         }
+    }
+
+    /* Getters */
+
+    public boolean isRemoved() {
+        return isRemoved;
     }
 
 }

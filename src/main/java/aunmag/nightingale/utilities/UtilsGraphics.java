@@ -147,10 +147,6 @@ public class UtilsGraphics {
         GL11.glEnd();
     }
 
-    public static void drawFinish() {
-        Application.getShader().bind();
-    }
-
     public static void setDrawColor(Vector3f color) {
         GL11.glColor3f(color.x(), color.y(), color.z());
     }

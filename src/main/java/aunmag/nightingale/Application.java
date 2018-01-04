@@ -4,6 +4,7 @@ import aunmag.nightingale.audio.AudioMaster;
 import aunmag.nightingale.audio.AudioSample;
 import aunmag.nightingale.audio.AudioSource;
 import aunmag.nightingale.data.DataEngine;
+import aunmag.nightingale.font.Text;
 import aunmag.nightingale.input.Input;
 import aunmag.nightingale.shaders.ShaderTextured;
 import aunmag.nightingale.structures.Model;
@@ -82,6 +83,7 @@ public abstract class Application {
     private void engineRender() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         gameRender();
+        Text.manager.renderAll();
         GLFW.glfwSwapBuffers(window.id);
     }
 

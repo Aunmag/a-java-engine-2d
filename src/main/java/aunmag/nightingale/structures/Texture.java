@@ -138,7 +138,7 @@ public class Texture extends BaseQuad {
     }
 
     public void bind() {
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL13.glActiveTexture(GL13.GL_TEXTURE0); // TODO: Do I need this?
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
     }
 

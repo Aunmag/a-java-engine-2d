@@ -1,6 +1,5 @@
 package aunmag.nightingale.gui;
 
-import aunmag.nightingale.Application;
 import aunmag.nightingale.basics.BaseGrid;
 import aunmag.nightingale.basics.BaseQuad;
 import aunmag.nightingale.font.Font;
@@ -62,13 +61,11 @@ public class GuiLabel extends BaseQuad {
     }
 
     public void render() {
-        Application.getShader().bind();
-        font.renderPrepare();
-        text.render();
+        text.orderRendering();
     }
 
     public void delete() {
-        text.delete();
+        text.remove();
     }
 
     /* Setters */
