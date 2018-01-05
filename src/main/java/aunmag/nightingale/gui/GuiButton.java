@@ -1,9 +1,9 @@
 package aunmag.nightingale.gui;
 
+import aunmag.nightingale.font.FontStyleDefault;
 import aunmag.nightingale.input.Input;
 import aunmag.nightingale.basics.BaseGrid;
 import aunmag.nightingale.basics.BaseQuad;
-import aunmag.nightingale.font.Font;
 import aunmag.nightingale.utilities.UtilsGraphics;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
@@ -32,7 +32,7 @@ public class GuiButton extends GuiLabel {
             int height,
             String text
     ) {
-        super(grid, x, y, width, height, text, Font.fontTitle, 1.5f);
+        super(grid, x, y, width, height, text, FontStyleDefault.label);
         onScreenQuad = calculateOnScreenQuad();
     }
 
