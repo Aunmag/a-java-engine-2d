@@ -18,14 +18,12 @@ final class TextVao {
     private final int idVertices = GL15.glGenBuffers();
     private final int idTextureCoordinates = GL15.glGenBuffers();
     final int vertexCount;
-    private final String message;
-    private final FontStyle style;
+    final String message;
 
     TextVao(String message, FontStyle style, float widthRatio) {
         this.message = message;
-        this.style = style;
 
-        List<Line> lines = createLines(widthRatio);
+        List<Line> lines = createLines(style, widthRatio);
         List<Float> vertices = new ArrayList<>();
         List<Float> textureCoordinates = new ArrayList<>();
 
@@ -41,7 +39,7 @@ final class TextVao {
             for (Word word: words) {
                 List<Character> characters = word.getCharactersCopy();
                 for (Character character: characters) {
-                    addCharacterVertices(cursorX, cursorY, character, vertices);
+                    addCharacterVertices(style, cursorX, cursorY, character, vertices);
                     textureCoordinates.addAll(
                             Arrays.asList(character.textureCoordinates)
                     );
@@ -61,7 +59,7 @@ final class TextVao {
         vertexCount = vertices.size() / 2;
     }
 
-    private List<Line> createLines(float widthRatio) {
+    private List<Line> createLines(FontStyle style, float widthRatio) {
         List<Line> lines = new ArrayList<>();
         Word word = new Word(style.size);
         Line line = new Line(style.spaceWidth);
@@ -98,6 +96,7 @@ final class TextVao {
     }
 
     private void addCharacterVertices(
+            FontStyle style,
             float cursorX,
             float cursorY,
             Character character,
