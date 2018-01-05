@@ -2,7 +2,6 @@ package aunmag.nightingale.font;
 
 import aunmag.nightingale.Application;
 import aunmag.nightingale.basics.BaseQuad;
-import aunmag.nightingale.structures.Vao;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
@@ -13,39 +12,26 @@ public class Text extends BaseQuad {
     public static final TextManager manager = new TextManager();
 
     public final String message;
-    final Font font;
-    final float fontSize;
-    final float spaceWidth;
+    final FontStyle style;
     final float widthRatio;
-    final boolean isCenteredX;
-    final Vao vao;
+    final TextVao vao;
     private Vector4f colour = new Vector4f(1f, 1f, 1f, 1f);
     private Matrix4f projection;
+    private boolean isRemoved = false;
     private boolean isRenderingOrdered = false;
 
-    public Text(
-            float x,
-            float y,
-            float width,
-            String message,
-            float fontSize,
-            Font font,
-            boolean isCenteredX
-    ) {
+    public Text(float x, float y, float width, String message, FontStyle style) {
         super(
                 x,
                 y,
                 width,
-                Application.getWindow().getHeight() * Font.LINE_HEIGHT * fontSize
+                Application.getWindow().getHeight() * style.lineHeight
         );
         this.message = message;
-        this.fontSize = fontSize;
+        this.style = style;
         this.widthRatio = width / Application.getWindow().getWidth();
-        this.isCenteredX = isCenteredX;
-        this.font = font;
 
-        spaceWidth = font.spaceWidth * fontSize;
-        vao = font.createTextVao(this);
+        vao = new TextVao(message, style, widthRatio);
         projection = calculateProjection();
 
         manager.add(this);
@@ -66,6 +52,10 @@ public class Text extends BaseQuad {
     }
 
     void render() {
+        if (!isRenderingOrdered || isRemoved) {
+            return;
+        }
+
         vao.bind();
 
         Application.getShader().setUniformColour(colour);
@@ -81,8 +71,13 @@ public class Text extends BaseQuad {
     }
 
     public void remove() {
-        manager.remove(this);
+        if (isRemoved) {
+            return;
+        }
+
         vao.remove();
+
+        isRemoved = true;
     }
 
     /* Setters */
@@ -106,11 +101,7 @@ public class Text extends BaseQuad {
     /* Getters */
 
     public boolean isRemoved() {
-        return vao.isRemoved();
-    }
-
-    public boolean isRenderingOrdered() {
-        return isRenderingOrdered;
+        return isRemoved;
     }
 
 }

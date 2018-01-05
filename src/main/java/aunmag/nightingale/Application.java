@@ -10,7 +10,6 @@ import aunmag.nightingale.shaders.ShaderTextured;
 import aunmag.nightingale.structures.Model;
 import aunmag.nightingale.structures.Shader;
 import aunmag.nightingale.structures.Texture;
-import aunmag.nightingale.structures.Vao;
 import aunmag.nightingale.utilities.TimeFlow;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
@@ -90,7 +89,7 @@ public abstract class Application {
     private void engineTerminate() {
         gameTerminate();
 
-        Vao.cleanUp();
+        Text.manager.removeAll();
         Texture.cleanUp();
         Model.cleanUp();
         Shader.cleanUp();

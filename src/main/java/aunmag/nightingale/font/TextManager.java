@@ -1,7 +1,6 @@
 package aunmag.nightingale.font;
 
 import aunmag.nightingale.Application;
-import aunmag.nightingale.structures.Vao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,35 +14,47 @@ public final class TextManager {
     TextManager() {}
 
     void add(Text text) {
-        List<Text> textsByFont = texts.get(text.font);
+        List<Text> textsByFont = texts.get(text.style.font);
         if (textsByFont == null) {
             textsByFont = new ArrayList<>();
-            texts.put(text.font, textsByFont);
+            texts.put(text.style.font, textsByFont);
         }
 
         textsByFont.add(text);
     }
 
-    void remove(Text text) {
-        List<Text> textsByFont = texts.get(text.font);
-        if (textsByFont != null) {
-            textsByFont.remove(text);
-        }
-    }
-
-    public void renderAll() {
+    public final void renderAll() {
         Application.getShader().bind();
 
         for (Font font: texts.keySet()) {
             font.texture.bind();
-            for (Text text: texts.get(font)) {
-                if (text.isRenderingOrdered() && !text.isRemoved()) {
+            List<Text> textsByFont = texts.get(font);
+            List<Text> textsToDelete = new ArrayList<>();
+
+            for (Text text: textsByFont) {
+                if (text.isRemoved()) {
+                    textsToDelete.add(text);
+                } else {
                     text.render();
                 }
             }
+
+            textsByFont.removeAll(textsToDelete);
         }
 
-        Vao.unbind();
+        TextVao.unbind();
+    }
+
+    public final void removeAll() {
+        for (Font font: texts.keySet()) {
+            List<Text> textsByFont = texts.get(font);
+
+            for (Text text: textsByFont) {
+                text.remove();
+            }
+
+            textsByFont.clear();
+        }
     }
 
 }
