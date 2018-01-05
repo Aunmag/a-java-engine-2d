@@ -57,4 +57,18 @@ public final class TextManager {
         }
     }
 
+    public int countTextsQuantity() {
+        int quantity = 0;
+
+        for (List<Text> textsByFont: texts.values()) {
+            quantity += textsByFont.size();
+        }
+
+        return quantity;
+    }
+
+    public int getFontsQuantity() {
+        return texts.size();
+    }
+
 }

@@ -2,6 +2,7 @@ package aunmag.nightingale.font;
 
 import aunmag.nightingale.Application;
 import aunmag.nightingale.basics.BaseQuad;
+import com.sun.istack.internal.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
@@ -11,10 +12,9 @@ public class Text extends BaseQuad {
 
     public static final TextManager manager = new TextManager();
 
-    public final String message;
     final FontStyle style;
-    final float widthRatio;
-    final TextVao vao;
+    private final float widthRatio;
+    private TextVao vao = null;
     private Vector4f colour = new Vector4f(1f, 1f, 1f, 1f);
     private Matrix4f projection;
     private boolean isRemoved = false;
@@ -27,14 +27,22 @@ public class Text extends BaseQuad {
                 width,
                 Application.getWindow().getHeight() * style.lineHeight
         );
-        this.message = message;
         this.style = style;
         this.widthRatio = width / Application.getWindow().getWidth();
 
-        vao = new TextVao(message, style, widthRatio);
+        load(message);
         projection = calculateProjection();
 
         manager.add(this);
+    }
+
+    public void load(String message) {
+        if (message.equals(getMessage())) {
+            return;
+        }
+
+        removeVao();
+        vao = new TextVao(message, style, widthRatio);
     }
 
     private Matrix4f calculateProjection() {
@@ -75,9 +83,16 @@ public class Text extends BaseQuad {
             return;
         }
 
-        vao.remove();
+        removeVao();
 
         isRemoved = true;
+    }
+
+    private void removeVao() {
+        if (vao != null) {
+            vao.remove();
+            vao = null;
+        }
     }
 
     /* Setters */
@@ -102,6 +117,15 @@ public class Text extends BaseQuad {
 
     public boolean isRemoved() {
         return isRemoved;
+    }
+
+    @Nullable
+    public String getMessage() {
+        if (vao == null) {
+            return null;
+        } else {
+            return vao.message;
+        }
     }
 
 }
