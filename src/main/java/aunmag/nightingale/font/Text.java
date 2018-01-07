@@ -4,6 +4,7 @@ import aunmag.nightingale.Application;
 import aunmag.nightingale.basics.BaseQuad;
 import com.sun.istack.internal.Nullable;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -13,22 +14,15 @@ public class Text extends BaseQuad {
     public static final TextManager manager = new TextManager();
 
     final FontStyle style;
-    private final float widthRatio;
     private TextVao vao = null;
     private Vector4f colour = new Vector4f(1f, 1f, 1f, 1f);
     private Matrix4f projection;
     private boolean isRemoved = false;
     private boolean isRenderingOrdered = false;
 
-    public Text(float x, float y, float width, String message, FontStyle style) {
-        super(
-                x,
-                y,
-                width,
-                Application.getWindow().getHeight() * style.lineHeight
-        );
+    public Text(float x, float y, String message, FontStyle style) {
+        super(x, y, 0, 0);
         this.style = style;
-        this.widthRatio = width / Application.getWindow().getWidth();
 
         load(message);
         projection = calculateProjection();
@@ -42,17 +36,17 @@ public class Text extends BaseQuad {
         }
 
         removeVao();
-        vao = new TextVao(message, style, widthRatio);
+        vao = new TextVao(message, style);
+
+        setSize(
+                vao.getWidth() * Application.getWindow().getCenterX(),
+                vao.height * Application.getWindow().getCenterY()
+        );
     }
 
     private Matrix4f calculateProjection() {
-        Matrix4f projection = new Matrix4f();
-        projection.translate(
-                getX() / Application.getWindow().getWidth() * 2,
-                getY() / -Application.getWindow().getHeight() * 2,
-                0
-        );
-        return projection;
+        Vector2f position = Application.getWindow().calculateViewPosition(getX(), getY());
+        return new Matrix4f().translate(position.x(), position.y(), 0);
     }
 
     public void orderRendering() {

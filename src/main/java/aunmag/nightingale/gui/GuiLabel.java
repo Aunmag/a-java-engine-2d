@@ -41,7 +41,7 @@ public class GuiLabel extends BaseQuad {
         this.grid = grid;
 
         BaseQuad onScreenQuad = calculateOnScreenQuad();
-        text = new Text(0, 0, onScreenQuad.getWidth() * 2, message, style);
+        text = new Text(0, 0, message, style);
         text.setPositionCenteredBy(
                 onScreenQuad.getX() + onScreenQuad.getCenterX(),
                 onScreenQuad.getY() + onScreenQuad.getCenterY()

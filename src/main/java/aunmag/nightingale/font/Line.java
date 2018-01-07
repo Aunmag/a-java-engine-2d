@@ -24,7 +24,7 @@ class Line {
     }
 
     private float calculateWordWidthInsideLine(Word word) {
-        if (words.isEmpty()) {
+        if (isEmpty()) {
             return word.getWidth();
         } else {
             return word.getWidth() + widthSpace;
@@ -39,6 +39,10 @@ class Line {
 
     float getWidth() {
         return width;
+    }
+
+    boolean isEmpty() {
+        return words.isEmpty();
     }
 
 }

@@ -19,11 +19,13 @@ final class TextVao {
     private final int idTextureCoordinates = GL15.glGenBuffers();
     final int vertexCount;
     final String message;
+    private float width = 0; // TODO: Make final
+    final float height;
 
-    TextVao(String message, FontStyle style, float widthRatio) {
+    TextVao(String message, FontStyle style) {
         this.message = message;
 
-        List<Line> lines = createLines(style, widthRatio);
+        List<Line> lines = createLines(style);
         List<Float> vertices = new ArrayList<>();
         List<Float> textureCoordinates = new ArrayList<>();
 
@@ -31,15 +33,11 @@ final class TextVao {
         float cursorY = 0f;
 
         for (Line line: lines) {
-            if (style.isCentred) {
-                cursorX = (widthRatio - line.getWidth()) / 2f;
-            }
-
             List<Word> words = line.getWordsCopy();
             for (Word word: words) {
                 List<Character> characters = word.getCharactersCopy();
                 for (Character character: characters) {
-                    addCharacterVertices(style, cursorX, cursorY, character, vertices);
+                    addCharacterVertices(style.size, cursorX, cursorY, character, vertices);
                     textureCoordinates.addAll(
                             Arrays.asList(character.textureCoordinates)
                     );
@@ -48,7 +46,7 @@ final class TextVao {
                 cursorX += style.spaceWidth;
             }
             cursorX = 0;
-            cursorY += style.lineHeight;
+            cursorY -= style.lineHeight;
         }
 
         bind();
@@ -57,9 +55,10 @@ final class TextVao {
         unbind();
 
         vertexCount = vertices.size() / 2;
+        height = Font.LINE_HEIGHT * style.size * lines.size();
     }
 
-    private List<Line> createLines(FontStyle style, float widthRatio) {
+    private List<Line> createLines(FontStyle style) {
         List<Line> lines = new ArrayList<>();
         Word word = new Word(style.size);
         Line line = new Line(style.spaceWidth);
@@ -77,11 +76,17 @@ final class TextVao {
             }
 
             if (isEndWord) {
-                if (line.calculateWidthWithWord(word) > widthRatio) {
-                    lines.add(line);
-                    line = new Line(style.spaceWidth);
-                }
+//                // TODO: Implement max with for lines
+//                if (line.calculateWidthWithWord(word) > line.widthMax) {
+//                    lines.add(line);
+//                    line = new Line(style.spaceWidth);
+//                }
                 line.addWord(word);
+
+                if (width < line.getWidth()) {
+                    width = line.getWidth();
+                }
+
                 word = new Word(style.size);
             }
 
@@ -91,27 +96,24 @@ final class TextVao {
             }
         }
 
-        lines.add(line);
+        if (!line.isEmpty()) {
+            lines.add(line);
+        }
+
         return lines;
     }
 
     private void addCharacterVertices(
-            FontStyle style,
+            float size,
             float cursorX,
             float cursorY,
             Character character,
             List<Float> vertices
     ) {
-        final float scale = 2.0f;
-        final float size = style.size * scale;
-
-        float aX = size * character.offsetX + scale * (cursorX - 0.5f);
-        float aY = size * character.offsetY + scale * (cursorY - 0.5f);
-        float bX = size * character.sizeX + aX;
-        float bY = size * character.sizeY + aY;
-
-        aY = -aY;
-        bY = -bY;
+        final float aX = cursorX + size * character.offsetX;
+        final float aY = cursorY - size * character.offsetY;
+        final float bX = aX + size * character.sizeX;
+        final float bY = aY - size * character.sizeY;
 
         vertices.add(aX);
         vertices.add(aY);
@@ -170,6 +172,10 @@ final class TextVao {
 
     final boolean isRemoved() {
         return isRemoved;
+    }
+
+    public float getWidth() {
+        return width;
     }
 
 }
