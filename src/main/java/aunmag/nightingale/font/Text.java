@@ -27,6 +27,7 @@ public class Text extends BaseQuad {
 
         load(message);
         manager.add(this);
+        updateProjection();
     }
 
     public void load(String message) {
