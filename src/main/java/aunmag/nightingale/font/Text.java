@@ -19,14 +19,13 @@ public class Text extends BaseQuad {
     private Matrix4f projection;
     private boolean isRemoved = false;
     private boolean isRenderingOrdered = false;
+    private boolean isOnWorldRendering = false;
 
     public Text(float x, float y, String message, FontStyle style) {
         super(x, y, 0, 0);
         this.style = style;
 
         load(message);
-        projection = calculateProjection();
-
         manager.add(this);
     }
 
@@ -44,9 +43,16 @@ public class Text extends BaseQuad {
         );
     }
 
-    private Matrix4f calculateProjection() {
-        Vector2f position = Application.getWindow().calculateViewPosition(getX(), getY());
-        return new Matrix4f().translate(position.x(), position.y(), 0);
+    private void updateProjection() {
+        Vector2f position;
+
+        if (isOnWorldRendering) {
+            position = Application.getCamera().calculateViewPosition(getX(), getY());
+        } else {
+            position = Application.getWindow().calculateViewPosition(getX(), getY());
+        }
+
+        projection = new Matrix4f().translate(position.x(), position.y(), 0);
     }
 
     public void orderRendering() {
@@ -56,6 +62,10 @@ public class Text extends BaseQuad {
     void render() {
         if (!isRenderingOrdered || isRemoved) {
             return;
+        }
+
+        if (isOnWorldRendering) {
+            updateProjection();
         }
 
         vao.bind();
@@ -93,7 +103,7 @@ public class Text extends BaseQuad {
 
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
-        projection = calculateProjection();
+        updateProjection();
     }
 
     public void setColour(float red, float green, float blue, float alpha) {
@@ -105,6 +115,15 @@ public class Text extends BaseQuad {
 
     public void setColour(Vector4f colour) {
         this.colour = colour;
+    }
+
+    public void setOnWorldRendering(boolean isOnWorldRendering) {
+        if (this.isOnWorldRendering == isOnWorldRendering) {
+            return;
+        }
+
+        this.isOnWorldRendering = isOnWorldRendering;
+        updateProjection();
     }
 
     /* Getters */
