@@ -1,5 +1,6 @@
 package aunmag.nightingale;
 
+import aunmag.nightingale.font.FontStyleDefault;
 import aunmag.nightingale.gui.GuiLabel;
 import aunmag.nightingale.utilities.UtilsGraphics;
 import org.lwjgl.opengl.GL11;
@@ -11,7 +12,15 @@ class TestLauncher extends Application {
     }
 
     private GuiLabel message = new GuiLabel(5, 4, 2, 1, "It worked!");
-    private GuiLabel details = new GuiLabel(5, 5, 2, 1, "This is second text");
+    private GuiLabel details = new GuiLabel(
+            5, 5, 2, 1,
+            "This is second text",
+            FontStyleDefault.labelLight
+    );
+
+    private TestLauncher() {
+        Application.frameRate.setFrequency(1);
+    }
 
     protected void gameUpdate() {}
 
