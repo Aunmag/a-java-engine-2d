@@ -33,7 +33,7 @@ public abstract class Collision extends BasePosition implements BaseOperative {
         float distanceBetween = UtilsMath.calculateDistanceBetween(a, b);
         a.distanceBetweenFromLastCheck = distanceBetween;
         b.distanceBetweenFromLastCheck = distanceBetween;
-        float distanceToCollision = a.radius + b.radius;
+        float distanceToCollision = a.getRadius() + b.getRadius();
         return distanceBetween < distanceToCollision;
     }
 
@@ -51,7 +51,7 @@ public abstract class Collision extends BasePosition implements BaseOperative {
 
         float a = differenceX * differenceX + differenceY * differenceY;
         float b = (lineX1 * differenceX + lineY1 * differenceY) * 2f;
-        float c = lineX1 * lineX1 + lineY1 * lineY1 - circle.radius * circle.radius;
+        float c = lineX1 * lineX1 + lineY1 * lineY1 - circle.getRadius() * circle.getRadius();
 
         if (-b < 0) {
             return c < 0;
