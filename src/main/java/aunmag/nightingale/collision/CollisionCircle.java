@@ -8,7 +8,7 @@ import org.joml.Matrix4f;
 
 public class CollisionCircle extends Collision {
 
-    public final float radius;
+    private float radius;
     float distanceBetweenFromLastCheck;
 
     public CollisionCircle(float x, float y, float radius) {
@@ -63,6 +63,18 @@ public class CollisionCircle extends Collision {
             addPosition(pushX, pushY);
             opponent.subPosition(pushX, pushY);
         }
+    }
+
+    /* Setters */
+
+    public void setRadius(float radius) {
+        this.radius = radius;
+    }
+
+    /* Getters */
+
+    public float getRadius() {
+        return radius;
     }
 
 }
