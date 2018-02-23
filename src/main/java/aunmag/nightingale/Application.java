@@ -67,7 +67,6 @@ public abstract class Application {
 
     private void engineUpdate() {
         time.add(frameRate.getTimeDelta(), true);
-        camera.resetOffsets();
         Input.update();
         GLFW.glfwPollEvents();
 
