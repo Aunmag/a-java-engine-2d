@@ -15,29 +15,75 @@ import org.lwjgl.opengl.GL30;
 
 public class Texture extends BaseQuad {
 
+    public enum Type {SIMPLE, SPRITE, FONT, WALLPAPER, STRETCHED}
     private static HashMap<String, Texture> all = new HashMap<>();
     private int id;
     private Model model;
 
-    public static Texture getOrCreateAsSprite(String name) {
-        return getOrCreate(name, true, true);
+    public static Texture getOrCreate(String name, Type type) {
+        return getOrCreate(name, type, null, null, null, null);
     }
 
-    public static Texture getOrCreate(String name, boolean isNearest, boolean isSprite) {
+    public static Texture getOrCreate(
+            String name,
+            Type type,
+            Boolean isNearest,
+            Boolean useMipMapping,
+            Integer modelSizeX,
+            Integer modelSizeY
+    ) {
         if (all.containsKey(name)) {
             return all.get(name);
         }
 
-        BufferedImage image = loadImage(name);
-        float modelSizeX = image.getWidth();
-        float modelSizeY = image.getHeight();
-
-        if (isSprite) {
-            modelSizeX /= Configs.getPixelsPerMeter();
-            modelSizeY /= Configs.getPixelsPerMeter();
+        if (isNearest == null) {
+            isNearest = type != Type.FONT;
         }
 
-        Texture texture = new Texture(image, isNearest, isSprite, modelSizeX, modelSizeY);
+        if (useMipMapping == null) {
+            useMipMapping = type == Type.SPRITE;
+        }
+
+        BufferedImage image = loadImage(name);
+
+        if (modelSizeX == null || modelSizeY == null) {
+            float sizeX = image.getWidth();
+            float sizeY = image.getHeight();
+            float widowSizeX = Application.getWindow().getWidth();
+            float widowSizeY = Application.getWindow().getHeight();
+
+            switch (type) {
+                case SPRITE:
+                    sizeX /= Configs.getPixelsPerMeter();
+                    sizeY /= Configs.getPixelsPerMeter();
+                    break;
+                case STRETCHED:
+                    sizeX = widowSizeX;
+                    sizeY = widowSizeY;
+                    break;
+                case WALLPAPER:
+                    float aspectRatio = sizeX / sizeY;
+                    if (aspectRatio < Application.getWindow().getAspectRatio()) {
+                        sizeX = widowSizeX;
+                        sizeY = sizeX / aspectRatio;
+                    } else {
+                        sizeY = widowSizeY;
+                        sizeX = sizeY * aspectRatio;
+                    }
+                    break;
+            }
+
+            modelSizeX = (int) sizeX;
+            modelSizeY = (int) sizeY;
+        }
+
+        Texture texture = new Texture(
+                image,
+                isNearest,
+                useMipMapping,
+                modelSizeX,
+                modelSizeY
+        );
         all.put(name, texture);
         return texture;
     }
@@ -60,7 +106,7 @@ public class Texture extends BaseQuad {
     private Texture(
             BufferedImage bufferedImage,
             boolean isNearest,
-            boolean isMipmapped,
+            boolean useMipMapping,
             float modelSizeX,
             float modelSizeY
     ) {
@@ -108,7 +154,7 @@ public class Texture extends BaseQuad {
                 pixelsBuffer
         );
 
-        if (isMipmapped) {
+        if (useMipMapping) {
             GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
             GL11.glTexParameteri(
                     GL11.GL_TEXTURE_2D,
@@ -116,25 +162,6 @@ public class Texture extends BaseQuad {
                     GL11.GL_NEAREST_MIPMAP_LINEAR
             );
         }
-    }
-
-    public void scaleAsWallpaper() {
-        float setWidth;
-        float setHeight;
-
-        if (getAspectRatio() < Application.getWindow().getAspectRatio()) {
-            setWidth = Application.getWindow().getWidth();
-            setHeight = setWidth / getAspectRatio();
-        } else {
-            setHeight = Application.getWindow().getHeight();
-            setWidth = setHeight * getAspectRatio();
-        }
-
-        setSize(setWidth, setHeight);
-    }
-
-    public void scaleAsWindow() {
-        setSize(Application.getWindow().getWidth(), Application.getWindow().getHeight());
     }
 
     public void bind() {
