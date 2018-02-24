@@ -34,7 +34,7 @@ public class FontLoader {
         textureAtlasWidth = parseVariable("scaleW");
         loadCharacters();
         fileClose();
-        texture = Texture.getOrCreate("fonts/" + name, false, false);
+        texture = Texture.getOrCreate("fonts/" + name, Texture.Type.FONT);
     }
 
     Font build() {
