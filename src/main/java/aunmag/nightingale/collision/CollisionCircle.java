@@ -5,26 +5,33 @@ import aunmag.nightingale.structures.Texture;
 import aunmag.nightingale.utilities.UtilsGraphics;
 import aunmag.nightingale.utilities.UtilsMath;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 
 public class CollisionCircle extends Collision {
 
     private float radius;
     float distanceBetweenFromLastCheck;
 
-    public CollisionCircle(float x, float y, float radius) {
-        super(x, y, 0f);
+    public CollisionCircle(Vector2f position, float radius) {
+        super(position, 0f);
         this.radius = radius;
     }
 
     public void render() {
         super.render();
-        UtilsGraphics.drawCircle(getX(), getY(), radius, true, true);
+        UtilsGraphics.drawCircle(
+                getPosition().x(),
+                getPosition().y(),
+                radius,
+                true,
+                true
+        );
     }
 
     public void renderTexture(Texture texture) {
         Matrix4f projection = Application.getCamera().calculateViewProjection(
-                getX(),
-                getY(),
+                getPosition().x(),
+                getPosition().y(),
                 getRadians()
         );
 
@@ -60,8 +67,8 @@ public class CollisionCircle extends Collision {
             float pushX = distancePush * (float) Math.cos(radiansBetween);
             float pushY = distancePush * (float) Math.sin(radiansBetween);
 
-            addPosition(pushX, pushY);
-            opponent.subPosition(pushX, pushY);
+            getPosition().add(pushX, pushY);
+            opponent.getPosition().sub(pushX, pushY);
         }
     }
 

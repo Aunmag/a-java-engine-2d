@@ -1,18 +1,18 @@
 package aunmag.nightingale.collision;
 
 import aunmag.nightingale.basics.BaseOperative;
-import aunmag.nightingale.basics.BasePosition;
+import aunmag.nightingale.basics.BaseObject;
 import aunmag.nightingale.utilities.UtilsGraphics;
-import aunmag.nightingale.utilities.UtilsMath;
+import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-public abstract class Collision extends BasePosition implements BaseOperative {
+public abstract class Collision extends BaseObject implements BaseOperative {
 
     private boolean isRemoved = false;
     public Vector4f color = new Vector4f(1f, 1f, 1f, 0.5f);
 
-    Collision(float x, float y, float radians) {
-        super(x, y, radians);
+    Collision(Vector2f position, float radians) {
+        super(position, radians);
     }
 
     public void render() {
@@ -30,7 +30,7 @@ public abstract class Collision extends BasePosition implements BaseOperative {
     }
 
     public static boolean calculateIsCollision(CollisionCircle a, CollisionCircle b) {
-        float distanceBetween = UtilsMath.calculateDistanceBetween(a, b);
+        float distanceBetween = a.getPosition().distance(b.getPosition());
         a.distanceBetweenFromLastCheck = distanceBetween;
         b.distanceBetweenFromLastCheck = distanceBetween;
         float distanceToCollision = a.getRadius() + b.getRadius();
@@ -41,10 +41,10 @@ public abstract class Collision extends BasePosition implements BaseOperative {
             CollisionCircle circle,
             CollisionLine line
     ) {
-        float lineX1 = line.getX() - circle.getX();
-        float lineY1 = line.getY() - circle.getY();
-        float lineX2 = line.positionTail.getX() - circle.getX();
-        float lineY2 = line.positionTail.getY() - circle.getY();
+        float lineX1 = line.getPosition().x() - circle.getPosition().x();
+        float lineY1 = line.getPosition().y() - circle.getPosition().y();
+        float lineX2 = line.getPositionTail().x() - circle.getPosition().x();
+        float lineY2 = line.getPositionTail().y() - circle.getPosition().y();
 
         float differenceX = lineX2 - lineX1;
         float differenceY = lineY2 - lineY1;

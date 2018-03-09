@@ -44,13 +44,15 @@ public class Text extends BaseQuad {
         );
     }
 
-    private void updateProjection() {
+    public void updateProjection() {
+        float x = getPosition().x();
+        float y = getPosition().y();
         Vector2f position;
 
         if (isOnWorldRendering) {
-            position = Application.getCamera().calculateViewPosition(getX(), getY());
+            position = Application.getCamera().calculateViewPosition(x, y);
         } else {
-            position = Application.getWindow().calculateViewPosition(getX(), getY());
+            position = Application.getWindow().calculateViewPosition(x, y);
         }
 
         projection = new Matrix4f().translate(position.x(), position.y(), 0);
@@ -101,11 +103,6 @@ public class Text extends BaseQuad {
     }
 
     /* Setters */
-
-    public void setPosition(float x, float y) {
-        super.setPosition(x, y);
-        updateProjection();
-    }
 
     public void setColour(float red, float green, float blue, float alpha) {
         colour.x = red;

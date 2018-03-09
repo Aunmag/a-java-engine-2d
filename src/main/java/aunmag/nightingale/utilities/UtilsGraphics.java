@@ -45,8 +45,8 @@ public class UtilsGraphics {
 
     public static void drawQuad(BaseQuad quad, boolean isFilled, boolean isOnWorld) {
         drawQuad(
-                quad.getX(),
-                quad.getY(),
+                quad.getPosition().x(),
+                quad.getPosition().y(),
                 quad.getWidth(),
                 quad.getHeight(),
                 isFilled,
