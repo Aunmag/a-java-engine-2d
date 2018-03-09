@@ -1,7 +1,7 @@
 package aunmag.nightingale.collision;
 
-import aunmag.nightingale.basics.BaseOperative;
 import aunmag.nightingale.basics.BaseObject;
+import aunmag.nightingale.basics.BaseOperative;
 import aunmag.nightingale.utilities.UtilsGraphics;
 import org.joml.Vector2f;
 import org.joml.Vector4f;

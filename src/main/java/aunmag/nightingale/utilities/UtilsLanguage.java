@@ -2,7 +2,7 @@ package aunmag.nightingale.utilities;
 
 import org.joml.Vector4f;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 
 public class UtilsLanguage {
