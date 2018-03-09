@@ -1,8 +1,9 @@
 package aunmag.nightingale.basics;
 
 import aunmag.nightingale.utilities.UtilsMath;
+import org.joml.Vector2f;
 
-public class BaseQuad extends BasePoint {
+public class BaseQuad extends BaseObject {
 
     private float width;
     private float height;
@@ -11,22 +12,25 @@ public class BaseQuad extends BasePoint {
     private float diagonal;
     private float aspectRatio;
 
-    public BaseQuad(float x, float y, float width, float height) {
-        super(x, y);
-        setSize(width, height);
+    public BaseQuad(float width, float height) {
+        this(new Vector2f(0, 0), width, height);
     }
 
-    public BaseQuad(float width, float height) {
-        super(0, 0);
+    public BaseQuad(float x, float y, float width, float height) {
+        this(new Vector2f(x, y), width, height);
+    }
+
+    public BaseQuad(Vector2f position, float width, float height) {
+        super(position, 0);
         setSize(width, height);
     }
 
     public boolean calculateIsPointInside(float testX, float testY) {
-        return UtilsMath.calculateIsNumberInsideRange(
-                testX, getX(), getX() + width
-        ) && UtilsMath.calculateIsNumberInsideRange(
-                testY, getY(), getY() + height
-        );
+        float x = getPosition().x();
+        float y = getPosition().y();
+
+        return UtilsMath.calculateIsNumberInsideRange(testX, x, x + width)
+                && UtilsMath.calculateIsNumberInsideRange(testY, y, y + height);
     }
 
     /* Setters */
@@ -44,7 +48,7 @@ public class BaseQuad extends BasePoint {
     }
 
     public void setPositionCenteredBy(float x, float y) {
-        setPosition(x - getCenterX(), y - getCenterY());
+        getPosition().set(x - getCenterX(), y - getCenterY());
     }
 
     /* Getters */

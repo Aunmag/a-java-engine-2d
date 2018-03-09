@@ -1,6 +1,5 @@
 package aunmag.nightingale.utilities;
 
-import aunmag.nightingale.basics.BasePoint;
 import static aunmag.nightingale.utilities.UtilsMath.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,17 +39,6 @@ class UtilsMathTest {
                 calculateDistanceBetween(548.25f, -1.5f, 537.75f, 30),
                 precision
         );
-    }
-
-    @Test
-    void testCalculateDistanceBetweenImplementations() {
-        BasePoint a = new BasePoint(234543.2342599f, 129873.1239275f);
-        BasePoint b = new BasePoint(987245.9870234f, 234690.1235635f);
-
-        float result1 = calculateDistanceBetween(a, b);
-        float result2 = calculateDistanceBetween(a.getX(), a.getY(), b.getX(), b.getY());
-
-        assertEquals(result1, result2);
     }
 
     @Test

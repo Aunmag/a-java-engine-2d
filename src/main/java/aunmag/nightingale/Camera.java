@@ -1,7 +1,7 @@
 package aunmag.nightingale;
 
 import aunmag.nightingale.audio.AudioMaster;
-import aunmag.nightingale.basics.BasePosition;
+import aunmag.nightingale.basics.BaseObject;
 import aunmag.nightingale.utilities.Mount;
 import aunmag.nightingale.utilities.UtilsMath;
 import org.joml.Matrix4f;
@@ -9,7 +9,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-public class Camera extends BasePosition {
+public class Camera extends BaseObject {
 
     public static final int ZOOM_MIN = 1;
     public static final int ZOOM_MAX = 8;
@@ -22,9 +22,9 @@ public class Camera extends BasePosition {
     public final Mount mount;
 
     Camera() {
-        super(0, 0, 0);
+        super(new Vector2f(0, 0), 0);
         setDistanceView(40);
-        mount = new Mount(this, null);
+        mount = new Mount(getPosition(), null);
     }
 
     public void update() {
@@ -33,14 +33,19 @@ public class Camera extends BasePosition {
         viewMatrix = new Matrix4f(Application.getWindow().projection);
         viewMatrix.rotateZ(-radians);
         viewMatrix.scale(scaleFull);
-        viewMatrix.translate(-getX(), -getY(), 0);
+        viewMatrix.translate(-getPosition().x(), -getPosition().y(), 0);
 
         Vector3f orientation = new Vector3f(0, 1, 0);
         Quaternionf quaternion = new Quaternionf(0, 0, 0);
         quaternion.set(0, 0, 0);
         quaternion.rotateZ(radians);
         orientation.rotate(quaternion);
-        AudioMaster.setListenerPosition(getX(), getY(), 0, orientation);
+        AudioMaster.setListenerPosition(
+                getPosition().x(),
+                getPosition().y(),
+                0,
+                orientation
+        );
     }
 
     private void updateScaleFull() {

@@ -43,14 +43,15 @@ public class GuiLabel extends BaseQuad {
         BaseQuad onScreenQuad = calculateOnScreenQuad();
         text = new Text(0, 0, message, style);
         text.setPositionCenteredBy(
-                onScreenQuad.getX() + onScreenQuad.getCenterX(),
-                onScreenQuad.getY() + onScreenQuad.getCenterY()
+                onScreenQuad.getPosition().x() + onScreenQuad.getCenterX(),
+                onScreenQuad.getPosition().y() + onScreenQuad.getCenterY()
         );
+        text.updateProjection();
     }
 
     protected BaseQuad calculateOnScreenQuad() {
-        float x = getX() * grid.getStepX() + padding;
-        float y = getY() * grid.getStepY() + padding;
+        float x = getPosition().x() * grid.getStepX() + padding;
+        float y = getPosition().y() * grid.getStepY() + padding;
         float width = grid.getStepX() * getWidth() - padding * 2;
         float height = grid.getStepY() * getHeight()  - padding * 2;
 
