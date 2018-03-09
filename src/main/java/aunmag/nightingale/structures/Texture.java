@@ -1,10 +1,5 @@
 package aunmag.nightingale.structures;
 
-import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
-import java.util.HashMap;
-import javax.imageio.ImageIO;
-
 import aunmag.nightingale.Application;
 import aunmag.nightingale.Configs;
 import aunmag.nightingale.basics.BaseQuad;
@@ -12,6 +7,11 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL30;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.nio.ByteBuffer;
+import java.util.HashMap;
 
 public class Texture extends BaseQuad {
 

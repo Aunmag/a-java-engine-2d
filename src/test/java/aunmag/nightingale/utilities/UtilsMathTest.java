@@ -1,7 +1,8 @@
 package aunmag.nightingale.utilities;
 
-import static aunmag.nightingale.utilities.UtilsMath.*;
 import org.junit.jupiter.api.Test;
+
+import static aunmag.nightingale.utilities.UtilsMath.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UtilsMathTest {

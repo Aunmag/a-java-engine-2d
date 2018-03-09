@@ -1,15 +1,15 @@
 package aunmag.nightingale.structures;
 
+import aunmag.nightingale.basics.BaseQuad;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
+
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
-import aunmag.nightingale.basics.BaseQuad;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.BufferUtils;
 
 public class Model {
 
