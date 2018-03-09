@@ -5,11 +5,13 @@ import aunmag.nightingale.basics.BaseQuad;
 import aunmag.nightingale.font.FontStyleDefault;
 import aunmag.nightingale.input.Input;
 import aunmag.nightingale.utilities.UtilsGraphics;
+import com.sun.istack.internal.Nullable;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
 public class GuiButton extends GuiLabel {
 
+    public static final Runnable actionBack = GuiManager::back;
     private static final Vector4f colorDefault = new Vector4f(0.5f, 0.5f, 0.5f, 0.8f);
     private static final Vector4f colorTouched = new Vector4f(0.6f, 0.6f, 0.6f, 0.8f);
     private static final Vector4f colorFont = new Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -19,20 +21,30 @@ public class GuiButton extends GuiLabel {
     private boolean isAvailable = true;
     private boolean isTouched = false;
     private boolean isPressed = false;
+    @Nullable private Runnable action;
 
-    GuiButton(int x, int y, int width, int height, String text) {
-        this(BaseGrid.grid12, x, y, width, height, text);
+    public GuiButton(
+            int x,
+            int y,
+            int width,
+            int height,
+            String text,
+            @Nullable Runnable action
+    ) {
+        this(BaseGrid.grid12, x, y, width, height, text, action);
     }
 
-    GuiButton(
+    public GuiButton(
             BaseGrid grid,
             int x,
             int y,
             int width,
             int height,
-            String text
+            String text,
+            @Nullable Runnable action
     ) {
         super(grid, x, y, width, height, text, FontStyleDefault.label);
+        this.action = action;
         onScreenQuad = calculateOnScreenQuad();
     }
 
@@ -46,6 +58,14 @@ public class GuiButton extends GuiLabel {
                 Input.mouse.getY()
         );
         isPressed = isTouched && Input.mouse.isButtonReleased(GLFW.GLFW_MOUSE_BUTTON_1);
+
+        if (isPressed && action != null) {
+            try {
+                action.run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void render() {
