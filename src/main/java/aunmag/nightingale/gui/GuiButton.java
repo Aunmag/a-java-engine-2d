@@ -5,7 +5,7 @@ import aunmag.nightingale.basics.BaseQuad;
 import aunmag.nightingale.font.FontStyleDefault;
 import aunmag.nightingale.input.Input;
 import aunmag.nightingale.utilities.UtilsGraphics;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
