@@ -2,7 +2,7 @@ package aunmag.nightingale.font;
 
 import aunmag.nightingale.Application;
 import aunmag.nightingale.basics.BaseQuad;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
