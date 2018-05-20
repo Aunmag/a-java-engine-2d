@@ -17,7 +17,6 @@ public class Text extends BaseQuad {
     private TextVao vao = null;
     private Vector4f colour = new Vector4f(1f, 1f, 1f, 1f);
     private Matrix4f projection;
-    private boolean isRemoved = false;
     private boolean isRenderingOrdered = false;
     private boolean isOnWorldRendering = false;
 
@@ -62,8 +61,8 @@ public class Text extends BaseQuad {
         isRenderingOrdered = true;
     }
 
-    void render() {
-        if (!isRenderingOrdered || isRemoved) {
+    public void render() {
+        if (!isRenderingOrdered || isRemoved()) {
             return;
         }
 
@@ -86,13 +85,12 @@ public class Text extends BaseQuad {
     }
 
     public void remove() {
-        if (isRemoved) {
+        if (isRemoved()) {
             return;
         }
 
         removeVao();
-
-        isRemoved = true;
+        super.remove();
     }
 
     private void removeVao() {
@@ -125,10 +123,6 @@ public class Text extends BaseQuad {
     }
 
     /* Getters */
-
-    public boolean isRemoved() {
-        return isRemoved;
-    }
 
     @Nullable
     public String getMessage() {

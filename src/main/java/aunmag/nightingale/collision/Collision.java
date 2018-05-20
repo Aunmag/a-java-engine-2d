@@ -1,14 +1,12 @@
 package aunmag.nightingale.collision;
 
 import aunmag.nightingale.basics.BaseObject;
-import aunmag.nightingale.basics.BaseOperative;
 import aunmag.nightingale.utilities.UtilsGraphics;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-public abstract class Collision extends BaseObject implements BaseOperative {
+public abstract class Collision extends BaseObject {
 
-    private boolean isRemoved = false;
     public Vector4f color = new Vector4f(1f, 1f, 1f, 0.5f);
 
     Collision(Vector2f position, float radians) {
@@ -19,15 +17,7 @@ public abstract class Collision extends BaseObject implements BaseOperative {
         UtilsGraphics.setDrawColor(color);
     }
 
-    public void remove() {
-        isRemoved = true;
-    }
-
     /* Getters */
-
-    public boolean isRemoved() {
-        return isRemoved;
-    }
 
     public static boolean calculateIsCollision(CollisionCircle a, CollisionCircle b) {
         float distanceBetween = a.getPosition().distance(b.getPosition());

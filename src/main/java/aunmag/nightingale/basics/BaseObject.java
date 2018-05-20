@@ -1,9 +1,10 @@
 package aunmag.nightingale.basics;
 
+import aunmag.nightingale.utilities.Operative;
 import aunmag.nightingale.utilities.UtilsMath;
 import org.joml.Vector2f;
 
-public class BaseObject {
+public class BaseObject extends Operative {
 
     private final Vector2f position;
     private float radians;
