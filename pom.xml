@@ -7,7 +7,7 @@
 
     <groupId>aunmag.nightingale</groupId>
     <artifactId>nightingale-engine</artifactId>
-    <version>0.54.2</version>
+    <version>0.54.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -178,7 +178,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>aunmag.nightingale.TestLauncher</mainClass>
+                            <mainClass>aunmag.nightingale.HelloWorld</mainClass>
                         </manifest>
                     </archive>
                     <descriptors>

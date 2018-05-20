@@ -5,20 +5,20 @@ import aunmag.nightingale.gui.GuiLabel;
 import aunmag.nightingale.utilities.UtilsGraphics;
 import org.lwjgl.opengl.GL11;
 
-class TestLauncher extends Application {
+class HelloWorld extends Application {
 
     public static void main(String[] args) {
-        new TestLauncher().run();
+        new HelloWorld().run();
     }
 
-    private GuiLabel message = new GuiLabel(5, 4, 2, 1, "It worked!");
+    private GuiLabel message = new GuiLabel(5, 4, 2, 1, "Hello, World!");
     private GuiLabel details = new GuiLabel(
             5, 5, 2, 1,
-            "This is second text",
+            "This message means the engine works!",
             FontStyleDefault.labelLight
     );
 
-    private TestLauncher() {
+    private HelloWorld() {
         Application.frameRate.setFrequency(1);
     }
 
