@@ -1,5 +1,6 @@
 package aunmag.nightingale.font;
 
+import aunmag.nightingale.utilities.Operative;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
@@ -11,9 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-final class TextVao {
+final class TextVao extends Operative {
 
-    private boolean isRemoved = false;
     private final int id = GL30.glGenVertexArrays();
     private final int idVertices = GL15.glGenBuffers();
     private final int idTextureCoordinates = GL15.glGenBuffers();
@@ -145,7 +145,7 @@ final class TextVao {
     }
 
     final void bind() {
-        if (isRemoved) {
+        if (isRemoved()) {
             return;
         }
 
@@ -156,23 +156,18 @@ final class TextVao {
         GL30.glBindVertexArray(0);
     }
 
-    final void remove() {
-        if (isRemoved) {
+    public void remove() {
+        if (isRemoved()) {
             return;
         }
 
         GL30.glDeleteVertexArrays(id);
         GL15.glDeleteBuffers(idVertices);
         GL15.glDeleteBuffers(idTextureCoordinates);
-
-        isRemoved = true;
+        super.remove();
     }
 
     /* Getters */
-
-    final boolean isRemoved() {
-        return isRemoved;
-    }
 
     public float getWidth() {
         return width;
