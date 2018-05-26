@@ -1,12 +1,11 @@
 package aunmag.nightingale;
 
+import aunmag.nightingale.data.TestData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FrameRateTest {
-
-    private static final double precision = 0.0000000000001;
 
     @Test
     void testInitialize() {
@@ -87,13 +86,13 @@ class FrameRateTest {
 
         timeCurrent = 0.35; // + 0.15 seconds
         assertTrue(frameRate.tryNext(timeCurrent));
-        assertEquals(0.15, frameRate.getTimeDelta(), precision);
-        assertEquals(0.35, frameRate.getTimeLastUpdate(), precision);
+        assertEquals(0.15, frameRate.getTimeDelta(), TestData.PRECISION);
+        assertEquals(0.35, frameRate.getTimeLastUpdate(), TestData.PRECISION);
 
         timeCurrent = 0.30; // - 0.05 seconds
         assertFalse(frameRate.tryNext(timeCurrent));
         assertEquals(0.0, frameRate.getTimeDelta());
-        assertEquals(0.35, frameRate.getTimeLastUpdate(), precision);
+        assertEquals(0.35, frameRate.getTimeLastUpdate(), TestData.PRECISION);
     }
 
     @Test
@@ -112,7 +111,7 @@ class FrameRateTest {
 
         timeCurrent = 1000.1; // + 0.1 seconds
         assertTrue(frameRate.tryNext(timeCurrent));
-        assertEquals(0.1, frameRate.getTimeDelta(), precision);
+        assertEquals(0.1, frameRate.getTimeDelta(), TestData.PRECISION);
         assertEquals(1000.1, frameRate.getTimeLastUpdate());
 
         timeCurrent = 1002.1; // + 2.0 seconds
