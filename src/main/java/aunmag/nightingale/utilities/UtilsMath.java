@@ -1,6 +1,7 @@
 package aunmag.nightingale.utilities;
 
 import aunmag.nightingale.basics.BaseObject;
+import org.joml.Vector2f;
 
 import java.util.Random;
 
@@ -84,6 +85,10 @@ public class UtilsMath {
                 b.getPosition().x(),
                 b.getPosition().y()
         );
+    }
+
+    public static float calculateRadiansBetween(Vector2f a, Vector2f b) {
+        return calculateRadiansBetween(a.x(), a.y(), b.x(), b.y());
     }
 
     public static float calculateRadiansBetween(float x1, float y1, float x2, float y2) {
