@@ -7,7 +7,7 @@
 
     <groupId>aunmag.nightingale</groupId>
     <artifactId>nightingale-engine</artifactId>
-    <version>0.56.2</version>
+    <version>0.56.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -133,7 +133,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>aunmag.nightingale.HelloWorld</mainClass>
+                    <mainClass>aunmag.nightingale.example.Launcher</mainClass>
                 </configuration>
             </plugin>
         </plugins>
