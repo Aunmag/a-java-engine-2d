@@ -1,25 +1,28 @@
-package aunmag.nightingale;
+package aunmag.nightingale.example;
 
+import aunmag.nightingale.Application;
 import aunmag.nightingale.font.FontStyleDefault;
 import aunmag.nightingale.gui.GuiLabel;
 import aunmag.nightingale.utilities.UtilsGraphics;
 import org.lwjgl.opengl.GL11;
 
-class HelloWorld extends Application {
+/**
+ * The game inherits base engine {@link aunmag.nightingale.Application} class. When its
+ * constructor is called the engine initialize everything it needs, then game's
+ * constructor is being performed.
+ */
+class Game extends Application {
 
-    public static void main(String[] args) {
-        new HelloWorld().run();
-    }
+    private final GuiLabel message;
+    private final GuiLabel details;
 
-    private GuiLabel message = new GuiLabel(5, 4, 2, 1, "Hello, World!");
-    private GuiLabel details = new GuiLabel(
-            5, 5, 2, 1,
-            "This message means the engine works!",
-            FontStyleDefault.labelLight
-    );
-
-    private HelloWorld() {
-        Application.frameRate.setFrequency(1);
+    Game() {
+        message = new GuiLabel(5, 4, 2, 1, "Hello, World!");
+        details = new GuiLabel(
+                5, 5, 2, 1,
+                "This message means the engine works!",
+                FontStyleDefault.labelLight
+        );
     }
 
     protected void gameUpdate() {}
