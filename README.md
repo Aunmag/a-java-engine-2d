@@ -9,4 +9,4 @@ This is my 2D engine which is powered by LWJGL.
 - Clone this repository and go to its directory
 - Run `./utils/install-slick-util.sh` to install slick-util local dependency
 - Run `mvn install` to build engine
-- Run `java -jar target/nightingale-engine-full.jar` to make sure engine works
+- Run `mvn exec:java` to make sure engine works
