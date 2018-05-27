@@ -1,8 +1,10 @@
 package aunmag.nightingale.structures;
 
 import aunmag.nightingale.Application;
+import aunmag.nightingale.Camera;
 import aunmag.nightingale.Configs;
 import aunmag.nightingale.basics.BaseQuad;
+import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -29,8 +31,8 @@ public class Texture extends BaseQuad {
             Type type,
             Boolean isNearest,
             Boolean useMipMapping,
-            Integer modelSizeX,
-            Integer modelSizeY
+            Float modelSizeX,
+            Float modelSizeY
     ) {
         if (all.containsKey(name)) {
             return all.get(name);
@@ -73,8 +75,8 @@ public class Texture extends BaseQuad {
                     break;
             }
 
-            modelSizeX = (int) sizeX;
-            modelSizeY = (int) sizeY;
+            modelSizeX = sizeX;
+            modelSizeY = sizeY;
         }
 
         Texture texture = new Texture(
@@ -171,6 +173,16 @@ public class Texture extends BaseQuad {
 
     public void render() {
         model.render();
+    }
+
+    public void renderOnWorld(float x, float y, float radians) {
+        Camera camera = Application.getCamera();
+        Matrix4f projection = camera.calculateViewProjection(x, y, radians);
+        Application.getShader().setUniformProjection(projection);
+        Application.getShader().setUniformColourDefault();
+
+        bind();
+        render();
     }
 
     public static void cleanUp() {
