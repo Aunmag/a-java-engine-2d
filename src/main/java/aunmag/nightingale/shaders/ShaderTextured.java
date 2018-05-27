@@ -14,8 +14,6 @@ public class ShaderTextured extends Shader {
 
         uniformLocationProjection = getUniformLocation("projection");
         uniformLocationColour = getUniformLocation("colour");
-
-        Shader.setUniform(getUniformLocation("sampler"), 0);
     }
 
     /* Setters */
