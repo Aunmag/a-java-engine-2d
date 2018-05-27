@@ -4,7 +4,7 @@ import aunmag.nightingale.utilities.UtilsGraphics;
 import aunmag.nightingale.utilities.UtilsMath;
 import org.joml.Vector2f;
 
-public class BodyLine extends Body {
+public class BodyLine extends BodyPoint {
 
     public final Vector2f positionTail;
 

@@ -5,13 +5,13 @@ import aunmag.nightingale.utilities.UtilsMath;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-public abstract class Body {
+public class BodyPoint {
 
     public final Vector4f color = new Vector4f(1.0f, 1.0f, 1.0f, 0.5f);
     public final Vector2f position;
     public float radians;
 
-    public Body(float x, float y, float radians) {
+    public BodyPoint(float x, float y, float radians) {
         this.position = new Vector2f(x, y);
         this.radians = radians;
     }
