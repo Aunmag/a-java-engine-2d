@@ -1,7 +1,10 @@
 package aunmag.nightingale.gui;
 
+import aunmag.nightingale.Application;
+import aunmag.nightingale.structures.Texture;
 import aunmag.nightingale.utilities.UtilsGraphics;
-import org.lwjgl.opengl.GL11;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Vector4f;
 
 import java.util.ArrayList;
 
@@ -9,6 +12,12 @@ public class GuiPage {
 
     private ArrayList<GuiLabel> labels = new ArrayList<>();
     private ArrayList<GuiButton> buttons = new ArrayList<>();
+    @Nullable public Texture wallpaper;
+    public final Vector4f color = new Vector4f(0.2f, 0.2f, 0.2f, 0.6f);
+
+    public GuiPage(@Nullable Texture wallpaper) {
+        this.wallpaper = wallpaper;
+    }
 
     public void open() {
         GuiManager.open(this);
@@ -29,6 +38,7 @@ public class GuiPage {
     }
 
     public void render() {
+        renderWallpaper();
         fillScreen();
 
         for (GuiLabel label: labels) {
@@ -40,8 +50,18 @@ public class GuiPage {
         }
     }
 
+    private void renderWallpaper() {
+        if (wallpaper == null) {
+            return;
+        }
+
+        Application.getShader().setUniformProjection(Application.getWindow().projection);
+        wallpaper.bind();
+        wallpaper.render();
+    }
+
     private void fillScreen() {
-        GL11.glColor4f(0.2f, 0.2f, 0.2f, 0.2f);
+        UtilsGraphics.setDrawColor(color);
         UtilsGraphics.drawPrepare();
         UtilsGraphics.fillScreen();
     }
