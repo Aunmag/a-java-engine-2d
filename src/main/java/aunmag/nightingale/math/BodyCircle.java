@@ -2,7 +2,7 @@ package aunmag.nightingale.math;
 
 import aunmag.nightingale.utilities.UtilsGraphics;
 
-public class BodyCircle extends Body {
+public class BodyCircle extends BodyPoint {
 
     public float radius;
 
