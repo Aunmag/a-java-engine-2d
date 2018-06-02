@@ -14,7 +14,7 @@ public class Text extends BaseQuad {
     public static final TextManager manager = new TextManager();
 
     final FontStyle style;
-    private TextVao vao = null;
+    @Nullable private TextVao vao = null;
     private Vector4f colour = new Vector4f(1f, 1f, 1f, 1f);
     private Matrix4f projection;
     private boolean isRenderingOrdered = false;
@@ -62,7 +62,7 @@ public class Text extends BaseQuad {
     }
 
     public void render() {
-        if (!isRenderingOrdered || isRemoved()) {
+        if (!isRenderingOrdered || isRemoved() || vao == null) {
             return;
         }
 

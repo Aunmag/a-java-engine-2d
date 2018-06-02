@@ -2,6 +2,7 @@ package aunmag.nightingale.font;
 
 import aunmag.nightingale.Application;
 import aunmag.nightingale.structures.Texture;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -100,7 +101,7 @@ public class FontLoader {
 
     private void loadNextLine() {
         values.clear();
-        String line;
+        @Nullable String line;
 
         try {
             line = bufferedReader.readLine();
@@ -124,6 +125,7 @@ public class FontLoader {
         return Integer.parseInt(values.get(variable));
     }
 
+    @Nullable
     private Character loadCharacter() {
         int asciiId = parseVariable("id");
 

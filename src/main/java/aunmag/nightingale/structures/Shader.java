@@ -1,5 +1,6 @@
 package aunmag.nightingale.structures;
 
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4fc;
 import org.joml.Vector4fc;
 import org.lwjgl.BufferUtils;
@@ -21,6 +22,7 @@ public class Shader {
     private final int programVertexId;
     private final int programFragmentId;
 
+    @Nullable
     private static String readFile(Class resourceClass, String type) {
         String filename = resourceClass.getSimpleName() + '.' + type;
         StringBuilder stringBuilder = new StringBuilder();

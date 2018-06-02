@@ -22,7 +22,6 @@ public class Model {
     private int texturesId;
     private int indicesId;
 
-    // TODO: Implement getOrCreate
     public static Model createFromQuad(BaseQuad quad) {
         float[] vertices = new float[] {
                 -quad.getCenterX(), +quad.getCenterY(), 0,

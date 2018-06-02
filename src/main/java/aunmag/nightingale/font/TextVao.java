@@ -19,7 +19,7 @@ final class TextVao extends Operative {
     private final int idTextureCoordinates = GL15.glGenBuffers();
     final int vertexCount;
     final String message;
-    private float width = 0; // TODO: Make final
+    private float width = 0;
     final float height;
 
     TextVao(String message, FontStyle style) {
@@ -76,11 +76,6 @@ final class TextVao extends Operative {
             }
 
             if (isEndWord) {
-//                // TODO: Implement max with for lines
-//                if (line.calculateWidthWithWord(word) > line.widthMax) {
-//                    lines.add(line);
-//                    line = new Line(style.spaceWidth);
-//                }
                 line.addWord(word);
 
                 if (width < line.getWidth()) {
