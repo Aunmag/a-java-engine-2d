@@ -11,7 +11,7 @@ public final class MouseWheel {
     private float velocitySmooth = 0;
 
     public final GLFWScrollCallback callbackUpdate = new GLFWScrollCallback() {
-        @Override public void invoke (long win, double dx, double dy) {
+        @Override public void invoke(long win, double dx, double dy) {
             velocity = (float) dy;
             velocitySmooth += velocity;
         }

@@ -4,6 +4,7 @@ import aunmag.nightingale.Application;
 import aunmag.nightingale.Camera;
 import aunmag.nightingale.Configs;
 import aunmag.nightingale.basics.BaseQuad;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -29,10 +30,10 @@ public class Texture extends BaseQuad {
     public static Texture getOrCreate(
             String name,
             Type type,
-            Boolean isNearest,
-            Boolean useMipMapping,
-            Float modelSizeX,
-            Float modelSizeY
+            @Nullable Boolean isNearest,
+            @Nullable Boolean useMipMapping,
+            @Nullable Float modelSizeX,
+            @Nullable Float modelSizeY
     ) {
         if (all.containsKey(name)) {
             return all.get(name);

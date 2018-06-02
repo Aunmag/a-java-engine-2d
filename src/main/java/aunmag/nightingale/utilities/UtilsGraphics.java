@@ -128,7 +128,7 @@ public class UtilsGraphics {
     ) {
         GL11.glBegin(isFilled ? GL11.GL_TRIANGLE_FAN : GL11.GL_LINE_LOOP);
 
-        final float accuracy = 0.4f; // TODO: Use in settings
+        final float accuracy = 0.4f;
         for (float radians = 0; radians <= UtilsMath.PIx2; radians += accuracy) {
             float fragmentX = (float) (x + radius * Math.cos(radians));
             float fragmentY = (float) (y + radius * Math.sin(radians));
