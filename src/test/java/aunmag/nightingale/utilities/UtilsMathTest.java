@@ -1,8 +1,8 @@
 package aunmag.nightingale.utilities;
 
-import aunmag.nightingale.data.TestData;
 import org.junit.jupiter.api.Test;
 
+import static aunmag.nightingale.data.TestData.PRECISION;
 import static aunmag.nightingale.utilities.UtilsMath.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,13 +13,23 @@ class UtilsMathTest {
         assertEquals(0, correctRadians(0));
         assertEquals(1, correctRadians(1));
         assertEquals(-1, correctRadians(-1));
-        assertEquals(Math.PI, correctRadians(Math.PI), TestData.PRECISION);
+        assertEquals(Math.PI, correctRadians(Math.PI), PRECISION);
         assertEquals(0, correctRadians(Math.PI * 2));
         assertEquals(0, correctRadians(Math.PI * 4));
 
         double radians = Math.PI * 2.0;
-        assertEquals(0.1, correctRadians(radians + 0.1), TestData.PRECISION);
-        assertEquals(radians - 0.1, correctRadians(radians - 0.1), TestData.PRECISION);
+        assertEquals(0.1, correctRadians(radians + 0.1), PRECISION);
+        assertEquals(radians - 0.1, correctRadians(radians - 0.1), PRECISION);
+    }
+
+    @Test
+    void testRadiansDifference() {
+        assertEquals(0, radiansDifference(0, 0), PRECISION);
+        assertEquals(0, radiansDifference(Math.PI, Math.PI));
+        assertEquals(0, radiansDifference(PIx2, PIx2 * 6f), PRECISION);
+
+        assertEquals(+PIx0_5, radiansDifference(PIx1_5, 0), PRECISION);
+        assertEquals(-PIx0_5, radiansDifference(0, PIx1_5), PRECISION);
     }
 
     @Test
@@ -32,12 +42,12 @@ class UtilsMathTest {
         assertEquals(n, calculateDistanceBetween(0, 0, n, 0));
         assertEquals(n, calculateDistanceBetween(0, 0, 0, n));
         assertEquals(n, calculateDistanceBetween(0, 0, 0, -n));
-        assertEquals(n * 2, calculateDistanceBetween(0, n, 0, -n), TestData.PRECISION);
+        assertEquals(n * 2, calculateDistanceBetween(0, n, 0, -n), PRECISION);
 
         assertEquals(
                 33.203915431767984,
                 calculateDistanceBetween(548.25f, -1.5f, 537.75f, 30),
-                TestData.PRECISION
+                PRECISION
         );
     }
 
