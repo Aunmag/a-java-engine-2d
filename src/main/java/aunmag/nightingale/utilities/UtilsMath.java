@@ -16,6 +16,22 @@ public class UtilsMath {
         return (float) (value % PIx2);
     }
 
+    public static float radiansDifference(double a, double b) {
+        a = correctRadians(a);
+        b = correctRadians(b);
+        double difference = b - a;
+
+        if (Math.abs(difference) > Math.PI) {
+            if (a < b) {
+                difference -= PIx2;
+            } else {
+                difference += PIx2;
+            }
+        }
+
+        return correctRadians(difference);
+    }
+
     public static int randomizeBetween(int a, int b) {
         if (a == b) {
             return a;
