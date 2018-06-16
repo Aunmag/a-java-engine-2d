@@ -9,6 +9,7 @@ public class Kinetics {
     public float velocityRadians = 0f;
     public float restitutionFactor = 0.2f;
     public float restrictionFactor = 4.0f;
+    public float radiansRestrictionFactor = 8.0f;
 
     public Kinetics(float weight) {
         this(weight, 0, 0);
@@ -20,14 +21,14 @@ public class Kinetics {
     }
 
     public void update(float timeDelta) {
-        float restriction = restrictionFactor * timeDelta;
-        velocity.mul(1 - restriction);
-        velocityRadians *= 1 - 2 * restriction;
+        velocity.mul(1 - restrictionFactor * timeDelta);
+        velocityRadians *= 1 - radiansRestrictionFactor * timeDelta;
     }
 
-    public void addEnergy(float x, float y, float timeDelta) {
+    public void addEnergy(float x, float y, float radians, float timeDelta) {
         float restriction = restrictionFactor * timeDelta;
         velocity.add(x * restriction, y * restriction);
+        velocityRadians += radians * radiansRestrictionFactor * timeDelta;
     }
 
     public static void interact(Kinetics a, Kinetics b) {
