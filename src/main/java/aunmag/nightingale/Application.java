@@ -10,6 +10,7 @@ import aunmag.nightingale.shaders.ShaderTextured;
 import aunmag.nightingale.structures.Model;
 import aunmag.nightingale.structures.Shader;
 import aunmag.nightingale.structures.Texture;
+import aunmag.nightingale.utilities.FrameRate;
 import aunmag.nightingale.utilities.TimeFlow;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
@@ -56,7 +57,7 @@ public abstract class Application {
         while (isRunning) {
             double timeCurrent = (double) System.currentTimeMillis() / 1000.0;
 
-            if (frameRate.tryNext(timeCurrent)) {
+            if (frameRate.tryTick(timeCurrent)) {
                 engineUpdate();
                 engineRender();
             }
@@ -66,7 +67,7 @@ public abstract class Application {
     }
 
     private void engineUpdate() {
-        time.add(frameRate.getTimeDelta(), true);
+        time.add(frameRate.getDelta(), true);
         Input.update();
         GLFW.glfwPollEvents();
 
